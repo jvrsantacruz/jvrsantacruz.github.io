@@ -1,0 +1,46 @@
+<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>While rebuilding this blog with <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> from a xml export of the previous Wordpress
+version, I had to face how to regenerate the LaTeX equations inserted within some
+posts.</p>
+
+<p>Wordpress used to take care of the equation generation through the use of a plugin, taking as input the code between <code>[latex]</code> labels like this:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generating an image with the LaTeX result and placing it whithin the post:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>In order to replicate the same (command-line way) so LaTeX equations could be
+inserted in my posts as images, I came up with the following script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>Which generates a LaTeX document on the fly with no styles at all, compiles it
+to <em>pdf</em> using <code>pdflatex</code>, eliminates all margins using <code>pdfcrop</code> and converts
+it to the final svg image with <code>pdf2svg</code>.</p>
+
+<p>The result can be inserted in the post as an svg image. I&rsquo;m still wondering if this could be a desirable extension for the markdown reader of <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a>&hellip;</p>

@@ -1,0 +1,332 @@
+<p>Title: Rootear e instalar CyanogenMod en HTC Nexus One
+Date: 2011-05-27 19:54
+Category: Dev
+Tags: Android, Rom, Nexus One, HTC, Cyanogenmod, Vodafone, Rootear</p>
+
+<div class="img-center">
+
+![Rootear e instalar CyanogenMod en un HTC Nexus One][]
+
+</div>
+
+
+<p>Desde hace casi un año disfruto de un Nexus One con el que me va
+genial. Sin embargo, hasta ahora no había trasteado demasiado con
+él, y aprovechando las vacaciones he decidido rootearlo y cambiarle
+la ROM emigrando hacia un lugar un poco mejor. La ROM original que
+traía de Google + Vodafone me daba un par de pequeños fallos en la
+pantalla táctil, y con el cambio va bastante fino. De paso le di un
+limpiado al teléfono que estaba llenito de basura.</p>
+
+<p>La instalación no es difícil pero se puede hacer larga y la mayoría
+de información distribuida por los foros es inconexa, antigua o
+<strong>incluso incorrecta</strong>. Cada teléfono es un mundo y tiene sus
+propiedades especiales. Este tutorial está lleno de apartados
+opcionales aplicables <em>solo si falla</em> algún paso. Huelga decir que
+esos pequeños arreglos esconden varias horas de frustración,
+cabezazos contra la pared, foros y mucho, mucho Google.</p>
+
+<p>El rooteo del teléfono eliminará tu derecho a la garantía de
+fabricante. La cosa es que si tienes algún problema de hardware con
+el teléfono y lo tienes que enviar a reparar, con restaurar la rom
+original no debería haber problemas.</p>
+
+<p>El proceso es el siguiente:</p>
+
+<ol>
+<li><p><strong>Rootear</strong>
+ Unlock bootloader
+ Rootear</p></li>
+<li><p><strong>Instalar Cyanogen</strong>
+ Instalar Recovery
+ Backup Nandroid
+ Reseteo a valores de fábrica (Wipe)
+ Instalar CyanogenMod</p></li>
+</ol>
+
+
+<p>Mi terminal al momento de comenzar el proceso era un Nexus One con Build Number
+<em>FRG83D</em> corriendo Android 2.2.1 Froyo.   Podéis consultar esta información en
+<code>Settings-\&gt;About Phone</code></p>
+
+<p>Durante todo el tutorial se da por supuesto que se tiene el teléfono conectado
+al PC vía USB y con el modo Debug activado.   El modo debug se activa en
+<code>Settings-\&gt;Applications-\&gt;Development-\&gt;Debug Mode</code> y permite comunicarte con
+el teléfono por USB.</p>
+
+<p>Haz un backup de la información que tengas. Deja la SD lo más limpia que
+puedas, necesitarás al menos 550Mb.</p>
+
+<p>Cada vez que descargues algo, comprueba el MD5. Puedes llorar mucho
+después si instalas algo corrupto.</p>
+
+<pre><code>    $ md5sum archivo.zip
+</code></pre>
+
+<h2><img src="./img/Lock-64.png" alt="image" />Rooteo</h2>
+
+<p>Para rootear hay varias opciones que prometen root en 1 click, pero
+una de ellas tenia problemas serios y la otra (SuperOneClik), se me
+quedaba colgada en el proceso. La usada finalmente ha sido
+Superboot, y ha funcionado muy bien.</p>
+
+<p>Lo que hace es cargar una imagen de arranque distinta que cambia la
+configuración por defecto del teléfono, permitiéndonos acceso root.
+Para ello primero debemos desbloquear el <strong>bootloader</strong>:</p>
+
+<div class="img-left">
+
+![image][1]
+</div>
+
+
+<h3>1. Desbloquear Bootloader [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Este paso es necesario si tu terminal es retail, esto es, ha sido
+modificado por Vodafone, Movistar, Organge&hellip;</p>
+
+<p>Emplearemos una herramienta llamada fastboot para desbloquear el
+<strong>bootloader</strong>.</p>
+
+<p><strong>Los datos que no estén en la SD serán borrados</strong>. El proceso
+realizará un &lsquo;wipe&rsquo; de los datos del teléfono. Aplicaciones
+instaladas, SMS, iconos etc&hellip; Haz un backup antes.</p>
+
+<p>Descarga fastboot <a href="http://www.romraid.com/paul/fastboot.zip">mirror1</a> <a href="http://ragingbit.com/blog/wp-content/uploads/2011/05/fastboot.zip">mirror2</a> y descomprímelo.
+Apaga el teléfono y enciéndelo manteniendo pulsada la
+bolita/trackball para entrar en modo <strong>bootloader</strong>
+Ejecuta fastboot:</p>
+
+<pre><code>$ ./fastboot-linux oem unlock
+</code></pre>
+
+<p><strong>Si falla:</strong> y se queda parado en &lsquo;Waiting Device&rsquo; inténtalo otra
+vez y asegúrate de que el teléfono está en modo <strong>bootloader</strong> y
+encendido.</p>
+
+<div class="img-left">
+
+![image][2]
+</div>
+
+
+<h3>2. Rooteo [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Superboot es una imagen de arranque con una configuración que te
+permitirá tener privilegios de root. <br/>
+Hay una versión para cada Build Number disponible de Android. El
+mio era FRG83D, pero el tuyo puede ser diferente, compruébalo. <br/>
+Ve a la <a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">tabla de mirrors de descarga</a>, bájate la versión que te
+corresponda y extráela.
+Pon el teléfono en modo <strong>bootloader</strong> de nuevo. Encendiéndolo
+mientras pulsas la bolita/trackball.
+Da permisos al script de instalación y ejecútalo:</p>
+
+<pre><code>   chmod +x install-superboot-linux.sh
+   ./install-superboot-linux.sh
+</code></pre>
+
+<p>Listo, ya deberíamos tener el teléfono rooteado. Reinícialo, y
+deberías tener una aplicación nueva con un logotipo pirata. Esta
+aplicación hará las veces de &lsquo;sudo&rsquo;, se encargará de avisarte y
+pedirte confirmación cuando alguna aplicación pida privilegios de
+superusuario.</p>
+
+<h2><img src="./img/Sys-Installer_256.png" alt="image" />Instalar Cyanogen</h2>
+
+<p>Una vez con el terminal rooteado, los pasos son:</p>
+
+<ol>
+<li>Instalar Recovery</li>
+<li>Backup Nandroid</li>
+<li>Resetear el teléfono a los valores de fábrica.</li>
+<li>Instalar CyanogenMod</li>
+</ol>
+
+
+<p>Todos los pasos se harán empleando la aplicación <strong>ROM Manager</strong>,
+que dispone de una versión gratuita que se encuentra en el Market
+de Android. <br/>
+Justo tras terminar la instalación, encontré un
+<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">tutorial extremadamente claro</a> aunque en inglés que incluye
+screenshots que yo no pude hacer por carecer de cámara.</p>
+
+<h3>1. <img src="./img/Lifesaver-256.png" alt="image" />Instalar Recovery [<a href="http://forum.xda-developers.com/showthread.php?t=611829">Referencia Original</a>]</h3>
+
+<p>Antes de instalar un recovery debes asegurarte de que no hay ya uno
+de fábrica. Para ello vas a necesitar conectarte con el SDK de
+Android a tu teléfono y mirar si existen los archivos
+/system/etc/install-recovery.sh y /system/recovery-from-boot.p y si
+están, renombrarlos o borrarlos. No te preocupes, podemos utilizar
+la infraestructura de fastboot que hemos usado antes para conectar
+con el teléfono.</p>
+
+<p>En el directorio de fastboot hay un ejecutable llamado adb-linux.
+Podemos usarlo para conectar con el teléfono, estando este en
+encendido y con el modo debug activado. Lo que debemos hacer es
+entrar, remontar el sistema como escritura y cambiarle el nombre a
+los ficheros. Para remontar el sistema de ficheros necesitaremos
+permisos de superusuario, que tendremos que autorizar en la
+pantalla del teléfono. Me tiré 10 minutos hasta que me di cuenta de
+que tenía que habilitar el comando su que ponía en la consola, ya
+que tenía el teléfono debajo de unos papeles&hellip;</p>
+
+<pre><code>fastboot$ sudo ./adb-linux start-server
+
+* daemon started successfully *
+
+fastboot$ sudo ./adb-linux devices
+
+List of devices attached 
+
+0123456789ABCDEF    device
+
+fastboot$ sudo ./adb-linux shell
+
+$ su   # [ Autorizamos en el teléfono ]
+
+$$ mount
+
+rootfs on / type rootfs (ro,relatime)
+
+tmpfs on /dev type tmpfs (rw,relatime,mode=755)
+
+devpts on /dev/pts type devpts (rw,relatime,mode=600)
+
+...
+
+/dev/block/mtdblock3 on /system type yaffs2 (ro,relatime)  # Este es
+
+...
+
+$$ mount -o rw,remount -t yaffs2 /dev/block/mtdblock3 /system  # Montamos lectura escritura
+
+$$ mv /system/etc/install-recovery.sh  /system/etc/install-recovery-bk.sh 
+
+$$ mv system/recovery-from-boot.p system/recovery-from-boot-bk.p
+
+$$ mount -o ro,remount -t yaffs2 /dev/block/mtdblock3 /system  # Dejamos de nuevo en solo lectura
+
+$$ exit
+
+$ sync
+
+$ exit
+</code></pre>
+
+<p>Abre el ROM Manager.
+Dale a <strong>Flash ClockworkMod Recovery</strong> y espera.
+Dale a Flash Alternate Recovery e instalará el recovery en el
+bootloader.</p>
+
+<p><strong>Si falla:</strong> Asegúrate de que tienes suficiente espacio en la SD.
+Te puede ayudar deshacerte del directorio LOST.DIR</p>
+
+<p><strong>Si sigue fallando:</strong> Prueba con otra recovery como es Amon_RA.
+En ese caso descarga su <a href="http://androidspin.com/2010/11/13/amon_ra-recovery-version-2-0-released-for-the-google-nexus-one/">imagen</a> y la puedes instalar con
+flashloader, el que usamos antes, en <strong>bootloader</strong> mode también:</p>
+
+<pre><code>    fastboot flash recovery recovery-RA-passion-v2.2.1.img
+</code></pre>
+
+<h3>2. <img src="./img/Bonus-Backup_256.png" alt="image" />Backup Nandroid [<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes espacio suficiente en la SD (+500mb)
+Reinicia el teléfono en modo bootloader
+Selecciona el modo fastboot con las teclas + y &ndash; del volumen y el
+botón de encendido.
+Al entrar allí, selecciona <strong>backup nandroid</strong>, marca lo que
+necesites y haz el backup.
+<strong>Si falla:</strong> Lo más probable es que no tengas espacio suficiente
+en la SD. Pero asegúrate. Con el teléfono aún en fastboot, debes
+conectarte al terminal y mirar el log de errores.</p>
+
+<p>Puedes emplear el
+<a href="conexion-fastboot">mismo método de conexión que antes con fastboot</a> para entrar en
+el teléfono y comprobarlo:</p>
+
+<pre><code>    fastboot$ sudo ./adb-linux shell
+
+    $ cat cache/recovery/log
+
+    $ exit
+</code></pre>
+
+<h3>3. <img src="./img/Windshield-Wiper-256.png" alt="image" />Reseteo a valores de fábrica (Wipe)[<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes el <strong>backup</strong> hecho, porque esto te
+limpiará todo, menos las aplicaciones instaladas que se descargarán
+de nuevo cuando vuelvas a entrar.
+Reinicia el teléfono en modo <strong>bootloader</strong>
+Selecciona el modo fastboot
+Al entrar allí, selecciona <strong>wipe fabric reset</strong> y acto seguido,
+otra vez, <strong>wipe fabric reset</strong></p>
+
+<h3>4.<img src="./img/Gnome-System-Software-Installer-64.png" alt="image" /> Instalar CyanogenMod[<a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide">Referencia Original</a>]</h3>
+
+<p>Arranca el teléfono, y ve a <strong>ROM Manager</strong>, allí tienes dos
+opciones, <em>1.</em> pulsar en <strong>Download List of Roms</strong> elegir
+<em>CyanogenMod</em> y seguir la instalación o bien <em>2.</em> bajarte
+directamente la imagen e instalarla manualmente. Como solo disponía
+de 3G y la imagen pesa lo suyo, decidí bajármela.</p>
+
+<p>Ve a la wiki de <strong>CyanogenMod</strong> y descárgate la
+<a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">última imagen disponible</a>. En mi caso fue <em>CyanogenMod 7</em>.
+Bájate también las <a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Google_Apps">aplicaciones de Google</a>, que vienen
+empaquetadas aparte por motivos legales.
+Comprueba los md5 de ambas imágenes. Es importante, no quieres
+tener problemas.</p>
+
+<pre><code>    md5sum gaps-gb-2011307-signed.zip update-cm-7.0.3-N1-signed.zip
+</code></pre>
+
+<p>Copia ambos <em>.zip</em> al directorio raíz de la tarjeta SD del
+teléfono.
+Arranca en modo <strong>bootloader</strong> y entra en <strong>fastboot</strong>
+Elige la opción de <em>Flash/Install .zip from sdcard</em>
+Selecciona el .zip con <strong>CyanogenMod</strong> y se instalará.
+Cuando termine, selecciona el .zip con <strong>GoogleApps</strong> y lo
+instalará también.</p>
+
+<p>Listo, cuando termines y reinicies el teléfono, deberías ver el
+splash nuevo, en tono azul, de <strong>CyanogenMod</strong>.</p>
+
+<p><strong>Si se queda pillado en el arranque:</strong> No te preocupes,
+probablemente se te ha pasado hacer el
+<em>Reseteo a valores de fábrica</em>. Vuelve a modo <strong>bootloader</strong> y
+hazlo.</p>
+
+<p><strong>Si no funciona en absoluto:</strong> Vuelve a modo <strong>bootloader</strong> y
+restaura el backup <em>Nandroid</em>.</p>
+
+<p>Una vez con la nueva ROM, tendrás que volver a configurar de nuevo
+todas las cosas e instalar de nuevo las aplicaciones. El Market
+Android recuerda las que tenías instaladas de antes, de manera que
+eso no será problema.</p>
+
+<p>Mi experiencia con la nueva ROM es excelente. Va con mucho más
+rápido y es personalizable hasta el absurdo, de manera que puedo
+usar el teléfono como realmente quiero y pienso que es mejor.
+Normalmente es al revés, uno se adapta a los teléfonos que se
+compra, con mayor o menor fortuna.</p>
+
+<h2><img src="./img/library_64x64.png" alt="image" />Referencias:</h2>
+
+<p>Probablemente os convenga consultar los enlaces que empleé para
+instalarlo, ya porque no haya explicado un paso suficientemente o
+porque tengáis algún problema que yo no he mencionado. La
+información es abundante pero MUY dispersa y en ocasiones demasiado
+antigua.</p>
+
+<ul>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Unlock Bootloader</a></li>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Descargar e instalar Superboot</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=611829">Instalar Recovery Mode</a></li>
+<li><a href="http://forum.cyanogenmod.com/topic/11455-cyanogenmod-61-for-nexus-one-v611-12152010/">Instrucciones instalación CyanogenMod (Atención! binarios antiguos!)</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">Wiki CyanogenMod. Descarga de ROMs</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide#Flashing_Radio">Wiki CyanogenMod. Instrucciones detalladas completas.</a></li>
+<li><a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Tutorial instalación Cyanogen muy detallado con screenshots paso a paso.</a></li>
+<li><a href="http://forum.xda-developers.com/showpost.php?p=10467058&amp;postcount=1638">Problema con recovery por defecto; Soluciones dispersas.</a></li>
+<li><a href="http://www.pocketmagic.net/?p=757">Montando el sistema de ficheros como lectura/escritura.</a></li>
+</ul>
+

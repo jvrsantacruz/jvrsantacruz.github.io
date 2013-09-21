@@ -1,0 +1,115 @@
+<div class="img-center">
+
+![image][]   
+
+</div>
+
+
+<p>Estas navidades para una asignatura, <em>&ldquo;Mobile Technology&rdquo;</em>
+desarrollé un pequeño videojuego de prueba para <strong>Android</strong>. Desde
+hace unos días vengo buscando la manera de grabar un vídeo del
+juego sin necesidad de emplear una cámara externa (cutre y baja
+calidad) o grabar el emulador (el cual va lentísimo).
+<strong>Aún no lo he conseguido</strong>, pero sin embargo he tenido una
+aproximación interesante mediante la aplicación
+<strong><a href="http://code.google.com/p/androidscreencast/">Android Screencast</a></strong> con la cual he podido grabar un video
+pero que es insuficiente para las necesidades de un videojuego, que
+funciona a un framerate alto.</p>
+
+<div class="img-center">
+
+<iframe src="http://player.vimeo.com/video/19533141?title=0&amp;byline=0&amp;portrait=0" width="590" height="330" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a> from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+</div>
+
+
+<p>La aplicación <strong>Android Screencast</strong> sirve para manejar el teléfono
+desde el ordenador. Permite navegación de archivos, manejo de
+teclado y ratón (solo root), screenshots y <strong>grabación de video</strong>.
+Los pasos para utilizarlo son:
+Tener el sdk de android instalado
+Tener Java SDK 6 instalado
+Tener conectado el teléfono y reconocido por el server del sdk
+Ejecutar el archivo jnlp del programa</p>
+
+<p>El programa automáticamente intenta 6 conexiones al teléfono
+conectado y tras eso desiste. Mis pasos para instalarlo fueron:</p>
+
+<pre><code>arl@lap$ cd android-sdk/platform-tools
+arl@lap$ ./adb stop-server
+arl@lap$ sudo ./adb start-server
+arl@lap$ ./adb devices
+List of devices attached
+HT066P800146    device
+</code></pre>
+
+<p>Con la secuencia de comandos anterior conecto mi <em>Nexus One</em> al pc.
+Tengo que <strong>iniciar el demonio como root</strong> o de otra manera no me
+coge el teléfono. Un día de estos debería escribir una regla para
+que se monte solo con los permisos adecuados para el sdk.</p>
+
+<p>Una vez conectado, ejecutamos AndroidScreencast:</p>
+
+<pre><code>gnome-open androidscreencast.jnlp
+</code></pre>
+
+<p>Y debería abrirse y detectar el teléfono solo, mostrando la
+siguiente pantalla en mi escritorio:</p>
+
+<div class="img-right">
+
+![image][1]
+
+<sub>Escritorio mostrado en pantalla </sub>
+
+</div>
+
+
+<p>Ahí podemos ver todo lo que sucede en la pantalla del teléfono en
+&lsquo;tiempo real&rsquo;, tenemos acceso al arbol de fichero y un par de cosas
+más. Sin embargo no va fluido. Probablemente porque se basa en la
+toma de screenshots, que es horriblemente lenta. Para tomar una
+screen de la pantalla, el teléfono se toma su tiempo, tardando
+varios milisegundos. El refresco de la pantalla es mucho más
+rápido, de manera que todas las animaciones que se muestren en el
+teléfono saldrán cortadas o no saldrán en la pantalla.</p>
+
+<p>En la parte superior izquierda podemos ver el botón <strong>Grabar</strong> que
+al pulsar nos preguntará donde queremos guardar el vídeo y
+comenzará el vídeo, quedando el boton pulsado. Para parar la
+grabación simplemente pulsar de nuevo sobre el botón y parará.</p>
+
+<div class="img-left">
+  
+![image][2]
+
+<sub>Captura del juego</sub>
+
+</div>
+
+
+<p>El formato de salida es .mov y empleé <strong>Avidemux</strong> para editarlo.
+Debo rectificar una pequeña injusticia que cometí contra
+<strong>Avidemux</strong> en mi anterior entrada. No es tan limitado como me
+pareció la otra vez, soporta una buena serie de filtros que hacen
+que para ediciones menores sea mucho más que suficiente. En este
+caso lo único que quería era rotar la imagen y suavizarla
+ligeramente, para lo cual funcionó muy bien.</p>
+
+<p>La única dificultad fué encontrar un encoder que me aceptase .mov
+como entrada para generar la salida. Menos mal que <strong>Avidemux</strong>
+soporta bastantes formatos y el MPEG4 (xvid) me sirvió.</p>
+
+<div class="img-center">
+
+![Editando el vídeo con Avidemux][]
+<sub>&#8220;Editando el video con
+Avidemux&#8221;</sub>
+</div>
+
+
+<p>Finalmente, el vídeo quedó subido a <strong>Vimeo</strong> y
+<a href="http://vimeo.com/19533141">podeis verlo aquí</a>.</p>
+
+<p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a>
+from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>

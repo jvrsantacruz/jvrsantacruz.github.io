@@ -1,0 +1,1532 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Raging Bits</title>
+  <meta name="author" content="Javier Santacruz">
+
+  
+  <meta name="description" content="Diferentes estilos de C++ no se suponia que se usasen por separado
+Huir de las funciones antiguas que piden especificar tamaños y punteros y solo &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ragingbit.com/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Raging Bits" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Raging Bits</a></h1>
+  
+    <h2>Easy systems, raging bits</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/19/bjarne-stroustrup-c11/">Migrar De Gmail a Gmail</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-19T22:00:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>Diferentes estilos de C++ no se suponia que se usasen por separado</li>
+<li>Huir de las funciones antiguas que piden especificar tamaños y punteros y solo funcionan con datos básicos.</li>
+<li>Mal estilo de programación es el 1 problema del código C++</li>
+<li>Que se quiere? Simplificar el uso</li>
+<li>Utilizar medidas del SI. Que es un double? Que es un objeto? El satélite que se perdió por cambio de unidades entre SI e Imperial.</li>
+<li>Se hace hace mucho tiempo con plantillas, pero la notación es horrible y la gente no la usa.
+
+<ul>
+<li>Se pueden definir los propios LITERALES: operator &ldquo;&rdquo;</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/19/latex-equation-generator-es/">Generar Ecuaciones LaTeX</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-19T10:00:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>Mientras reconstruia este blog en <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> a partir de una exportación del
+blog antiguo en Wordpress, tuve que resolver como volver a generar las
+ecuaciones en LaTeX que había insertado en esos posts.</p>
+
+<p>Wordpress me generaba esas ecuaciones como imágenes de forma automática,
+simplemente poniendo el código entre llaves <code>[latex]</code>, de esta manera:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generando una imagen como resultado:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>Para poder hacer lo mismo (preferiblemente en consola) y poder insertar
+ecuaciones en LaTeX en los posts como imágenes, escribí este pequeño script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>El cual genera un documento LaTeX al vuelo, sin ningún tipo de estilo, lo
+compila en <em>pdf</em> usando <code>pdflatex</code> y elimina todos los márgenes usando
+<code>pdfcrop</code>, convirtiendo lo que queda (solo la ecuación) a <em>svg</em> con <code>pdf2svg</code>,
+que es la imagen que finalmente coloco.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/18/latex-equation-generator/">Generate LaTeX Equations</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-18T22:00:00+01:00" pubdate data-updated="true">Feb 18<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>While rebuilding this blog with <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> from a xml export of the previous Wordpress
+version, I had to face how to regenerate the LaTeX equations inserted within some
+posts.</p>
+
+<p>Wordpress used to take care of the equation generation through the use of a plugin, taking as input the code between <code>[latex]</code> labels like this:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generating an image with the LaTeX result and placing it whithin the post:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>In order to replicate the same (command-line way) so LaTeX equations could be
+inserted in my posts as images, I came up with the following script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>Which generates a LaTeX document on the fly with no styles at all, compiles it
+to <em>pdf</em> using <code>pdflatex</code>, eliminates all margins using <code>pdfcrop</code> and converts
+it to the final svg image with <code>pdf2svg</code>.</p>
+
+<p>The result can be inserted in the post as an svg image. I&rsquo;m still wondering if this could be a desirable extension for the markdown reader of <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a>&hellip;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/08/cambiar-label-usb-linux/">Renombrar Etiqueta Usb Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-08T22:00:00+01:00" pubdate data-updated="true">Feb 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>En este caso es una tarjeta <em>SD</em> en FAT32 que no tiene label y al montarla
+Ubuntu la llama <code>9016-4EF8</code>, lo cual no me dice mucho y me gustaría cambiarlo.
+La herramienta para cambiar labels de FAT32 se llama <code>mlabel</code> y viene en el
+paquete <code>mtools</code>.</p>
+
+<ol>
+<li><p>Averiguamos que dispositivo es, para llamarlo por su nombre después.</p>
+
+<pre><code> $ df /media/9016-4EF8
+ Filesystem           1K-blocks      Used Available Use% Mounted on
+ /dev/sdb1             31263744        32  31263712   1% /media/9016-4EF8
+</code></pre>
+
+<p> Se llama <code>/dev/sdb1</code>.</p></li>
+<li><p>La desmontamos para trabajar con el a gusto, que estaba en <code>/media/9016-4EF8</code>.</p>
+
+<pre><code> $ sudo umount /media/9016-4EF8
+</code></pre></li>
+<li><p>Para usar <code>mlabel</code> necesitamos que el dispositivo tenga un nombre, asi que
+copiamos la config por defecto de <code>mtools</code> y le añadimos nuestro dispositivo.
+Lo llamaremos <code>i</code>.</p>
+
+<pre><code>  $ cp /etc/mtools.conf ~/.mtoolsrc
+  $ echo 'drive i: file="/dev/sdb1"' &gt;&gt; ~/.mtoolsrc
+</code></pre></li>
+<li><p>Renombramos la partición con <code>mlabel</code>.</p>
+
+<pre><code> $ sudo mlabel i:mi_tarjeta
+</code></pre></li>
+</ol>
+
+
+<p><strong>Nota</strong>: si <code>mlabel</code> os escupe algo parecido a esto:</p>
+
+<pre><code>code-block::text
+Total number of sectors (62543872) not a multiple of sectors per track (63)!
+Add mtools_skip_check=1 to your .mtoolsrc file to skip this test
+</code></pre>
+
+<p>Sed obedientes y simplemente añadid <code>mtools_skip_check=1</code> al fichero.</p>
+
+<pre><code>$ echo 'mtools_skip_check=1' &gt;&gt; ~/.mtoolsrc
+</code></pre>
+
+<p>Y listo, al conectar el dispositivo se monta solo con el nombre bueno:</p>
+
+<pre><code>code-block::console
+$ ls /media/
+MI_TARJETA
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/07/crear-estilo-pygmentize/">Generar CSS Con Pygmentize</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-07T20:40:00+01:00" pubdate data-updated="true">Feb 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Para el coloreado de código de este blog empleo la herramienta <a href="http://pygments.org">pygmentize</a>, la
+cual es capaz de generar un fichero css con el estilo con el que quiero que
+salga el texto de los programas.</p>
+
+<p>Para generar un estilo usar:</p>
+
+<pre><code>code-block::bash
+pygmentize -f html -S borland -a .codehilite &gt; pygment.css
+</code></pre>
+
+<p>Donde <code>borland</code> es el estilo y <code>.codehilite</code> es la clase a emplear para
+localizar el código en la página posteriormente.
+<a href="http://pygments.org/docs/cmdline/">Otras cosas</a> que pueden hacerse con la línea de comandos.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/">Exportacion De M3u en Python Y Bash</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-05T00:00:00+02:00" pubdate data-updated="true">Jun 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Title: Exportación de m3u en Python y Bash
+Date: 2011-06-05 06:20
+Category: Dev
+Tags: python, script, m3u, mp3, music, playlist, Nexus One</p>
+
+<div class="img-center">
+
+![image][]
+</div>
+
+
+<p>Tengo un reproductor MP3 muy sencillo que empleo para correr. No
+tiene ná, la música se carga en una carpeta interna llamada &lsquo;MUSIC&rsquo;
+y eso es todo lo que hay que hacer. <br/>
+El problema es que a Banshee no le da la gana de manejarlo, lo que
+me obliga a copiar los archivos a mano. Con la pereza que me da,
+últimamente siempre tengo la misma música. <br/>
+Lo mismo me pasa con mi Nexus One. Cuando a todo le falla la
+batería, tiro de él para amenizar camino andado, pero siempre tengo
+lo mismo.</p>
+
+<p>Aburrido, decidí hacer algo que tomase una lista de reproducción de
+Banshee y pusiese esos archivos de música en un directorio. Esto me
+permitiría las siguientes cosas:</p>
+
+<p>Hacer listas de reproducción en Banshee y exportarlas a un
+directorio concreto sin buscar archivos a mano.
+Elegir canciones sin el reproductor conectado, enchufarlo y
+sincronizar con un boton.</p>
+
+<p>Hacer listas con esas canciones y tenerlas en un directorio me
+viene perfecto también para pasarle música a colegas. Usaría para
+esto enlaces duros en lugar de copias y así podría tener muchos
+directorios preparados para que se los llevasen, o en Dropbox, sin
+ocupar espacio.</p>
+
+<p>En este punto, me surge la eterna duda que me asaltaba cuando
+trabajaba metiendo mano en servidores. ¿Script en <em>Bash</em> o en
+<em>Perl/Python</em>? Los scripts en <em>Bash</em> son muy cortos y directos, me
+encantan para soluciones rápidas. Pero luego, <em>luego</em>, empiezan a
+crecer y crecer, mantenerlos es una pesadilla, y acababa
+reescribiéndolos en <em>Python</em>.</p>
+
+<p>Ante la duda de si elegir uno u otro, decidí&hellip; implementar ambos y
+compararlos.</p>
+
+<h3>Al lío:</h3>
+
+<p><em>Banshee</em> exporta a m3u, pls y xspf. Por ahora solo he soportado
+m3u que era el más sencillo, pero lo he hecho todo pensando en
+poder ampliarlo fácilmente. <br/>
+Un m3u tiene la siguiente pinta:</p>
+
+<pre><code>#EXTM3U
+
+#EXTINF:153,Go Back To The Zoo - Beam me up
+
+../../home/arl/Music/Ofcourse/Benny Blisto/Go Back To The Zoo/03-go_back_to_the_zoo-beam_me_up.mp3
+
+#EXTINF:224,Joy Division - No Love Lost
+
+../../home/arl/Music/Ofcourse/Substance/Substance/11 No Love Lost.mp3
+
+#EXTINF:211,Pony Bravo - Noche de Setas
+
+../../home/arl/Music/Ofcourse/Pony Bravo/Un Gramo de Fe/02 Noche de Setas - PonyBravo.mp3
+</code></pre>
+
+<p>Comentario con el título, y ruta relativa al fichero de música, en
+base a donde se guardó la lista de reproducción.</p>
+
+<p>El script recibe la lista de reproducción y el directorio donde
+quiero que se copie toda la música. Como a veces es mucha y por USB
+va muy lento, no copia de nuevo la que ya está allí.</p>
+
+<p>Tiene un par de opciones extra, <em>&mdash;delete</em> para que borre los
+ficheros que no estén en la playlist, sincronizando el directorio.
+<em>&mdash;force</em> que hace que sobreescriba las canciones que ya están en
+lugar de saltarlas y <em>&mdash;link</em> que en lugar de copiar hace enlaces
+duros, útil para no ocupar espacio extra y muy veloz.</p>
+
+<p>Soy consciente de que mi script <em>Python</em> copia burdamente el
+comportamiento de herramientas unix estándar ya existentes, y como
+se verá, el script en <em>Bash</em> me lleva mucho menos que las 180
+líneas de <em>Python</em>, de hecho son 64, la mitad. Sin embargo el
+programa en <em>Python</em> es más fácilmente mantenible y ampliable con
+nuevas funcionalidades que se me vayan ocurriendo; Como he hecho
+con otros scripts a lo largo de los años.</p>
+
+<p>Podéis comparar ambas versiones, <em>Bash</em> y <em>Python</em>. Es bastante
+descorazonador que en <em>Bash</em> sea casi todo código de control de
+errores y argumentos, el trabajo real se hace en <em>2 líneas</em></p>
+
+<h3>Versión en <em>Bash</em></h3>
+
+<h3>Versión en <em>Python</em></h3>
+
+<p>En <em>Python</em> podría haberlo parseado la lista m3u con un bucle
+readline y listo, sin embargo pretendo ampliarlo luego al resto de
+formatos, así que creé una clase implementando la interfaz iterable
+de contenedores de Python. La lectura secuencial permite no tener
+que cargar todo en memoria si no quieres y el poder leer la
+playlist así:</p>
+
+<pre><code>playlist = M3u(path_playlist)
+for title,path in playlist:
+    print "%s at %s" % (title, path)
+</code></pre>
+
+<p>Una clase que implemente la interfaz iterable debe implementar el
+método <em>__iter__()</em> y <em>next()</em>.</p>
+
+<pre><code>class Iterable:
+
+   def __init__(self):
+       self.list = []
+       self.index = 0
+
+   def __iter__(self):
+       return self
+
+   def next(self):
+    if index &gt;= len(list):
+        raise StopIteration
+    else:
+        return objeto[index]
+        index += 1 
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/">Rootear E Instalar Cyanogenmod en Htc Nexus One</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-27T00:00:00+02:00" pubdate data-updated="true">May 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Title: Rootear e instalar CyanogenMod en HTC Nexus One
+Date: 2011-05-27 19:54
+Category: Dev
+Tags: Android, Rom, Nexus One, HTC, Cyanogenmod, Vodafone, Rootear</p>
+
+<div class="img-center">
+
+![Rootear e instalar CyanogenMod en un HTC Nexus One][]
+
+</div>
+
+
+<p>Desde hace casi un año disfruto de un Nexus One con el que me va
+genial. Sin embargo, hasta ahora no había trasteado demasiado con
+él, y aprovechando las vacaciones he decidido rootearlo y cambiarle
+la ROM emigrando hacia un lugar un poco mejor. La ROM original que
+traía de Google + Vodafone me daba un par de pequeños fallos en la
+pantalla táctil, y con el cambio va bastante fino. De paso le di un
+limpiado al teléfono que estaba llenito de basura.</p>
+
+<p>La instalación no es difícil pero se puede hacer larga y la mayoría
+de información distribuida por los foros es inconexa, antigua o
+<strong>incluso incorrecta</strong>. Cada teléfono es un mundo y tiene sus
+propiedades especiales. Este tutorial está lleno de apartados
+opcionales aplicables <em>solo si falla</em> algún paso. Huelga decir que
+esos pequeños arreglos esconden varias horas de frustración,
+cabezazos contra la pared, foros y mucho, mucho Google.</p>
+
+<p>El rooteo del teléfono eliminará tu derecho a la garantía de
+fabricante. La cosa es que si tienes algún problema de hardware con
+el teléfono y lo tienes que enviar a reparar, con restaurar la rom
+original no debería haber problemas.</p>
+
+<p>El proceso es el siguiente:</p>
+
+<ol>
+<li><p><strong>Rootear</strong>
+ Unlock bootloader
+ Rootear</p></li>
+<li><p><strong>Instalar Cyanogen</strong>
+ Instalar Recovery
+ Backup Nandroid
+ Reseteo a valores de fábrica (Wipe)
+ Instalar CyanogenMod</p></li>
+</ol>
+
+
+<p>Mi terminal al momento de comenzar el proceso era un Nexus One con Build Number
+<em>FRG83D</em> corriendo Android 2.2.1 Froyo.   Podéis consultar esta información en
+<code>Settings-\&gt;About Phone</code></p>
+
+<p>Durante todo el tutorial se da por supuesto que se tiene el teléfono conectado
+al PC vía USB y con el modo Debug activado.   El modo debug se activa en
+<code>Settings-\&gt;Applications-\&gt;Development-\&gt;Debug Mode</code> y permite comunicarte con
+el teléfono por USB.</p>
+
+<p>Haz un backup de la información que tengas. Deja la SD lo más limpia que
+puedas, necesitarás al menos 550Mb.</p>
+
+<p>Cada vez que descargues algo, comprueba el MD5. Puedes llorar mucho
+después si instalas algo corrupto.</p>
+
+<pre><code>    $ md5sum archivo.zip
+</code></pre>
+
+<h2><img src="./img/Lock-64.png" alt="image" />Rooteo</h2>
+
+<p>Para rootear hay varias opciones que prometen root en 1 click, pero
+una de ellas tenia problemas serios y la otra (SuperOneClik), se me
+quedaba colgada en el proceso. La usada finalmente ha sido
+Superboot, y ha funcionado muy bien.</p>
+
+<p>Lo que hace es cargar una imagen de arranque distinta que cambia la
+configuración por defecto del teléfono, permitiéndonos acceso root.
+Para ello primero debemos desbloquear el <strong>bootloader</strong>:</p>
+
+<div class="img-left">
+
+![image][1]
+</div>
+
+
+<h3>1. Desbloquear Bootloader [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Este paso es necesario si tu terminal es retail, esto es, ha sido
+modificado por Vodafone, Movistar, Organge&hellip;</p>
+
+<p>Emplearemos una herramienta llamada fastboot para desbloquear el
+<strong>bootloader</strong>.</p>
+
+<p><strong>Los datos que no estén en la SD serán borrados</strong>. El proceso
+realizará un &lsquo;wipe&rsquo; de los datos del teléfono. Aplicaciones
+instaladas, SMS, iconos etc&hellip; Haz un backup antes.</p>
+
+<p>Descarga fastboot <a href="http://www.romraid.com/paul/fastboot.zip">mirror1</a> <a href="http://ragingbit.com/blog/wp-content/uploads/2011/05/fastboot.zip">mirror2</a> y descomprímelo.
+Apaga el teléfono y enciéndelo manteniendo pulsada la
+bolita/trackball para entrar en modo <strong>bootloader</strong>
+Ejecuta fastboot:</p>
+
+<pre><code>$ ./fastboot-linux oem unlock
+</code></pre>
+
+<p><strong>Si falla:</strong> y se queda parado en &lsquo;Waiting Device&rsquo; inténtalo otra
+vez y asegúrate de que el teléfono está en modo <strong>bootloader</strong> y
+encendido.</p>
+
+<div class="img-left">
+
+![image][2]
+</div>
+
+
+<h3>2. Rooteo [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Superboot es una imagen de arranque con una configuración que te
+permitirá tener privilegios de root. <br/>
+Hay una versión para cada Build Number disponible de Android. El
+mio era FRG83D, pero el tuyo puede ser diferente, compruébalo. <br/>
+Ve a la <a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">tabla de mirrors de descarga</a>, bájate la versión que te
+corresponda y extráela.
+Pon el teléfono en modo <strong>bootloader</strong> de nuevo. Encendiéndolo
+mientras pulsas la bolita/trackball.
+Da permisos al script de instalación y ejecútalo:</p>
+
+<pre><code>   chmod +x install-superboot-linux.sh
+   ./install-superboot-linux.sh
+</code></pre>
+
+<p>Listo, ya deberíamos tener el teléfono rooteado. Reinícialo, y
+deberías tener una aplicación nueva con un logotipo pirata. Esta
+aplicación hará las veces de &lsquo;sudo&rsquo;, se encargará de avisarte y
+pedirte confirmación cuando alguna aplicación pida privilegios de
+superusuario.</p>
+
+<h2><img src="./img/Sys-Installer_256.png" alt="image" />Instalar Cyanogen</h2>
+
+<p>Una vez con el terminal rooteado, los pasos son:</p>
+
+<ol>
+<li>Instalar Recovery</li>
+<li>Backup Nandroid</li>
+<li>Resetear el teléfono a los valores de fábrica.</li>
+<li>Instalar CyanogenMod</li>
+</ol>
+
+
+<p>Todos los pasos se harán empleando la aplicación <strong>ROM Manager</strong>,
+que dispone de una versión gratuita que se encuentra en el Market
+de Android. <br/>
+Justo tras terminar la instalación, encontré un
+<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">tutorial extremadamente claro</a> aunque en inglés que incluye
+screenshots que yo no pude hacer por carecer de cámara.</p>
+
+<h3>1. <img src="./img/Lifesaver-256.png" alt="image" />Instalar Recovery [<a href="http://forum.xda-developers.com/showthread.php?t=611829">Referencia Original</a>]</h3>
+
+<p>Antes de instalar un recovery debes asegurarte de que no hay ya uno
+de fábrica. Para ello vas a necesitar conectarte con el SDK de
+Android a tu teléfono y mirar si existen los archivos
+/system/etc/install-recovery.sh y /system/recovery-from-boot.p y si
+están, renombrarlos o borrarlos. No te preocupes, podemos utilizar
+la infraestructura de fastboot que hemos usado antes para conectar
+con el teléfono.</p>
+
+<p>En el directorio de fastboot hay un ejecutable llamado adb-linux.
+Podemos usarlo para conectar con el teléfono, estando este en
+encendido y con el modo debug activado. Lo que debemos hacer es
+entrar, remontar el sistema como escritura y cambiarle el nombre a
+los ficheros. Para remontar el sistema de ficheros necesitaremos
+permisos de superusuario, que tendremos que autorizar en la
+pantalla del teléfono. Me tiré 10 minutos hasta que me di cuenta de
+que tenía que habilitar el comando su que ponía en la consola, ya
+que tenía el teléfono debajo de unos papeles&hellip;</p>
+
+<pre><code>fastboot$ sudo ./adb-linux start-server
+
+* daemon started successfully *
+
+fastboot$ sudo ./adb-linux devices
+
+List of devices attached 
+
+0123456789ABCDEF    device
+
+fastboot$ sudo ./adb-linux shell
+
+$ su   # [ Autorizamos en el teléfono ]
+
+$$ mount
+
+rootfs on / type rootfs (ro,relatime)
+
+tmpfs on /dev type tmpfs (rw,relatime,mode=755)
+
+devpts on /dev/pts type devpts (rw,relatime,mode=600)
+
+...
+
+/dev/block/mtdblock3 on /system type yaffs2 (ro,relatime)  # Este es
+
+...
+
+$$ mount -o rw,remount -t yaffs2 /dev/block/mtdblock3 /system  # Montamos lectura escritura
+
+$$ mv /system/etc/install-recovery.sh  /system/etc/install-recovery-bk.sh 
+
+$$ mv system/recovery-from-boot.p system/recovery-from-boot-bk.p
+
+$$ mount -o ro,remount -t yaffs2 /dev/block/mtdblock3 /system  # Dejamos de nuevo en solo lectura
+
+$$ exit
+
+$ sync
+
+$ exit
+</code></pre>
+
+<p>Abre el ROM Manager.
+Dale a <strong>Flash ClockworkMod Recovery</strong> y espera.
+Dale a Flash Alternate Recovery e instalará el recovery en el
+bootloader.</p>
+
+<p><strong>Si falla:</strong> Asegúrate de que tienes suficiente espacio en la SD.
+Te puede ayudar deshacerte del directorio LOST.DIR</p>
+
+<p><strong>Si sigue fallando:</strong> Prueba con otra recovery como es Amon_RA.
+En ese caso descarga su <a href="http://androidspin.com/2010/11/13/amon_ra-recovery-version-2-0-released-for-the-google-nexus-one/">imagen</a> y la puedes instalar con
+flashloader, el que usamos antes, en <strong>bootloader</strong> mode también:</p>
+
+<pre><code>    fastboot flash recovery recovery-RA-passion-v2.2.1.img
+</code></pre>
+
+<h3>2. <img src="./img/Bonus-Backup_256.png" alt="image" />Backup Nandroid [<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes espacio suficiente en la SD (+500mb)
+Reinicia el teléfono en modo bootloader
+Selecciona el modo fastboot con las teclas + y &ndash; del volumen y el
+botón de encendido.
+Al entrar allí, selecciona <strong>backup nandroid</strong>, marca lo que
+necesites y haz el backup.
+<strong>Si falla:</strong> Lo más probable es que no tengas espacio suficiente
+en la SD. Pero asegúrate. Con el teléfono aún en fastboot, debes
+conectarte al terminal y mirar el log de errores.</p>
+
+<p>Puedes emplear el
+<a href="conexion-fastboot">mismo método de conexión que antes con fastboot</a> para entrar en
+el teléfono y comprobarlo:</p>
+
+<pre><code>    fastboot$ sudo ./adb-linux shell
+
+    $ cat cache/recovery/log
+
+    $ exit
+</code></pre>
+
+<h3>3. <img src="./img/Windshield-Wiper-256.png" alt="image" />Reseteo a valores de fábrica (Wipe)[<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes el <strong>backup</strong> hecho, porque esto te
+limpiará todo, menos las aplicaciones instaladas que se descargarán
+de nuevo cuando vuelvas a entrar.
+Reinicia el teléfono en modo <strong>bootloader</strong>
+Selecciona el modo fastboot
+Al entrar allí, selecciona <strong>wipe fabric reset</strong> y acto seguido,
+otra vez, <strong>wipe fabric reset</strong></p>
+
+<h3>4.<img src="./img/Gnome-System-Software-Installer-64.png" alt="image" /> Instalar CyanogenMod[<a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide">Referencia Original</a>]</h3>
+
+<p>Arranca el teléfono, y ve a <strong>ROM Manager</strong>, allí tienes dos
+opciones, <em>1.</em> pulsar en <strong>Download List of Roms</strong> elegir
+<em>CyanogenMod</em> y seguir la instalación o bien <em>2.</em> bajarte
+directamente la imagen e instalarla manualmente. Como solo disponía
+de 3G y la imagen pesa lo suyo, decidí bajármela.</p>
+
+<p>Ve a la wiki de <strong>CyanogenMod</strong> y descárgate la
+<a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">última imagen disponible</a>. En mi caso fue <em>CyanogenMod 7</em>.
+Bájate también las <a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Google_Apps">aplicaciones de Google</a>, que vienen
+empaquetadas aparte por motivos legales.
+Comprueba los md5 de ambas imágenes. Es importante, no quieres
+tener problemas.</p>
+
+<pre><code>    md5sum gaps-gb-2011307-signed.zip update-cm-7.0.3-N1-signed.zip
+</code></pre>
+
+<p>Copia ambos <em>.zip</em> al directorio raíz de la tarjeta SD del
+teléfono.
+Arranca en modo <strong>bootloader</strong> y entra en <strong>fastboot</strong>
+Elige la opción de <em>Flash/Install .zip from sdcard</em>
+Selecciona el .zip con <strong>CyanogenMod</strong> y se instalará.
+Cuando termine, selecciona el .zip con <strong>GoogleApps</strong> y lo
+instalará también.</p>
+
+<p>Listo, cuando termines y reinicies el teléfono, deberías ver el
+splash nuevo, en tono azul, de <strong>CyanogenMod</strong>.</p>
+
+<p><strong>Si se queda pillado en el arranque:</strong> No te preocupes,
+probablemente se te ha pasado hacer el
+<em>Reseteo a valores de fábrica</em>. Vuelve a modo <strong>bootloader</strong> y
+hazlo.</p>
+
+<p><strong>Si no funciona en absoluto:</strong> Vuelve a modo <strong>bootloader</strong> y
+restaura el backup <em>Nandroid</em>.</p>
+
+<p>Una vez con la nueva ROM, tendrás que volver a configurar de nuevo
+todas las cosas e instalar de nuevo las aplicaciones. El Market
+Android recuerda las que tenías instaladas de antes, de manera que
+eso no será problema.</p>
+
+<p>Mi experiencia con la nueva ROM es excelente. Va con mucho más
+rápido y es personalizable hasta el absurdo, de manera que puedo
+usar el teléfono como realmente quiero y pienso que es mejor.
+Normalmente es al revés, uno se adapta a los teléfonos que se
+compra, con mayor o menor fortuna.</p>
+
+<h2><img src="./img/library_64x64.png" alt="image" />Referencias:</h2>
+
+<p>Probablemente os convenga consultar los enlaces que empleé para
+instalarlo, ya porque no haya explicado un paso suficientemente o
+porque tengáis algún problema que yo no he mencionado. La
+información es abundante pero MUY dispersa y en ocasiones demasiado
+antigua.</p>
+
+<ul>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Unlock Bootloader</a></li>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Descargar e instalar Superboot</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=611829">Instalar Recovery Mode</a></li>
+<li><a href="http://forum.cyanogenmod.com/topic/11455-cyanogenmod-61-for-nexus-one-v611-12152010/">Instrucciones instalación CyanogenMod (Atención! binarios antiguos!)</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">Wiki CyanogenMod. Descarga de ROMs</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide#Flashing_Radio">Wiki CyanogenMod. Instrucciones detalladas completas.</a></li>
+<li><a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Tutorial instalación Cyanogen muy detallado con screenshots paso a paso.</a></li>
+<li><a href="http://forum.xda-developers.com/showpost.php?p=10467058&amp;postcount=1638">Problema con recovery por defecto; Soluciones dispersas.</a></li>
+<li><a href="http://www.pocketmagic.net/?p=757">Montando el sistema de ficheros como lectura/escritura.</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/20/markdown-article/">Markdown Article</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-20T00:00:00+02:00" pubdate data-updated="true">Apr 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/">Calcular La Nota Media Ponderada Universidades Españolas.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-09T15:13:00+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="img-center">
+
+![image][]
+
+</div>
+
+
+<p>Los alumnos de la universidad de Cádiz (y andaluces en general)
+podemos consultar este dato en la sección de información académica
+de la plataforma para prácticas de empresa <a href="http://icaro.ual.es">Ícaro</a> o acudiendo al
+Vicerrectorado de Alumnos donde pueden calculárnosla y extendernos
+un certificado de nota.</p>
+
+<p>Sin embargo, aunque lo podamos consultar o nos lo puedan hacer,
+nunca está de mas comprender como funciona el sistema, y aparte,
+calcular otras medias que siendo reales nos convengan más, ya que
+el sistema por bloques que se emplea es manifiestamente injusto y
+no refleja la nota real del alumno. Según el el cálculo actual,
+<strong>un alumno con 6,9 es dos veces peor que un alumno con un 7</strong> en
+lugar de haber entre ellos una diferencia de una décima.</p>
+
+<p>Este esquema supongo que ha sido heredado de cuando en las
+facultades no era obligatorio asignar una nota numérica sino tan
+solo APROBADO, NOTABLE, SOBRESALIENTE y MATRÍCULA DE HONOR y en mi
+opinión ya está más que superado; en todas las facultades se
+utiliza un sistema numérico que permite saber con exactitud la nota
+del alumno. Y aunque no se pudiese porque siguiesen existiendo
+facultades &lsquo;chapadas a la antigua&rsquo;, no es conveniente tener un
+estadístico que &lsquo;destruye&rsquo; información como este, que no es
+representativo de la nota del alumno y expresa fatal el valor del
+mismo. Tiene &lsquo;truco&rsquo;.</p>
+
+<p>Entre estos cálculos para la nota media y algunos
+profesores/aplicaciones informáticas en la universidad que
+truncaban notas como 6,7 a 6, no me parece raro que los españoles
+tengamos una nota media tan ridículamente baja en el currículum, la
+cual nos dificulta y mucho la búsqueda de empleo en el extranjero,
+donde las universidades si que inflan las finales que da gusto.
+Cuando te juegas plazas, becas, puestos de trabajo y tu vida en
+general, estas pequeñas idioteces y tristes clasificaciones saltan
+a un primer plano y adquieren tanta importancia que me sorprende
+que se use este método desde mi punto de vista tan malo. Tener
+egresados con notas bajas <strong>no</strong> debería ser un signo de prestigio.
+Pero bueno que me enredo.</p>
+
+<p>La nota media del expediente académico universitario es un número
+del 1 al 4, siendo 1 aprobado y 4 matrícula de honor. <br/>
+La relación es la siguiente, solo se tienen en cuenta las
+asignaturas aprobadas:</p>
+
+<table>
+    <th>
+        <td>Nota 1-10</td>
+        <td>Nota 1-4</td>
+        <td>Nombre</td>
+    </th>
+    <tr>
+        <td>1</td>
+        <td>[5-7)</td>
+        <td>Aprobado</td>
+    </tr>
+
+    <tr>
+        <td>2</td>
+        <td>[7-9)</td>
+        <td>Notable</td>
+    </tr>
+
+    <tr>
+        <td>3</td>
+        <td>[9-10]</td>
+        <td>Sobresaliente</td>
+    </tr>
+
+    <tr>
+        <td>4</td>
+        <td>10</td>
+        <td>Matrícula de Honor</td>
+    </tr>
+</table>
+
+
+<p>La manera de calcularla es aplicar la siguiente fórmula, tomando la
+nota de cada asignatura, pasándola a la escala anterior y
+multiplicándola por sus créditos:</p>
+
+<p><img src="./img/media_1_4.svg" width="250px"/></p>
+
+<p>Como comenté antes, este es un estadístico terrible para resumir el
+expediente académico de un alumno, debido a los &lsquo;saltos&rsquo; que tiene
+en el 7, el 9 y el 10. Una medida, con mucho, más representativa,
+sería calcular la media aritmética ponderada con los créditos y
+aplicar una &lsquo;regla de tres&rsquo; para pasarlo al intervalo 1-4.</p>
+
+<p>Esto es precisamente lo que también hice, calcular esta y otras
+medias para ver que estadístico representaba mejor mi expediente
+académico. Con mejor no solo quiero decir que saliese más
+favorecido, sino más adecuadamente en vista a los valores de mis
+notas (que tienden al 6).</p>
+
+<p>Para calcular la nota a partir de una cantidad numérica 1-10 y
+obtener un porcentaje, empleé esta fórmula. Nótese que nota_min y
+nota_max son la nota mínima para aprobar y la máxima que es
+posible obtener en la Universidad correspondiente.</p>
+
+<p><img src="./img/media_normalizada.svg" width="400px"/></p>
+
+<p>O la media aritmética normal, sin ponderar con los créditos:</p>
+
+<p><img src="./img/media_suma.svg" width="150px"/></p>
+
+<p>En la Universidad de Cádiz tenemos disponibles nuestro expediente
+completo a traves del <a href="http://www.uca.es/web/servicios/servicio_alumnos/automatricula/Paginas/uxxiportal">XXI Portal</a> de donde nos podemos bajar un
+xls con las notas de las asignaturas aprobadas.</p>
+
+<div class="img-center">
+  
+![Screenshot de calc con el csv de las notas][]
+
+<sub>&#8220;Las notas copiadas, pegadas y con las líneas sin nota y cabeceras
+eliminadas.&#8221;</sub> 
+</div>
+
+
+<p>Lo que hago es seleccionar solo las asignaturas, eliminar las que
+no tienen nota (normalmente créditos de libre provinentes de
+prácticas de empresa, seminarios o conferencias) y pegarlo sin
+cabecera en un csv plano con caracter separador la coma <strong>,</strong> y
+delimitador de texto la doble comilla <strong>&ldquo;</strong>.</p>
+
+<p>Tras hacer esto lo que tenemos es un notas.csv con la siguiente
+estructura:</p>
+
+<pre><code>code-block::csv
+"1711014 ","ESTRUCTURA Y TECNOLOGÍA DE COMPUTADORES","9","TRONCAL","2006-07","JUNIO","APROBADO","6,6"
+
+"1711013 ","FUNDAMENTOS DE SISTEMAS DIGITALES","6","TRONCAL","2006-07","FEBRERO","SOBRESALIENTE","9,6"
+
+"1711022 ","INFORMÁTICA GENERAL","6","OBLIGATORIA","2006-07","FEBRERO","APROBADO","6,5"
+</code></pre>
+
+<p>Los campos que nos interesan son el tercero (créditos) y el octavo
+y último (nota). Empleando python y su procesador de csv (baterías
+incluidas!) podemos fácilmente parsear el fichero y obtener
+nuestras notas. <br/>
+Para ello creé un script que calcula todo esto, siguiendo una
+plantilla para una beca del CSIC (Centro Superior de
+Investigaciones Científicas) a la hora de realizar los cálculos. La
+nota final coincide con la que obtengo en Ícaro, de manera que
+supongo que es correcta.</p>
+
+<p>El script lo llamo con ./media.py notas.csv e imprime tanto los
+resultados como los cálculos intermedios. Tened en cuenta que la
+formula del porcentaje emplea los valores de nota mínima para
+aprobar y nota máxima a recibir, que en Cádiz son 5 y 10 pero que
+de centro a centro pueden variar.</p>
+
+<p>Para terminar, agradecería muchísimo cualquier tipo de
+<strong>corrección o aviso de errores</strong>. Lo más probable es que haya
+metido la pata en algún momento, que ignore algo relacionado con el
+cálculo de notas o sobre la organización Universitaria, de manera
+que si ves algo que no cuadre, por favor, deja un comentario :)</p>
+
+<pre><code>#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import csv
+
+def error(text):
+    print "Error:" + text
+    sys.exit()
+
+def nota_14(nota):
+    """
+    Recibe una nota del 5 al 10
+    Devuelve la nota del 1-4 según la siguiente tabla del CSIC:
+        [5-7)   -&gt; 1
+        [7-9)   -&gt; 2
+        [9-10)  -&gt; 3
+        10      -&gt; 4
+
+    Devuelve None si la nota no está en el intervalo [5-10]
+    """
+    if nota &lt; 5: return None
+    elif nota &lt; 7: return 1.0
+    elif nota &lt; 9: return 2.0
+    elif nota &lt; 10: return 3.0
+    elif nota == 10: return 4.0
+
+def nota_percent(nota):
+    """
+    Recibe una nota del 0 al 10
+    Devuelve la nota en porcentaje según la fórmula del CSIC
+    """
+    nota_min = 5.0   # nota minima para aprobar en Cádiz
+    nota_max = 10.0  # nota máxima en Cádiz
+
+    return 50.0 + ((50.0 * (nota - nota_min)) / (nota_max - nota_min))
+
+def media(csvfile):
+    """
+    Toma un csv con las notas y devuelve la media de todas las asignaturas.
+    Asume que la nota de las asignaturas está en el último campo de cada línea.
+    """
+
+    try:
+        reader = csv.reader(open(csvfile, 'rb'), delimiter=",", quotechar='"')
+    except:
+        error("No se puede abrir el fichero %s" % csvfile)
+
+    # cabecera de la tabla
+    print "Nota, Expediente, Percent, 1-4, Creditos, creditos x 1-4"
+
+    # totales
+    creditos_total = 0.0
+    nota_total = 0.0
+    ponderada_14_total = 0.0
+    ponderada_100_total = 0.0
+    nasignaturas = 0.0
+    n = 0
+
+    for row in reader:
+
+        n += 1
+
+        if len(row) &lt; 8 :
+            print "La linea: %s no tiene el número de campos necesarios."   
+                 % str(row)
+            next
+
+        # El signo decimal es . no , como en españa
+        row = [f.replace(',', '.') for f in row]
+
+        # Obtener los campos
+        curso = row[4]
+        try: 
+            creditos = float(row[2]) 
+        except ValueError: 
+            print "En la línea linea %d el campo 2 (creditos) %s no es un número"   
+                    % (n,row[2])
+            next
+
+        try:
+            nota = float(row[7])
+        except ValueError:
+            print "En la línea linea %d el campo 7 (notas) %s no es un número"   
+                    % (n,row[2])
+            next
+
+        # Convertir entre escalas
+        percent = nota_percent(nota)
+        nota14 = nota_14(nota)
+        ponderada_100 = creditos * percent
+        ponderada_14 = creditos * nota14
+
+        # Actualizar totales
+        creditos_total += creditos
+        nota_total += nota
+        ponderada_14_total += ponderada_14
+        ponderada_100_total += ponderada_100
+        nasignaturas += 1
+
+        # curso,  nota, percent, 14, creditos, creditos x 14
+        print "%s   %d      %d       %d      %d      %d"   
+                % (curso, nota, percent, nota14, creditos, ponderada_14)
+
+    # calcular
+    media_ponderada_14 = ponderada_14_total / creditos_total
+    media_ponderada_100 = ponderada_100_total / creditos_total
+    media_ponderada_100_14 = media_ponderada_100 * (4.0 / 100.0)
+    media_normal = nota_total / nasignaturas
+
+    #imprimir totales y resultado
+    print "     Total Créditos: %d   Total creditos x 14: %d"   
+            % (creditos_total, ponderada_14_total)
+    print "     Media ponderada 1-4:         %.2f" % media_ponderada_14
+    print "     Media ponderada 100:         %.2f" % media_ponderada_100
+    print "     Media ponderada 100 en 1-4:  %.2f" % media_ponderada_100_14
+    print "     Media sin ponderar:          %.2f" % media_normal
+
+
+def main():
+    if len(sys.argv) &lt; 1:
+        error("Numero incorrecto de argumentos. \n\n Use: media.py file.csv")
+
+    media(sys.argv[1])
+
+main()
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/08/edicion-de-pdf/">Edición De PDF</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-08T22:52:00+01:00" pubdate data-updated="true">Feb 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A la hora de lidiar con burocracia y rellenar formularios, lo ideal
+es escribir directamente sobre el fichero, de manera que al
+imprimirlo sea perfecto y no tengamos siquiera un machón de
+bolígrafo. Es mucho más cómodo, ya que de esta manera pueden
+editarse en caso de error y volver a imprimir tranquilamente,
+evitando correcciones y tachones poco estéticos.</p>
+
+<p>Cuando el formulario está en un formato editable (.doc, .odt) no
+hay problema alguno, pero si está en PDF la cosa se complica. Lo
+que hacía antes era tomar capturas del PDF como imágenes, editarlas
+con GIMP y después imprimirlas. Sin embargo el procedimiento es
+primitivo, lento, dificultoso y debes guardar ficheros aparte de
+GIMP si necesitas corregir cualquier error. Lo ideal es escribir
+directamente en el PDF y generar uno nuevo que puedes editar otra
+vez y transportar cómodamente.</p>
+
+<p>Todo el software que comento aquí está cómodamente disponible en
+los repositorios de Debian. De manera que con un sudo apt-get
+install lo tendremos funcionando rápidamente.</p>
+
+<h3>Herramientas de edición PDF</h3>
+
+<h4>pdfedit</h4>
+
+<p><strong>pdfedit</strong> es una herramienta grande y compleja que permite editar
+muchos aspectos de un PDF, incluyendo el añadir texto nuevo que es
+lo que buscamos. <br/>
+Sin embargo su interfaz es un desastre, es complicado y sobre todo
+tan lento que es inusable. Cada operación podía tardar cerca de 10
+segundos, y cuanto más lo usaba, iba a peor. El formulario de mi
+Erasmus lo rellené con este programa y tardé cerca de una hora. No
+lo dejaba porque ya iba por la mitad y había invertido demasiado
+tiempo como para tirarlo a la basura. Muy frustrante.</p>
+
+<div class="img-center">
+
+![Usando pdfedit][]
+
+<sub>Usando pdfedit con mi formulario. La interfaz es
+demasiado&#8230; &#8216;ingenieril&#8217;.</sub>
+
+</div>
+
+
+<h4>Scribus</h4>
+
+<p><strong>Realmente no he probado <em>Scribus</em> * ya que </strong>no llegó a abrir los PDF que
+quería<strong> editar. Se supone que el programa acepta como entrada el formato pdf y
+permite editarlos y exportarlos de nuevo, sin embargo no le gustó los que tenía
+y el muy señorito se negó a abrirlos aduciendo que se encontraban en un formato
+inaceptable. Aún así,</strong>su interfaz tenía muy buena pinta**, de manera que
+quizás sea una opción para más adelante con otros ficheros.</p>
+
+<div class="img-center">
+  
+![Error al iniciar scribus][]
+
+<sub>Error al iniciar Scribus con el pdf que quería editar</sub>
+
+</div>
+
+
+<h4>flpsed</h4>
+
+<p>Con <strong>flpsed</strong> tenemos un ganador. Es exactamente lo que buscaba,
+un editor de PDF/PostScript <strong>muy ligero, ágil y sencillo</strong>. Solo
+permite abrir PS/PDF y añadir/editar texto, pero es que es
+precisamente lo que buscaba. Solo permite cambiar el tamaño y el
+color de la letra, de manera que para muchos puede quedarse corto
+si pretenden realizar algo complejo o visual, pero para el uso para
+el que busco un editor de PDFs es sencillamente perfecto. En menos
+de 5 minutos tenía todos mis datos puestos sobre las casillas que
+se dejan para escribir en el formulario. Después, permite exportar
+tanto a PS o a PDF.</p>
+
+<div class="img-center">
+
+![flpsed en acción][]
+
+<sub>&#8220;Editando un formulario PDF con flpsed&#8221;</sub>
+
+</div>
+
+
+<p>Otra opción interesante de <strong>flpsed</strong> es que también exporta a PS,
+de manera que podemos exportar nuestro PDF a PS, abrirlo con GIMP,
+editar algún campo si necesita tachaduras o algún tipo de grafismo
+más complejo (¿Estampar una firma?), guardarlo en PS y volverlo a
+abrir con <strong>flpsed</strong> para terminar la edición y volverlo a pasar a
+PDF. <br/>
+Este <a href="http://www.cyberciti.biz/tips/open-source-linux-pdf-writer.html">post</a> me ayudó mucho a la hora de orientarme y probar estos
+programas.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/git-slice-repo/">Export Part of a Git Repo to a New One Keeping History</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/14/sd-emergency-backup-en/">SD-Card Emergency Encrypted Backup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jvrsantacruz">@jvrsantacruz</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jvrsantacruz',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Javier Santacruz -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

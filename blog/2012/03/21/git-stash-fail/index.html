@@ -1,0 +1,16 @@
+<p>If it happens that you confuse <code>git stash pop</code> (apply and remove an stashed commit) with <code>git stash
+drop</code> (simply remove it), do not cry yet. <code>git stash drop</code> yells the hash of the dropped commit, so
+you still have a chance to recover it.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>If you manage to keep the hash, you can just do:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>And save it.</p>
+
+<p>So close.</p>

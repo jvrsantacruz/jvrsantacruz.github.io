@@ -1,0 +1,104 @@
+<p>When you just only want to list directories within a given directory in C, things
+can be not <em>so</em> obvious.</p>
+
+<p>Using the non-standard function <code>scandir</code> its quite easy to get all files in a directory.
+The prototype looks like this:</p>
+
+<pre><code>code-block::c
+int scandir(const char *dirp, struct dirent ***namelist,
+    int (*filter)(const struct dirent *),
+    int (*compar)(const struct dirent **, const struct dirent **));
+</code></pre>
+
+<p>Scary? Don&rsquo;t worry, it just takes:</p>
+
+<ul>
+<li><code>dirp</code>: Path to the directory to list.</li>
+<li><code>namelist</code>: List of <code>struct dirent *</code> by reference. Uninitialized, <code>scandir</code> will alloc space for it. Should be freed afterwards.</li>
+<li><code>filter</code>: Filter function. Will be called per each dir entry which will be excluded from the list in case of <code>filter</code> returns 0. Takes a <code>struct dirent *</code> to decide.</li>
+<li><p><code>compar</code>: Comparison function. Used to sort entries. Takes two entries and returns &lt; 0 , 0 or > 0. Lexicographical ordering its already implemented in <code>alphasort</code>, also included in <code>&lt;dirent.h&gt;</code>.</p>
+
+<pre><code>  code-block::c
+  #define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+  #include &lt;dirent.h&gt;
+
+  int main(int argc, char * argv[]) {
+      int i = 0;
+      struct dirent ** filelist = NULL;
+      int ndirs = scandir(argv[1], &amp;filelist, NULL alphasort);
+
+      if( ndirs &lt; 0 )  /* Check errors */
+          return 1;
+
+      for(; i &lt; ndirs; ++i)
+          printf("Full path to file in %s: %s/%s", 
+              argv[1], argv[1], filelist[i]-&gt;d_name);
+
+      if( filelist != NULL ) {
+          for(i = 0; i &lt; ndirs; ++i)
+              free(filelist[i]);
+          free(filelist);
+      }
+
+      return 0;
+  }
+</code></pre></li>
+</ul>
+
+
+<p>We&rsquo;re ignoring the filter function and using the standar <code>alphasort</code> so it&rsquo;s really easy to list all files within a dir (which includes special entries like <code>.</code> and <code>..</code>).</p>
+
+<p>The problem is that I just wanted to get the directories within the <code>dir_path</code>. To do this, I thought: &ldquo;<em>Ok, I&rsquo;ll just implement a filter which calls <code>stat</code> and checks the file with the S_ISDIR(st_struct) macro</em>&rdquo;. But you just can&rsquo;t. The filter function only takes a <code>struct dirent *</code>, which has an incomplete <code>d_name</code> with just the filename, not the complete path, needed for <code>stat</code>.</p>
+
+<p>Not all is lost, thought. The <code>struct dirent</code> also has a <code>d_type</code> member which can be checked to be <code>DT_DIR</code>. The drawback for this is that it isn&rsquo;t supported by all filesystems, so some of them may return a <code>DT_UNKNOWN</code> which would make me cry bitterly. The (incomplete) solution then, is to write a filter that checks <code>d_type</code> and then re-check the opening of these directories.</p>
+
+<p>Will work like charm for most filesystems, won&rsquo;t crash on the sloppy ones.
+I&rsquo;ve been looking for the <em>right</em> way to do this in C, or even better POSIX C, but all I can find its the advice to write my own <code>scandir</code>, based on standard functions, which would be easy enough indeed, but not really the <em>right</em> way I&rsquo;m always pursuing.</p>
+
+<pre><code>code-block::c
+#define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+#include &lt;dirent.h&gt;
+
+int filter(const struct dirent * dire){
+
+    /* Discard . and .. */
+    if( strncmp(dire-&gt;d_name, ".", 2) == 0
+        || strncmp(dire-&gt;d_name, "..", 3) == 0 )
+        return 0;
+
+    /* Check whether it is a DIR or not.
+    * Some FS doesn't handle d_type, so we check UNKNOWN as well */
+    if( dire-&gt;d_type != DT_UNKNOWN
+            &amp;&amp; dire-&gt;d_type != DT_DIR )
+        return 0;
+
+    /* We've nothing against it. Accept */
+    return 1;
+}
+
+int main(int argc, char * argv[]) {
+    int i = 0;
+    struct dirent ** filelist = NULL;
+    int ndirs = scandir(argv[1], &amp;filelist, filter, alphasort);
+
+    if( ndirs &lt; 0 )  /* Check errors */
+        return 1;
+
+    printf("Only directories\n");
+    for(; i &lt; ndirs; ++i) {
+        printf("Full path to dir in %s: %s/%s\n", 
+                argv[1], argv[1], filelist[i]-&gt;d_name);
+    }
+
+    /* Check dir again using stat, opendir or... */
+    if( filelist != NULL ) {
+        for(i = 0; i &lt; ndirs; ++i)
+            free(filelist[i]);
+        free(filelist);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>If someone has any ideas/suggestions/complains please, <em>tell me</em>. Please.</p>

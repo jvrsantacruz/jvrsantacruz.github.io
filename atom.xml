@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Raging Bits]]></title>
+  <link href="http://ragingbit.com/atom.xml" rel="self"/>
+  <link href="http://ragingbit.com/"/>
+  <updated>2013-09-21T19:48:38+02:00</updated>
+  <id>http://ragingbit.com/</id>
+  <author>
+    <name><![CDATA[Javier Santacruz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install Jelly Bean MIUI 2.9.29 in Nexus One using blackrose]]></title>
+    <link href="http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9/"/>
+    <updated>2012-06-01T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9</id>
+    <content type="html"><![CDATA[<p>I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
+from the early version I had (MIUI 2.5), I felt I couldn&rsquo;t go back to Android 2.3 after getting
+used to it for a while.</p>
+
+<p>When I tried to get a more stable ROM version (MIUI 2.9), I found lots of trouble, obscure fails
+aggravated by a considerable lack of documentation about how to go for it. So here is how I made
+it.</p>
+
+<h2>Introduction</h2>
+
+<p>Android 4.1 Jelly Bean needs more space in the <code>/system</code> and <code>/cache</code> partitions than it&rsquo;s
+originally allowed in the Nexus, so we&rsquo;ll need a custom bootloader and resize those partitions
+before think about flashing the ROM itself.</p>
+
+<p>Steps are:</p>
+
+<ol>
+<li>Download Blackrose</li>
+<li>Get fastboot to work</li>
+<li>Install Blackrose and resize partitions</li>
+<li>Install the ROM</li>
+</ol>
+
+
+<h2>Download HBOOT Blackrose</h2>
+
+<p>Download and unzip <a href="blackrose_120421.zip">Blackrose</a> and <a href="blackrose_manual_120421.zip">Blackrose Manual</a> (check md5 checksums)</p>
+
+<pre><code>$ md5sum blackrose_120421.zip
+f89de99e616a56e1bae29a9f8a190ee1  blackrose_120421.zip
+$ unzip blackrose_120421.zip
+$ ls blackrose_120421
+binary  BlackRose  BlackRose.exe fastboot-linux-i386  fastboot-linux-i386.zip  other
+
+$ md5sum oblackrose_manual_120421.zip
+3c2bc61256aba2df1575ce2b6c66c977  blackrose_manual_120421.zip
+$ unzip blackrose_manual_120421.zip
+$ ls blackrose_manual_120421
+fastboot-l  fastboot-m  fastboot-w.exe  go2.lol  go33.lol  go35.lol  hboot_220-16-200.nb0
+hboot_blackrose.nb0  README.txt
+</code></pre>
+
+<h2>Get fastboot to work</h2>
+
+<p>You&rsquo;ll need fastboot working properly in order to be able to interact with your phone.
+The blackrose_manual version does include a fastboot implementation.
+We&rsquo;ll use <code>fastboot-l</code> for Linux.</p>
+
+<ol>
+<li>Get your phone into <code>fastboot</code> mode. You should read <code>fastboot</code> on your phone&rsquo;s screen.
+To enter into fastboot mode:
+
+<ol>
+<li>Turn your phone off</li>
+<li>Turn your phone on while pressing the direction ball</li>
+<li>Enter into <code>fastboot</code> mode</li>
+</ol>
+</li>
+<li>Connect your phone via usb to the computer. You should read <code>fastboot USB</code> on your phone&rsquo;s
+screen.</li>
+<li>Check wether it&rsquo;s detected by fastboot:
+     $ ./fastboot-l devices
+     HT066P800146fastboot
+ If that does not work:
+
+<pre><code> 1. Try with `sudo ./fastboot-l devices` (might be mounted with root permissions, you can [write a udev rule](http://wiki.cyanogenmod.com/wiki/Udev) to prevent this)
+ 2. Check your [fastboot setup](http://wiki.cyanogenmod.com/wiki/Fastboot), your [android sdk installation](http://wiki.cyanogenmod.com/wiki/ADB) and make sure that the  `android_sdk/tools` dir is within `$PATH`.
+</code></pre></li>
+</ol>
+
+
+<h2>Install Custom Blackrose and resize</h2>
+
+<p>Once you get <code>fastboot</code> to work, run the <code>Blackrose</code> executable which comes with
+blackrose_120421, and install the <code>Custom</code> version, to resize the partitions on the same operation.</p>
+
+<p>Mind the <code>skip</code> parameter, <a href="http://forum.xda-developers.com/showthread.php?t=1842419">it&rsquo;s important</a>.</p>
+
+<pre><code>$ ./BlackRose skip
+    Loading...
+    * daemon not running. starting it now *
+    * daemon started successfully *
+
+    -------------------------------
+    |   Nexus One BlackRose 120421  |
+    |  Made by Lecahel(XDA-dla5244) |
+    |    Dok-Do belongs to KOREA    |
+    -------------------------------
+    1    Apply stock/custom BlackRose
+    2    Disable HBOOT flashing protect
+    3    Uninstall BlackRose
+    4    More information
+    5    Exit
+    Please make a decision:1
+</code></pre>
+
+<p>Choose 1: <code>Apply stock/custom BlackRose</code></p>
+
+<pre><code>    Select which you want
+    1    Stock BlackRose
+    2    Custom BlackRose
+    3    Back
+    Please make a decision:2
+</code></pre>
+
+<p>Choose 2: <code>Custom BlackRose</code>.</p>
+
+<pre><code>:::text
+error: device not found
+Input BlackRose password(48 char max):
+</code></pre>
+
+<p>Ignore the <code>error: device not found</code> erro and insert a blank password. Just press Enter.</p>
+
+<pre><code>Nexus One BlackRose Editor
+If you want resize partition, type [resize] and press enter key:resize
+SYSTEM + CACHE + USERDATA = 436MB
+system size(MB):280
+cache size(MB):20
+label name(20 char max):ARL
+</code></pre>
+
+<p>Here is the root of all problems: size partitions.</p>
+
+<ol>
+<li>Set <code>280</code> for the <code>/system</code> partition. If you <a href="http://forum.xda-developers.com/showthread.php?p=30852043">don&rsquo;t do so</a>, the installation will fail with <code>symlink: some symlinks failed</code> because MIUI 2.9 demands a lot of space.</li>
+<li>Set 20 MB for cache. Otherwise your phone might not boot and enter into a loop.</li>
+<li><p>Set whatever as the label.</p>
+
+<p> system size:280MB cache size:20MB userdata size:136MB
+ label:ARL</p>
+
+<ul>
+<li>Customize success
+sending &lsquo;hboot&rsquo; (512 KB)&hellip; OKAY
+writing &lsquo;hboot&rsquo;&hellip; OKAY
+rebooting into bootloader&hellip; OKAY</li>
+<li>Stock/Custom BlackRose has been successfully applied</li>
+</ul>
+</li>
+</ol>
+
+
+<p>Done here!</p>
+
+<h2>Install the ROM</h2>
+
+<ol>
+<li>Get the <a href="MIUI.us_passion_v4.1_2.9.29_0xD34D.zip">MIUI 2.9.29 ROM</a> (or the latest one from the <a href="http://roms.miui.us/">MIUI website</a>)
+     $ md5sum MIUI.us_passion_v4.1_2.9.29_0xD34D.zip
+     6433fa6970e65e910c9ebd77cb81563b  MIUI.us_passion_v4.1_2.9.29_0xD34D.zip</li>
+<li>Put the image into your sdcard root directory
+
+<pre><code> - You can do so from recovery itself by going to `storage` and setting the storage mode on.
+</code></pre></li>
+<li>Now <strong>wipe both caches</strong></li>
+<li>Use the <code>install image from zip</code> and select the ROM.</li>
+<li>Cross your fingers.</li>
+<li>Reboot your phone after the installation has finished.</li>
+</ol>
+
+
+<p>Used links and further documentation:</p>
+
+<ul>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1270589">Blackrose thread</a></li>
+<li><a href="http://www.youtube.com/watch?v=ScIMetgk7Zw">Blackrose resize video-tutorial</a></li>
+<li><a href="http://forums.miui.us/showthread.php?21396-Tutorial-Blackrose-(Custom-Hboot">Blackrose tutorial</a>-Installation-for-Miui-2-6-8)</li>
+<li><a href="http://www.nexusoneforum.net/forum/nexus-one-development-hacking/13358-s-off-nexus-one.html">Blackrose manual howto</a>:</li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Nexus_One:_Full_Update_Guide">Cyanogen wiki nexus one fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Fastboot">Cyanogen wiki fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/ADB">Cyanogen wiki ADB</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Udev">Cyanogen wiki udev rules</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?p=30852043">symlinks install errors</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1842419">Use skip when executing Blackrose</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Export part of a git repo to a new one keeping history]]></title>
+    <link href="http://ragingbit.com/blog/2012/06/01/git-slice-repo/"/>
+    <updated>2012-06-01T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/06/01/git-slice-repo</id>
+    <content type="html"><![CDATA[<p>I maintain my personal scripts (only a few by now) on a
+<a href="github.com/jvrsantacruz/scripts">public repository</a> on GitHub, so it forces myself to take them more
+seriously and keep it clean. It looked like a good idea back then, because all I&rsquo;ve got were just
+not enough for a repo on its own. So I kept them together in separate directories under the same
+repo this way:</p>
+
+<pre><code>scripts
+ |- README.md
+ |- project1
+ |   `- script1.py
+ `- project2
+     `- script2.py
+</code></pre>
+
+<p>And each commit in the repo clarifies which project modifies by preceding it with a <em>code</em> this way:</p>
+
+<pre><code>d65bf0e project1: Adds test_rotate function to test rotate verb
+2943d69 project1: Removes unused TestFileOperations.newfile
+..
+dc37490 project2: Rewrites comments
+9d00b0a project2: Fixes output-based tests redirecting stderr
+</code></pre>
+
+<p>But as some of them are now well grown up, like <code>backup.py</code>, I thought they deserved more
+visibility and wanted those specific directories out into a new repo&hellip; but keeping the history with
+them, and without the commit message <em>code</em> boilerplate.</p>
+
+<p>There is one easy obvious way to to this, by <em>(1)</em> cloning the repository, then <em>(2)</em> using <code>git
+filter-branch</code> to remove the undesired directories and <em>(3)</em> to rewrite commits messages
+afterwards.</p>
+
+<pre><code># 1: Clone repository
+$ git clone --no-hardlinks /original-repo /new-repo
+
+# 2: Filter away undesired stuff
+$ git filter-branch --tree-filter "rm -rf project2" --prune-empty HEAD
+
+# 3: Filter 'project1:' code from commits messages
+$ git filter-branch --msg-filter "sed 's/project1: //' --prune-empty HEAD
+</code></pre>
+
+<p>The <code>--prune-empty</code> option makes git to discard commits that become empty after the filter and
+therefore are now useless.</p>
+
+<p>You can se the difference from the original repo and the <a href="github.com/jvrsantacruz/backup">new one</a> for <code>backup</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SD-Card emergency encrypted backup]]></title>
+    <link href="http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en/"/>
+    <updated>2012-05-14T14:49:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en</id>
+    <content type="html"><![CDATA[<p><img src="./img/backup-logo.jpeg" alt="" /></p>
+
+<p>I must confess I am a little bit obsessive about data loss. I am not just obsessed, but <em>paranoid</em>.
+I like backups. I love them. I do it constantly, automatically, distributed and encrypted. I even
+<a href="http://github.com/jvrsantacruz/scripts/tree/master/backup">write my own backup tools</a>. It&rsquo;s never enough.</p>
+
+<p>I usually have a <code>500GB</code> 2.5&#8221; hard disk connected to my laptop when I&rsquo;m working at home, and use
+<code>fcron</code> and my <code>backup.py</code> to take a complete snapshot of the working environment every 5h or so. I
+also <em>backup my backups</em> on another hard disk, on another city, each time I pass by my family
+house. I use <em>Dropbox</em> too. I love <em>Dropbox</em>. But I do not trust it, I don&rsquo;t rely on it. I want to
+<strong>keep my data</strong> myself, so I replicate the &lsquo;Dropbox directory&rsquo; at my own home server, with regular
+backups of it, and at my family&rsquo;s PC (with its own backup schema as well). Sensible data is
+encrypted by using <code>ecryptfs</code> because this way, data happens to be scattered across different
+places and although barely accessible, it wouldn&rsquo;t take much to a geek with physical access to
+hardware to get it.</p>
+
+<p>But as I said before, it is never enough. This way of making backups isn&rsquo;t bad, It makes it
+difficult to completely lose <em>everything</em>. But what happens with last-time files and changes?. I
+often imagine an scenario (a bad nightmare, really) where I&rsquo;m travelling, carrying all my stuff
+with me, and for some stupid reason, my bag falls to the road being swiftly smashed and crunched by
+an evil double-decker. There is not hard-disk anymore, either the laptop&rsquo;s or the backup one. They&rsquo;re
+magnetics flying fragments now. <em>Dropbox</em> happened to be unsynced since a day or so of no internet
+connection, my last backup at home is 3 days old, my sister accidentally removed some backups to
+make room for a movie and I was being quite productive these past blank hours at the airport.
+<strong>Data loss</strong>. Horreur.  I wake up screaming, soaked in cold sweat.</p>
+
+<p>I know it&rsquo;s not very wise to move around with data and backups in the same bag, and actually I
+don&rsquo;t. And I also know that the chance for absolutely everything to fail it&rsquo;s quite low, but you got
+the point, and remember: I&rsquo;m <em>paranoid</em>.</p>
+
+<p>Then I was at a store and saw one of those 32Gb tiny flash pen-drives. 32Gb, that&rsquo;s a lot. At least for
+my important data being about 7Gb. Then I thought I could regularly backup my physical disk
+backups, not only after some weeks, but every few days, into a pen I&rsquo;ll always carry around
+inserted in my keyring, performing the copies manually.</p>
+
+<p>But after the first moment, I didn&rsquo;t like the idea. Besides of being a backup-freak, I am, as any
+other conceited programmer, quite lazy about repetitive tasks. Even further, I&rsquo;m slack. If there is
+any task that I must perform completely unchanged more than 10 times, I&rsquo;ll start growing annoyed
+about the 11th time. Actually I&rsquo;m being self-indulgent here, let&rsquo;s say 5 times. If I have to
+remember and manually perform each backup, I will screw it at some copy, forget about it, delay
+doing them or a combination of the previous. I wanted my flash copies, but I wanted them
+<em>automated</em>.</p>
+
+<p>Next thing I saw was a <em>32Gb sd-card</em>. They&rsquo;re unlikely to die in an accident, they even survive
+being washed along clothes. They have this cell <a href="http://en.wikipedia.org/wiki/Flash_memory">worn out</a> issue, but hey, they&rsquo;re also relatively
+cheap. It would be nice to have one of those inserted into my machine and perform copies to it. My
+laptop happens to have one of those integrated card-readers, so I just went straight to <em>Amazon</em> and
+ordered a <a href="http://www.amazon.co.uk/s?ie=UTF8&amp;tag=firefox-uk-21&amp;index=blended&amp;link_code=qs&amp;field-keywords=class-10%20card&amp;sourceid=Mozilla-search"><em>class-10 32Gb</em> for about £17</a>.</p>
+
+<p><img src="./img/card-reader.jpg" alt="Laptop integrated SD card-reader" /></p>
+
+<p>This way I could have an absolutely up-to-date copy of all my data with me, automatically done at
+each system shutdown or every few hours. It won&rsquo;t help me in case of losing my laptop, because it
+would be gone with it, but it can definitely save my butt if some drastic hardware failure happens.
+There are a couple of drawbacks for backing up to a SD card:</p>
+
+<ol>
+<li>Flash cells worn out on write. If you constantly write to a flash memory, you will exhaust it
+soon.</li>
+<li>It is exposed. The **** card suddenly pops out when careless manipulating the laptop. Or someone could
+take it. It may be lost somewhere, with all my data in it.</li>
+</ol>
+
+
+<p>Fortunately, (1) incremental backups only writes few Mb each time, so it won&rsquo;t be so bad for cells,
+and (2) encryption exists for a reason, I can always prevent all it&rsquo;s contents from being taken.</p>
+
+<p>Once I got my card, I moved it from <code>vfat</code> (it has issues with +4Gb files), to <code>ext4</code> and created a
+<code>ecryptfs</code> private directory on it.</p>
+
+<p>Once the sdcard has been inserted, it is auto mounted by gnome on <code>/media/4785B20834</code>, so let&rsquo;s get
+the device number from the mountpoint.</p>
+
+<pre><code>$$ df -h /media/4785B20834 
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sdb1              30G   44M   28G   1% /media/4785B20834
+</code></pre>
+
+<p>Once we know it&rsquo;s <code>/dev/sdb1</code>, (1) unmount it and (2) format it. I will format
+it using <code>ext4</code> with no <a href="http://en.wikipedia.org/wiki/Journaling_file_system">journaling</a>. Journaling helps to keep data integrity, by
+keeping an index of last recently written files, but it means constantly write
+a list on the device. We don&rsquo;t want that, remember?</p>
+
+<pre><code>$$ eject /media/4785B20834
+# -O ^has_journal disables journaling
+# -L sets the volume label
+$$ sudo mkfs.ext4 -O ^has_journal /dev/sdb1 -L sdbk
+
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label=sdbk
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+1957888 inodes, 7817984 blocks
+390899 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=4294967296
+239 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+4096000
+
+Writing inode tables: dataone                            
+Writing superblocks and filesystem accounting information: 
+done
+
+$$ udisks --mount /dev/sdb1
+Mounted /org/freedesktop/UDisks/devices/sdb1 at /media/sdbk
+</code></pre>
+
+<p>Well, we already have the card, let&rsquo;s go for the encryption. <code>ecryptfs</code> allows
+you to encrypt a certain directory on the fly, storing the data encrypted, and
+mounting it on at some point on &lsquo;<em>clear</em>&rsquo;, so you can work with it normally,
+while still ciphering file contents underneath one by one and changing its
+names. <code>ecryptfs</code> can be found in the <code>ecryptfs-utils</code> package.</p>
+
+<p>So let&rsquo;s go for it, first of all (1) create the <code>ecrypt</code> directory by mounting
+it for the first time, (2) answer the questions that the program raises: I use
+the <code>aes</code> algorithm, with a <code>32 bytes</code> key, no to <code>plaintext passthrough</code> and
+yes to <code>filename encryption</code>.  You can see the settings for your new partition
+when it is created, and (3) take a look to your password&rsquo;s signature
+(<code>8e85340a483cb3ce</code>) because you&rsquo;ll recognize it in further steps.</p>
+
+<pre><code>    mkdir /media/sdbk/bk
+    sudo mount -t ecryptfs /media/sdbk/bk /media/sdbk/bk
+
+    Passphrase: 
+    Select cipher: 
+-&gt;  1) aes: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    2) blowfish: blocksize = 16; min keysize = 16; max keysize = 56 (not loaded)
+    3) des3_ede: blocksize = 8; min keysize = 24; max keysize = 24 (not loaded)
+    4) twofish: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    5) cast6: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    6) cast5: blocksize = 8; min keysize = 5; max keysize = 16 (not loaded)
+    Selection [aes]: 1
+    Select key bytes: 
+    1) 16
+-&gt;  2) 32
+    3) 24
+    Selection [16]: 2
+    Enable plaintext passthrough (y/n) [n]: n    &lt;- Nope
+    Enable filename encryption (y/n) [n]: y      &lt;- Yep
+    Filename Encryption Key (FNEK) Signature [8e85340a483cb3ce]:  
+    Attempting to mount with the following options:   ^-- Look!
+    ecryptfs_unlink_sigs
+    ecryptfs_fnek_sig=8e85340a483cb3ce
+    ecryptfs_key_bytes=32
+    ecryptfs_cipher=aes
+    ecryptfs_sig=8e85340a483cb3ce
+    Mounted eCryptfs
+</code></pre>
+
+<p>Once you have it mounted, let&rsquo;s put some sensible data in it, unmount it and see what happens.</p>
+
+<pre><code># ex-girlfriend pic
+cp ~/Photos/DSC0069.jpg /media/sdbk/bk
+ls /media/sdbk/bk
+DSC0069.jpg
+
+# umount it
+sudo umount /media/sdbk/bk
+ls /media/sdbk/bk
+ECRYPTFS_FNEK_ENCRYPTED.FWaCVHE8G1mnnUZhhyZe.Z6vRrz42cu8a5gt8p.H7pcoIB8nbl3brC-QfE--
+</code></pre>
+
+<p>Oh! so when we do not set the password and mount the directory, all we have in
+there are weird files. Just perfect. If you mount it again with <code>mount -t
+ecryptfs DIR DIR</code>, you&rsquo;ll have to go through the whole set-up process again and
+answer algorithms, sizes and options to be able to mount. Second step is to
+make it mount automatically without having to type our password.</p>
+
+<p>We&rsquo;ll use the <code>gnome-keyring</code> for this. The <code>gnome-keyring</code> will pop out at
+system start-up asking for the keyring password, and once you have supplied it,
+applications can request passwords by its signature (ahh! <code>8e85340a483cb3ce</code>)
+and use it without user interaction.</p>
+
+<p>First, we&rsquo;ll (1) add the partition to <code>/etc/fstab</code>, so it will mount
+automatically and configure it so the user can mount it without being root.
+Once we&rsquo;ve got that, we (2) add our password to the <code>gnome-keyring</code> and (3)
+enjoy mounting/unmounting as we please.</p>
+
+<pre><code># 1. Mount it and get the config from /etc/mtab
+mount -t ecryptfs /media/sdbk/bk /media/sdbk/bk
+Passphrase: 
+Select cipher: 
+1) aes: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+2) blowfish: blocksize = 16; min keysize = 16; max keysize = 56 (not loaded)
+
+(... yes, all this again ...)
+Mounted eCryptfs
+$$ ls /media/sdbk/bk
+DSC0069.jpg
+$$ grep ecryptfs /etc/mtab
+/media/sdbk/bk /media/sdbk/bk ecryptfs rw,ecryptfs_sig=8e85340a483cb3ce,ecryptfs_cipher=aes,
+        ecryptfs_key_bytes=32,ecryptfs_fnek_sig=8e85340a483cb3ce,ecryptfs_unlink_sigs 0 0
+$$ sudo vim /etc/fstab
+</code></pre>
+
+<p>We add <code>user</code> to the options, so the user can <code>mount</code>/<code>umount</code> as he wishes. Leaving the file like this</p>
+
+<pre><code># sdbk
+/media/sdbk/bk /media/sdbk/bk ecryptfs user,noauto,rw,ecryptfs_sig=8e85340a483cb3ce,ecryptfs_cipher=aes,
+        ecryptfs_key_bytes=32,ecryptfs_fnek_sig=8e85340a483cb3ce,ecryptfs_unlink_sigs 0 0
+</code></pre>
+
+<p>Well, we have it on the <code>/etc/fstab</code>, ready to mount at startup and at anytime
+we do <code>mount -i</code>. Lets add the key to the keyring to avoid typing it each time.</p>
+
+<pre><code># 2. add key to the keyring
+$$ ecryptfs-manager
+eCryptfs key management menu
+-------------------------------
+    1. Add passphrase key to keyring  &lt;--- this one
+    2. Add public key to keyring
+    3. Generate new public/private keypair
+    4. Exit
+
+Make selection: 1
+
+    Mount-wide passphrase:   &lt;-- type your password
+    Confirm passphrase:      &lt;-- do it again
+    Using the default salt value      
+                                      v---- Look ma! same signature!
+Added key to keyring with signature [8e85340a483cb3ce].
+</code></pre>
+
+<p>Now it&rsquo;s time to test that everything works as expected. Lets (1) unmount it
+and then (2) mount it with no password annoyance, and finally (3) unmount it
+the same way.</p>
+
+<pre><code># umount it as root
+$$ sudo umount /media/sdbk/bk
+# check whether we can mount it
+$$ mount -i /media/sdbk/bk
+$$ ls /media/sdbk/bk
+DSC0069.jpg
+$$ umount /media/sdbk/bk
+</code></pre>
+
+<p>Got it!  This way is easy enough to get encrypted contents in the sdcard. All
+we have to do now it&rsquo;s automate the backups via <code>fcron</code>. I use <code>fcron</code> and not
+just <code>cron</code> because its for a laptop. <code>fcron</code> works similar to <code>anacron</code> and
+remembers where it was at system shutdown. So if I set it to make a backup each
+5h, work for 2 and then shut it down, next time it will keep the count and wait
+just 3h for the next backup.</p>
+
+<pre><code>Options frequency command
+2 # if lavg5 &lt;= 0.5 wait 1h max, start inmediately if it had to happen whilst off
+3 @lavg5(0.5),until(1h),bootrun(true) 5h python2.6 backup.py --plan .hdbk.conf backup
+4 @lavg5(0.5),until(1h),bootrun(true) 4h python2.6 backup.py --plan .sdbk.conf backup
+</code></pre>
+
+<p>I have it one each 5h and another each 4h. Starting only when system average load is less than 0.5.
+Backup!</p>
+
+<p><strong>EDIT</strong>: I&rsquo;ve found that this configuration does not properly mount the <code>ecryptfs</code> file system on
+startup, and trying it with <code>sudo mount -a</code> it asks for the password. I&rsquo;m obviously missing
+something. My solution was to add <code>noauto</code> to the <code>fstab</code> options so the partition won&rsquo;t be mounted
+on startup and to add <code>mount -i /media/sdbk/bk</code> in my <code>.profile</code> file this way.</p>
+
+<pre><code># Mount ecryptfs sdbk directory
+SDBK="/mnt/sdbk/bk"
+if [ -d "$SDBK" ]; then
+    mount -i "$SDBK"
+fi
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cambiar email en muchos commits de git]]></title>
+    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email-es/"/>
+    <updated>2012-05-07T18:12:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/05/07/git-change-email-es</id>
+    <content type="html"><![CDATA[<p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
+curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
+bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
+puedes hacer un <code>git reset --hard HEAD</code> y listo.</p>
+
+<p>Para el rewrite solo hay que usar <code>git filter-branch</code>, que permite este tipo de cosas peligrosas
+como son las reescrituras en masa.</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>Digo que son peligrosas porque esto le pondrá tu email a <em>absolutamente todos</em> los commits, si
+tienes código de colaboradores, te cargarás sus emails. Si ese es tu caso, pon alguna condición en
+el filtro para evitar sobreescribir lo que no quieres.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Change email in multiple git commits]]></title>
+    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email/"/>
+    <updated>2012-05-07T18:12:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/05/07/git-change-email</id>
+    <content type="html"><![CDATA[<p>I wanted to <em>replicate</em> an old git repo, in which I used as author my old university-work email,
+but using my current gmail account as email. Changing it for both <em>commiter</em> and <em>author</em> for all
+commits involves rewriting the whole repo. It&rsquo;s not difficult at all, but better work on a copy of
+the repo, and remember that if you shoot yourself on the foot you can always get back by doing <code>git
+reset --hard HEAD</code>.</p>
+
+<p>The rewrite can be easily done by using the <code>filter-branch</code> tool applied to all branches at once:</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>This is the <em>nuclear</em> way, it will rewrite absolutely all commits. This won&rsquo;t work straight if you
+have code from collaborators, then you&rsquo;d lose their emails after the unconditional rewrite.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Activate color in git]]></title>
+    <link href="http://ragingbit.com/blog/2012/04/11/git-color-activate/"/>
+    <updated>2012-04-11T02:30:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/04/11/git-color-activate</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
+config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
+the <code>git config VAR VALUE</code> command, so initially I ran:</p>
+
+<pre><code>code-block::bash
+$ for CONF in branch grep diff interactive status;\ 
+    do git config color.$CONF auto --global;\ 
+  done
+</code></pre>
+
+<p>To activate them all by setting each single color option to <code>auto</code>. But after reading a little more
+I found a much simpler way to have everything using color by default. Just simply type:</p>
+
+<pre><code>$ git config color.ui true
+</code></pre>
+
+<p>And that will do the trick. It is very nice and useful to read coloured output when using git,
+specially when reviewing diffs in the midst of a <code>git add -p</code> messy jam.</p>
+
+<p>My <code>.gitconfig</code> ended up like this:</p>
+
+<pre><code>[color]
+        ui = true
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Recuperar un stash borrado en git.]]></title>
+    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail-es/"/>
+    <updated>2012-03-21T19:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail-es</id>
+    <content type="html"><![CDATA[<p>Si os pasa como a mi que confundís <code>git stash pop</code> (aplica y borrar un stash) con <code>git stash drop</code>
+(que borra directamente), no lloreis aún. <code>git stash drop</code> imprime el hash del commit que estaba en
+stash y que hemos borrado, y con el puede recuperarse.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>Si tienes el hash aún, puedes hacer simplemente:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>Y salvarlo.</p>
+
+<p>La verdad es que he pasado mal un ratillo.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Recover a lost stashed commit in git]]></title>
+    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail/"/>
+    <updated>2012-03-21T18:44:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail</id>
+    <content type="html"><![CDATA[<p>If it happens that you confuse <code>git stash pop</code> (apply and remove an stashed commit) with <code>git stash
+drop</code> (simply remove it), do not cry yet. <code>git stash drop</code> yells the hash of the dropped commit, so
+you still have a chance to recover it.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>If you manage to keep the hash, you can just do:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>And save it.</p>
+
+<p>So close.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[List directories within a dir in C]]></title>
+    <link href="http://ragingbit.com/blog/2012/03/06/c-list-dir/"/>
+    <updated>2012-03-06T03:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/03/06/c-list-dir</id>
+    <content type="html"><![CDATA[<p>When you just only want to list directories within a given directory in C, things
+can be not <em>so</em> obvious.</p>
+
+<p>Using the non-standard function <code>scandir</code> its quite easy to get all files in a directory.
+The prototype looks like this:</p>
+
+<pre><code>code-block::c
+int scandir(const char *dirp, struct dirent ***namelist,
+    int (*filter)(const struct dirent *),
+    int (*compar)(const struct dirent **, const struct dirent **));
+</code></pre>
+
+<p>Scary? Don&rsquo;t worry, it just takes:</p>
+
+<ul>
+<li><code>dirp</code>: Path to the directory to list.</li>
+<li><code>namelist</code>: List of <code>struct dirent *</code> by reference. Uninitialized, <code>scandir</code> will alloc space for it. Should be freed afterwards.</li>
+<li><code>filter</code>: Filter function. Will be called per each dir entry which will be excluded from the list in case of <code>filter</code> returns 0. Takes a <code>struct dirent *</code> to decide.</li>
+<li><p><code>compar</code>: Comparison function. Used to sort entries. Takes two entries and returns &lt; 0 , 0 or > 0. Lexicographical ordering its already implemented in <code>alphasort</code>, also included in <code>&lt;dirent.h&gt;</code>.</p>
+
+<pre><code>  code-block::c
+  #define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+  #include &lt;dirent.h&gt;
+
+  int main(int argc, char * argv[]) {
+      int i = 0;
+      struct dirent ** filelist = NULL;
+      int ndirs = scandir(argv[1], &amp;filelist, NULL alphasort);
+
+      if( ndirs &lt; 0 )  /* Check errors */
+          return 1;
+
+      for(; i &lt; ndirs; ++i)
+          printf("Full path to file in %s: %s/%s", 
+              argv[1], argv[1], filelist[i]-&gt;d_name);
+
+      if( filelist != NULL ) {
+          for(i = 0; i &lt; ndirs; ++i)
+              free(filelist[i]);
+          free(filelist);
+      }
+
+      return 0;
+  }
+</code></pre></li>
+</ul>
+
+
+<p>We&rsquo;re ignoring the filter function and using the standar <code>alphasort</code> so it&rsquo;s really easy to list all files within a dir (which includes special entries like <code>.</code> and <code>..</code>).</p>
+
+<p>The problem is that I just wanted to get the directories within the <code>dir_path</code>. To do this, I thought: &ldquo;<em>Ok, I&rsquo;ll just implement a filter which calls <code>stat</code> and checks the file with the S_ISDIR(st_struct) macro</em>&rdquo;. But you just can&rsquo;t. The filter function only takes a <code>struct dirent *</code>, which has an incomplete <code>d_name</code> with just the filename, not the complete path, needed for <code>stat</code>.</p>
+
+<p>Not all is lost, thought. The <code>struct dirent</code> also has a <code>d_type</code> member which can be checked to be <code>DT_DIR</code>. The drawback for this is that it isn&rsquo;t supported by all filesystems, so some of them may return a <code>DT_UNKNOWN</code> which would make me cry bitterly. The (incomplete) solution then, is to write a filter that checks <code>d_type</code> and then re-check the opening of these directories.</p>
+
+<p>Will work like charm for most filesystems, won&rsquo;t crash on the sloppy ones.
+I&rsquo;ve been looking for the <em>right</em> way to do this in C, or even better POSIX C, but all I can find its the advice to write my own <code>scandir</code>, based on standard functions, which would be easy enough indeed, but not really the <em>right</em> way I&rsquo;m always pursuing.</p>
+
+<pre><code>code-block::c
+#define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+#include &lt;dirent.h&gt;
+
+int filter(const struct dirent * dire){
+
+    /* Discard . and .. */
+    if( strncmp(dire-&gt;d_name, ".", 2) == 0
+        || strncmp(dire-&gt;d_name, "..", 3) == 0 )
+        return 0;
+
+    /* Check whether it is a DIR or not.
+    * Some FS doesn't handle d_type, so we check UNKNOWN as well */
+    if( dire-&gt;d_type != DT_UNKNOWN
+            &amp;&amp; dire-&gt;d_type != DT_DIR )
+        return 0;
+
+    /* We've nothing against it. Accept */
+    return 1;
+}
+
+int main(int argc, char * argv[]) {
+    int i = 0;
+    struct dirent ** filelist = NULL;
+    int ndirs = scandir(argv[1], &amp;filelist, filter, alphasort);
+
+    if( ndirs &lt; 0 )  /* Check errors */
+        return 1;
+
+    printf("Only directories\n");
+    for(; i &lt; ndirs; ++i) {
+        printf("Full path to dir in %s: %s/%s\n", 
+                argv[1], argv[1], filelist[i]-&gt;d_name);
+    }
+
+    /* Check dir again using stat, opendir or... */
+    if( filelist != NULL ) {
+        for(i = 0; i &lt; ndirs; ++i)
+            free(filelist[i]);
+        free(filelist);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>If someone has any ideas/suggestions/complains please, <em>tell me</em>. Please.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/19/migrar-gmail/"/>
+    <updated>2012-02-19T22:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/19/migrar-gmail</id>
+    <content type="html"><![CDATA[<p><img src="./img/migrar-gmail-header.svg" width="580px"/></p>
+
+<p>Intento migrar mi cuenta de gmail, de una antigua a otra más seria, llevándome
+todos los contactos, feeds, filtros, calendarios, chats y, por supuesto, los
+correos.
+Los correos deben mantener:</p>
+
+<ul>
+<li>Leidos</li>
+<li>Preferidos</li>
+<li>fechas</li>
+<li>Origen y destino (no ser un reenvio)</li>
+<li>Etiquetas (múltiples)</li>
+</ul>
+
+
+<h2>Migrar correo</h2>
+
+<p>Probé 4 opciones, <a href="http://code.google.com/p/got-your-back/">gyb</a>, <a href="http://imapsync.lamiral.info/README">imapsync</a>, <a href="http://gmail-backup.com">gmail-backup</a> y <a href="http://getthunderbird.com">thunderbird</a>, decantándome finalmente por <a href="http://code.google.com/p/got-your-back/">gyb</a>.
+Todas ellas sincronizan el correo mediante <em>IMAP</em> entre las dos cuentas de google, por el procedimiendo de descargar primero el correo de la cuenta antigua al disco duro, y enviarlo posteriormente a la nueva.</p>
+
+<h3>Activar <em>imap</em></h3>
+
+<p>Debe irse a las opciones de ambas cuentas, a <code>Forwarding and POP/IMAP</code> y activar IMAP en ambas cuentas.</p>
+
+<p><img src="./img/activate-imap.png" alt="activate-imap" /></p>
+
+<h2>Con <a href="http://code.google.com/p/got-your-back/">Got-your-back</a></h2>
+
+<p>Es el más rápido con diferencia, hace backup y restaura todo (etiquetas multiples, marca de importante, leidos&hellip;) y solo envía cada correo una vez.
+Emplea autenticación mediante token como app Google. Al ejecutarlo escribirá una url a la que tendrás que acceder y logearte con la cuenta de gmail para permitirle acceso.</p>
+
+<ol>
+<li>Descargar el <a href="http://code.google.com/p/got-your-back/downloads/list">script</a></li>
+<li><p>Realizar el backup de la cuenta antigua:</p>
+
+<pre><code> python gyb.py --email antigua@gmail.com --backup --compress
+</code></pre>
+
+<p> Creará el directorio <code>GYB-Gmail-Backup-antigua@gmail.com</code> con el correo guardado.</p></li>
+<li><p>Restaurar el correo en la nueva</p>
+
+<pre><code> python gyb.py --email nueva@gmail.com --restore 
+     --compress --folder GYB-Gmail-Backup-antigua@gmail.com
+</code></pre></li>
+</ol>
+
+
+<p>El proceso de restore lleva mucho más tiempo.
+Es la mejor forma con diferencia para hacer backup a una cuenta gmail.
+De hecho me estoy pensando en mantener un backup offline de mi cuenta metiendo la orden de backup en el cron.</p>
+
+<hr />
+
+<h2>Con <a href="http://gmail-backup.com">gmail-backup</a></h2>
+
+<p><a href="http://gmail-backup.com">gmail-backup</a> se ve que esté mantenido desde el 2009,
+y solo está disponible en formato binario, no tiene licencia libre y está
+compilado con una versión antigua de python. Aún así, es bastante más rápido
+que <a href="http://imapsync.lamiral.info/README">imapsync</a> y es más sencillo de usar.</p>
+
+<h3>Instalar <a href="http://gmail-backup.com">gmail-backup</a></h3>
+
+<ol>
+<li>Descargar el binario <a href="http://www.gmail-backup.com/gmail-backup-0-104">de su página oficial</a> y descomprimir.</li>
+<li><p>Descargar e instalar <a href="http://www.python.org/download/releases/2.5.6/">python2.5</a> si no se encuentra en el sistema (intenta ejecutar <code>python2.5</code> en consola).</p>
+
+<pre><code> code-block::bash
+ tar -xvzf Python-2.5.6.tgz
+ cd Python-2.5.6
+ ./configure
+ make
+ sudo make altinstall
+</code></pre></li>
+</ol>
+
+
+<p>  <strong>¡Ojo!</strong>: Usad <code>altinstall</code> y no simplemente <code>install</code>, o sobreescribirá la
+  versión actual por defecto de Python en el sistema.</p>
+
+<h3>backup &amp; restore</h3>
+
+<p>Primero haremos un backup completo de nuestra cuenta <em>antigua</em> para a continuación restaurarla en la cuenta <em>nueva</em>.
+Haciendo de esto, tendremos de paso una copia de seguridad de todo nuestro correo. Eso sí, tardará, aunque menos que <a href="http://imapsync.lamiral.info/README">imapsync</a>.</p>
+
+<pre><code>code-block::bash
+./gmail-backup.sh backup ~/gbackup antigua@gmail.com p4sw0rd \
+&amp;&amp; ./gmail-backup.sh restore ~/gbackup nueva@gmail.com p4sw0rd
+</code></pre>
+
+<hr />
+
+<h2>Con imapsync</h2>
+
+<p><a href="http://imapsync.lamiral.info/README">imapsync</a> es una herramienta escrita en <em>Perl</em>, que sincroniza dos servidores
+<em>IMAP</em>. Se le indica la cuenta de origen y de destino, y manda todos los
+correos de orige a destino, sincronizándolos.</p>
+
+<h3>Instalar imapsync</h3>
+
+<pre><code>sudo apt-get install imapsync
+</code></pre>
+
+<h3>Sincronizar</h3>
+
+<p>Para ello se llama a imapsync <em>dos veces</em>. Una para sincronizar los labels (folders) y otra para enviar el correo.</p>
+
+<pre><code>imapsync\
+    –user1 antigua@gmail.com\
+    –user2 nueva@domain.com\
+    -passfile1 ./antigua-pass\
+    -passfile2 ./nueva-pass\
+    –host1 imap.gmail.com\
+    –host2 imap.gmail.com\
+    -authmech1 LOGIN -authmech2 LOGIN\
+    -port1 993 -port2 993\
+    -split1 100 -split2 100\
+    -ssl1 -ssl2\
+    –syncinternaldates\
+    –justfolders\
+
+
+imapsync \
+    –user1 antigua@gmail.com\
+    –user2 nueva@domain.com\
+    -passfile1 ./antigua-pass\
+    -passfile2 ./nueva-pass\
+    –host1 imap.gmail.com\
+    –host2 imap.gmail.com\
+    -authmech1 LOGIN -authmech2 LOGIN\
+    -port1 993 -port2 993\
+    -split1 500 -split2 100\
+    -ssl1 -ssl2\
+    --fastio1 --fastio2
+    -syncinternaldates\
+    -allowsizemismatch\
+    --nofoldersizes\
+    --skipsize\
+    --fast\
+    --useheader 'Message-Id' \
+    --useheader 'X-Gmail-Received'
+    --exclude "(Trash|Spam|Publicidad)"
+    --timeout 100
+</code></pre>
+
+<p>Explicación de las opciones:</p>
+
+<ul>
+<li><strong>passfile</strong>: es un fichero de texto plano que contiene solo la clave, para
+no ponerla directamente en la consola.</li>
+<li><strong>syncinternaldates</strong>: Evita que se cargue la fecha de los emails.</li>
+<li><strong>justfolders</strong>: Crea solo los directorios/labels.</li>
+<li><strong>allowsizemismatch</strong>: Se quejaba de error por diferente tamaño en los correos
+bajados, esto hace que los ignore.</li>
+<li><strong>exclude</strong>: Carpetas/Labels a excluir de la sincronización.</li>
+<li><strong>useheader</strong>: El imap de gmail omite esas cabeceras, forzarlas.</li>
+<li><strong>split</strong>: Tamaño de petición a cada servidor. Al de subida pedimos menos.</li>
+<li><strong>fastio</strong> <strong>fast</strong>: Realiza las operaciones más rápido</li>
+<li><strong>nofoldersizes</strong> <strong>skipsize</strong>: No calcula estadísticas ni tamaños, que es lento.</li>
+<li><strong>timeout</strong>: Abortar tras <em>x</em> segundos de inactividad.</li>
+</ul>
+
+
+<p>Aviso que tarda muchísimo, ya que debe descargar todo el correo y volverlo a
+enviar, incluyendo attachments, <strong>para cada etiqueta</strong>, lo que hace que envie
+<code>L</code> veces cada correo, donde <code>L</code> es el número de etiquetas que tiene. <strong>No se
+duplica</strong> ya que gmail los detecta como el mismo y simplemente les añade la
+etiqueta correspondiente en lugar de copiarlo de nuevo.</p>
+
+<p>Cuando el proceso se para, es conveniente volverlo a ejecutar añadiendo el
+parámetro: <code>--maxage int</code> donde <code>int</code> indica la fecha del el último correo que
+enviamos, y así descarta evaluar los más antiguos.</p>
+
+<p>Para reiniciar la conexión cuando se pilla usé un bucle infinito y la opción <code>--timeout 100</code>, para no tener que estar cuidando yo del proceso.</p>
+
+<pre><code>code-block::bash
+while [ 1 -eq 1 ] 
+ do
+    imapsync\
+    -host1 imap.gmail.com -port1 993 -user1 antigua@gmail.com -passfile1\
+    ./antiguapass -ssl1 -host2 imap.gmail.com -port2 993 -user2\
+    nueva@gmail.com -passfile2 ./nuevapass -ssl2 -syncinternaldates -split1\
+     500 -split2 500 --fastio1 --fastio2 -authmech1 LOGIN -authmech2 LOGIN\
+     -useheader 'Message-Id' -useheader 'X-Gmail-Received'\
+    --exclude "(Junk|Spam|Trash|Publicidad|All Mail|dspace-list|wp-admin|spam)"\
+     --allowsizemismatch --nofoldersizes --skipsize --fast --timeout 100
+
+    sleep 5
+  done
+</code></pre>
+
+<hr />
+
+<h2>Migrar Contactos</h2>
+
+<p>En la página de gmail, en la cuenta <em>antigua</em>, vamos a <em>Contactos</em>, en <em>Más
+Opciones</em> seleccionamos <em>Exportar</em> y lo descargamos en formato Google CSV.</p>
+
+<p><img src="./img/export-import-contacts.png" alt="export-import-contacts" /></p>
+
+<p>En la cuenta nueva, realizamos el proceso inverso, <em>Más opciones</em>&ndash;><em>Importar</em> y seleccionamos el CSV.</p>
+
+<h2>Migrar feeds Google Reader</h2>
+
+<p>Los feeds suscritos en Google Reader pueden exportarse también en un fichero.
+Dentro del Reader, logeado con la cuenta <em>antigua</em>, vamos a <em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em> y descarga el fichero tipo <strong>OPML</strong>.</p>
+
+<p><img src="./img/export-reader.png" alt="export-reader" /></p>
+
+<p>Una vez conseguido ese fichero, vamos al reader de la cuenta <em>nueva</em>, también a
+<em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em>  y subimos el fichero <strong>OPML</strong> que antes
+descargamos.</p>
+
+<h2>Migrar calendarios</h2>
+
+<p>Los calendarios realmente no están <em>dentro</em> de tu cuenta, sino que pueden ser
+compartidos por varias personas con privilegios similares a los del usuario que
+los creó, de forma que lo único que hay que hacer realmente es compartirlo con
+la cuenta de correo nueva con privilegios de administrador.</p>
+
+<p><img src="./img/share-calendar.png" alt="share-calendar" /></p>
+
+<h2>Migrar filtros</h2>
+
+<p>Debe activarse la importación/exportación de filtros en el labs para ambas cuentas:</p>
+
+<p><img src="./img/export-filter.png" alt="export-filter" /></p>
+
+<p>Después de activarla solo tenemos que exportar en la página de la cuenta
+antigua e importar en la de la nueva.</p>
+
+<p><img src="./img/import-filter.png" alt="import-filter" /></p>
+
+<h2>Intentos fallidos</h2>
+
+<p>Lo intenté antes con <a href="http://getthunderbird.com">thunderbird</a>, como hacen <a href="http://www.twistermc.com/27915/move-gmail-to-gmail/">aquí</a>,
+sincronizando ambos correos y arrastrando los directorios de una a otra cuenta,
+y lo hace bien, pero no mantiene más de una etiqueta/carpeta por correo. Y
+luego con <a href="http://gmail-backup.com">gmail-backup</a>, que no me conservó las etiquetas (y aparte es
+propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11/"/>
+    <updated>2012-02-19T22:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11</id>
+    <content type="html"><![CDATA[<ul>
+<li>Diferentes estilos de C++ no se suponia que se usasen por separado</li>
+<li>Huir de las funciones antiguas que piden especificar tamaños y punteros y solo funcionan con datos básicos.</li>
+<li>Mal estilo de programación es el 1 problema del código C++</li>
+<li>Que se quiere? Simplificar el uso</li>
+<li>Utilizar medidas del SI. Que es un double? Que es un objeto? El satélite que se perdió por cambio de unidades entre SI e Imperial.</li>
+<li>Se hace hace mucho tiempo con plantillas, pero la notación es horrible y la gente no la usa.
+
+<ul>
+<li>Se pueden definir los propios LITERALES: operator &ldquo;&rdquo;</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Generar Ecuaciones LaTeX]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/19/latex-equation-generator-es/"/>
+    <updated>2012-02-19T10:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/19/latex-equation-generator-es</id>
+    <content type="html"><![CDATA[<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>Mientras reconstruia este blog en <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> a partir de una exportación del
+blog antiguo en Wordpress, tuve que resolver como volver a generar las
+ecuaciones en LaTeX que había insertado en esos posts.</p>
+
+<p>Wordpress me generaba esas ecuaciones como imágenes de forma automática,
+simplemente poniendo el código entre llaves <code>[latex]</code>, de esta manera:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generando una imagen como resultado:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>Para poder hacer lo mismo (preferiblemente en consola) y poder insertar
+ecuaciones en LaTeX en los posts como imágenes, escribí este pequeño script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>El cual genera un documento LaTeX al vuelo, sin ningún tipo de estilo, lo
+compila en <em>pdf</em> usando <code>pdflatex</code> y elimina todos los márgenes usando
+<code>pdfcrop</code>, convirtiendo lo que queda (solo la ecuación) a <em>svg</em> con <code>pdf2svg</code>,
+que es la imagen que finalmente coloco.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Generate LaTeX Equations]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/18/latex-equation-generator/"/>
+    <updated>2012-02-18T22:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/18/latex-equation-generator</id>
+    <content type="html"><![CDATA[<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>While rebuilding this blog with <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> from a xml export of the previous Wordpress
+version, I had to face how to regenerate the LaTeX equations inserted within some
+posts.</p>
+
+<p>Wordpress used to take care of the equation generation through the use of a plugin, taking as input the code between <code>[latex]</code> labels like this:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generating an image with the LaTeX result and placing it whithin the post:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>In order to replicate the same (command-line way) so LaTeX equations could be
+inserted in my posts as images, I came up with the following script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>Which generates a LaTeX document on the fly with no styles at all, compiles it
+to <em>pdf</em> using <code>pdflatex</code>, eliminates all margins using <code>pdfcrop</code> and converts
+it to the final svg image with <code>pdf2svg</code>.</p>
+
+<p>The result can be inserted in the post as an svg image. I&rsquo;m still wondering if this could be a desirable extension for the markdown reader of <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a>&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Renombrar etiqueta usb linux]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux/"/>
+    <updated>2012-02-08T22:00:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux</id>
+    <content type="html"><![CDATA[<p>En este caso es una tarjeta <em>SD</em> en FAT32 que no tiene label y al montarla
+Ubuntu la llama <code>9016-4EF8</code>, lo cual no me dice mucho y me gustaría cambiarlo.
+La herramienta para cambiar labels de FAT32 se llama <code>mlabel</code> y viene en el
+paquete <code>mtools</code>.</p>
+
+<ol>
+<li><p>Averiguamos que dispositivo es, para llamarlo por su nombre después.</p>
+
+<pre><code> $ df /media/9016-4EF8
+ Filesystem           1K-blocks      Used Available Use% Mounted on
+ /dev/sdb1             31263744        32  31263712   1% /media/9016-4EF8
+</code></pre>
+
+<p> Se llama <code>/dev/sdb1</code>.</p></li>
+<li><p>La desmontamos para trabajar con el a gusto, que estaba en <code>/media/9016-4EF8</code>.</p>
+
+<pre><code> $ sudo umount /media/9016-4EF8
+</code></pre></li>
+<li><p>Para usar <code>mlabel</code> necesitamos que el dispositivo tenga un nombre, asi que
+copiamos la config por defecto de <code>mtools</code> y le añadimos nuestro dispositivo.
+Lo llamaremos <code>i</code>.</p>
+
+<pre><code>  $ cp /etc/mtools.conf ~/.mtoolsrc
+  $ echo 'drive i: file="/dev/sdb1"' &gt;&gt; ~/.mtoolsrc
+</code></pre></li>
+<li><p>Renombramos la partición con <code>mlabel</code>.</p>
+
+<pre><code> $ sudo mlabel i:mi_tarjeta
+</code></pre></li>
+</ol>
+
+
+<p><strong>Nota</strong>: si <code>mlabel</code> os escupe algo parecido a esto:</p>
+
+<pre><code>code-block::text
+Total number of sectors (62543872) not a multiple of sectors per track (63)!
+Add mtools_skip_check=1 to your .mtoolsrc file to skip this test
+</code></pre>
+
+<p>Sed obedientes y simplemente añadid <code>mtools_skip_check=1</code> al fichero.</p>
+
+<pre><code>$ echo 'mtools_skip_check=1' &gt;&gt; ~/.mtoolsrc
+</code></pre>
+
+<p>Y listo, al conectar el dispositivo se monta solo con el nombre bueno:</p>
+
+<pre><code>code-block::console
+$ ls /media/
+MI_TARJETA
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Generar CSS con Pygmentize]]></title>
+    <link href="http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize/"/>
+    <updated>2012-02-07T20:40:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize</id>
+    <content type="html"><![CDATA[<p>Para el coloreado de código de este blog empleo la herramienta <a href="http://pygments.org">pygmentize</a>, la
+cual es capaz de generar un fichero css con el estilo con el que quiero que
+salga el texto de los programas.</p>
+
+<p>Para generar un estilo usar:</p>
+
+<pre><code>code-block::bash
+pygmentize -f html -S borland -a .codehilite &gt; pygment.css
+</code></pre>
+
+<p>Donde <code>borland</code> es el estilo y <code>.codehilite</code> es la clase a emplear para
+localizar el código en la página posteriormente.
+<a href="http://pygments.org/docs/cmdline/">Otras cosas</a> que pueden hacerse con la línea de comandos.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Exportacion De M3u En Python Y Bash]]></title>
+    <link href="http://ragingbit.com/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/"/>
+    <updated>2011-06-05T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash</id>
+    <content type="html"><![CDATA[<p>Title: Exportación de m3u en Python y Bash
+Date: 2011-06-05 06:20
+Category: Dev
+Tags: python, script, m3u, mp3, music, playlist, Nexus One</p>
+
+<div class="img-center">
+
+![image][]
+</div>
+
+
+<p>Tengo un reproductor MP3 muy sencillo que empleo para correr. No
+tiene ná, la música se carga en una carpeta interna llamada &lsquo;MUSIC&rsquo;
+y eso es todo lo que hay que hacer. <br/>
+El problema es que a Banshee no le da la gana de manejarlo, lo que
+me obliga a copiar los archivos a mano. Con la pereza que me da,
+últimamente siempre tengo la misma música. <br/>
+Lo mismo me pasa con mi Nexus One. Cuando a todo le falla la
+batería, tiro de él para amenizar camino andado, pero siempre tengo
+lo mismo.</p>
+
+<p>Aburrido, decidí hacer algo que tomase una lista de reproducción de
+Banshee y pusiese esos archivos de música en un directorio. Esto me
+permitiría las siguientes cosas:</p>
+
+<p>Hacer listas de reproducción en Banshee y exportarlas a un
+directorio concreto sin buscar archivos a mano.
+Elegir canciones sin el reproductor conectado, enchufarlo y
+sincronizar con un boton.</p>
+
+<p>Hacer listas con esas canciones y tenerlas en un directorio me
+viene perfecto también para pasarle música a colegas. Usaría para
+esto enlaces duros en lugar de copias y así podría tener muchos
+directorios preparados para que se los llevasen, o en Dropbox, sin
+ocupar espacio.</p>
+
+<p>En este punto, me surge la eterna duda que me asaltaba cuando
+trabajaba metiendo mano en servidores. ¿Script en <em>Bash</em> o en
+<em>Perl/Python</em>? Los scripts en <em>Bash</em> son muy cortos y directos, me
+encantan para soluciones rápidas. Pero luego, <em>luego</em>, empiezan a
+crecer y crecer, mantenerlos es una pesadilla, y acababa
+reescribiéndolos en <em>Python</em>.</p>
+
+<p>Ante la duda de si elegir uno u otro, decidí&hellip; implementar ambos y
+compararlos.</p>
+
+<h3>Al lío:</h3>
+
+<p><em>Banshee</em> exporta a m3u, pls y xspf. Por ahora solo he soportado
+m3u que era el más sencillo, pero lo he hecho todo pensando en
+poder ampliarlo fácilmente. <br/>
+Un m3u tiene la siguiente pinta:</p>
+
+<pre><code>#EXTM3U
+
+#EXTINF:153,Go Back To The Zoo - Beam me up
+
+../../home/arl/Music/Ofcourse/Benny Blisto/Go Back To The Zoo/03-go_back_to_the_zoo-beam_me_up.mp3
+
+#EXTINF:224,Joy Division - No Love Lost
+
+../../home/arl/Music/Ofcourse/Substance/Substance/11 No Love Lost.mp3
+
+#EXTINF:211,Pony Bravo - Noche de Setas
+
+../../home/arl/Music/Ofcourse/Pony Bravo/Un Gramo de Fe/02 Noche de Setas - PonyBravo.mp3
+</code></pre>
+
+<p>Comentario con el título, y ruta relativa al fichero de música, en
+base a donde se guardó la lista de reproducción.</p>
+
+<p>El script recibe la lista de reproducción y el directorio donde
+quiero que se copie toda la música. Como a veces es mucha y por USB
+va muy lento, no copia de nuevo la que ya está allí.</p>
+
+<p>Tiene un par de opciones extra, <em>&mdash;delete</em> para que borre los
+ficheros que no estén en la playlist, sincronizando el directorio.
+<em>&mdash;force</em> que hace que sobreescriba las canciones que ya están en
+lugar de saltarlas y <em>&mdash;link</em> que en lugar de copiar hace enlaces
+duros, útil para no ocupar espacio extra y muy veloz.</p>
+
+<p>Soy consciente de que mi script <em>Python</em> copia burdamente el
+comportamiento de herramientas unix estándar ya existentes, y como
+se verá, el script en <em>Bash</em> me lleva mucho menos que las 180
+líneas de <em>Python</em>, de hecho son 64, la mitad. Sin embargo el
+programa en <em>Python</em> es más fácilmente mantenible y ampliable con
+nuevas funcionalidades que se me vayan ocurriendo; Como he hecho
+con otros scripts a lo largo de los años.</p>
+
+<p>Podéis comparar ambas versiones, <em>Bash</em> y <em>Python</em>. Es bastante
+descorazonador que en <em>Bash</em> sea casi todo código de control de
+errores y argumentos, el trabajo real se hace en <em>2 líneas</em></p>
+
+<h3>Versión en <em>Bash</em></h3>
+
+<h3>Versión en <em>Python</em></h3>
+
+<p>En <em>Python</em> podría haberlo parseado la lista m3u con un bucle
+readline y listo, sin embargo pretendo ampliarlo luego al resto de
+formatos, así que creé una clase implementando la interfaz iterable
+de contenedores de Python. La lectura secuencial permite no tener
+que cargar todo en memoria si no quieres y el poder leer la
+playlist así:</p>
+
+<pre><code>playlist = M3u(path_playlist)
+for title,path in playlist:
+    print "%s at %s" % (title, path)
+</code></pre>
+
+<p>Una clase que implemente la interfaz iterable debe implementar el
+método <em>__iter__()</em> y <em>next()</em>.</p>
+
+<pre><code>class Iterable:
+
+   def __init__(self):
+       self.list = []
+       self.index = 0
+
+   def __iter__(self):
+       return self
+
+   def next(self):
+    if index &gt;= len(list):
+        raise StopIteration
+    else:
+        return objeto[index]
+        index += 1 
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rootear E Instalar Cyanogenmod En Htc Nexus One]]></title>
+    <link href="http://ragingbit.com/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/"/>
+    <updated>2011-05-27T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one</id>
+    <content type="html"><![CDATA[<p>Title: Rootear e instalar CyanogenMod en HTC Nexus One
+Date: 2011-05-27 19:54
+Category: Dev
+Tags: Android, Rom, Nexus One, HTC, Cyanogenmod, Vodafone, Rootear</p>
+
+<div class="img-center">
+
+![Rootear e instalar CyanogenMod en un HTC Nexus One][]
+
+</div>
+
+
+<p>Desde hace casi un año disfruto de un Nexus One con el que me va
+genial. Sin embargo, hasta ahora no había trasteado demasiado con
+él, y aprovechando las vacaciones he decidido rootearlo y cambiarle
+la ROM emigrando hacia un lugar un poco mejor. La ROM original que
+traía de Google + Vodafone me daba un par de pequeños fallos en la
+pantalla táctil, y con el cambio va bastante fino. De paso le di un
+limpiado al teléfono que estaba llenito de basura.</p>
+
+<p>La instalación no es difícil pero se puede hacer larga y la mayoría
+de información distribuida por los foros es inconexa, antigua o
+<strong>incluso incorrecta</strong>. Cada teléfono es un mundo y tiene sus
+propiedades especiales. Este tutorial está lleno de apartados
+opcionales aplicables <em>solo si falla</em> algún paso. Huelga decir que
+esos pequeños arreglos esconden varias horas de frustración,
+cabezazos contra la pared, foros y mucho, mucho Google.</p>
+
+<p>El rooteo del teléfono eliminará tu derecho a la garantía de
+fabricante. La cosa es que si tienes algún problema de hardware con
+el teléfono y lo tienes que enviar a reparar, con restaurar la rom
+original no debería haber problemas.</p>
+
+<p>El proceso es el siguiente:</p>
+
+<ol>
+<li><p><strong>Rootear</strong>
+ Unlock bootloader
+ Rootear</p></li>
+<li><p><strong>Instalar Cyanogen</strong>
+ Instalar Recovery
+ Backup Nandroid
+ Reseteo a valores de fábrica (Wipe)
+ Instalar CyanogenMod</p></li>
+</ol>
+
+
+<p>Mi terminal al momento de comenzar el proceso era un Nexus One con Build Number
+<em>FRG83D</em> corriendo Android 2.2.1 Froyo.   Podéis consultar esta información en
+<code>Settings-\&gt;About Phone</code></p>
+
+<p>Durante todo el tutorial se da por supuesto que se tiene el teléfono conectado
+al PC vía USB y con el modo Debug activado.   El modo debug se activa en
+<code>Settings-\&gt;Applications-\&gt;Development-\&gt;Debug Mode</code> y permite comunicarte con
+el teléfono por USB.</p>
+
+<p>Haz un backup de la información que tengas. Deja la SD lo más limpia que
+puedas, necesitarás al menos 550Mb.</p>
+
+<p>Cada vez que descargues algo, comprueba el MD5. Puedes llorar mucho
+después si instalas algo corrupto.</p>
+
+<pre><code>    $ md5sum archivo.zip
+</code></pre>
+
+<h2><img src="./img/Lock-64.png" alt="image" />Rooteo</h2>
+
+<p>Para rootear hay varias opciones que prometen root en 1 click, pero
+una de ellas tenia problemas serios y la otra (SuperOneClik), se me
+quedaba colgada en el proceso. La usada finalmente ha sido
+Superboot, y ha funcionado muy bien.</p>
+
+<p>Lo que hace es cargar una imagen de arranque distinta que cambia la
+configuración por defecto del teléfono, permitiéndonos acceso root.
+Para ello primero debemos desbloquear el <strong>bootloader</strong>:</p>
+
+<div class="img-left">
+
+![image][1]
+</div>
+
+
+<h3>1. Desbloquear Bootloader [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Este paso es necesario si tu terminal es retail, esto es, ha sido
+modificado por Vodafone, Movistar, Organge&hellip;</p>
+
+<p>Emplearemos una herramienta llamada fastboot para desbloquear el
+<strong>bootloader</strong>.</p>
+
+<p><strong>Los datos que no estén en la SD serán borrados</strong>. El proceso
+realizará un &lsquo;wipe&rsquo; de los datos del teléfono. Aplicaciones
+instaladas, SMS, iconos etc&hellip; Haz un backup antes.</p>
+
+<p>Descarga fastboot <a href="http://www.romraid.com/paul/fastboot.zip">mirror1</a> <a href="http://ragingbit.com/blog/wp-content/uploads/2011/05/fastboot.zip">mirror2</a> y descomprímelo.
+Apaga el teléfono y enciéndelo manteniendo pulsada la
+bolita/trackball para entrar en modo <strong>bootloader</strong>
+Ejecuta fastboot:</p>
+
+<pre><code>$ ./fastboot-linux oem unlock
+</code></pre>
+
+<p><strong>Si falla:</strong> y se queda parado en &lsquo;Waiting Device&rsquo; inténtalo otra
+vez y asegúrate de que el teléfono está en modo <strong>bootloader</strong> y
+encendido.</p>
+
+<div class="img-left">
+
+![image][2]
+</div>
+
+
+<h3>2. Rooteo [<a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Superboot es una imagen de arranque con una configuración que te
+permitirá tener privilegios de root. <br/>
+Hay una versión para cada Build Number disponible de Android. El
+mio era FRG83D, pero el tuyo puede ser diferente, compruébalo. <br/>
+Ve a la <a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">tabla de mirrors de descarga</a>, bájate la versión que te
+corresponda y extráela.
+Pon el teléfono en modo <strong>bootloader</strong> de nuevo. Encendiéndolo
+mientras pulsas la bolita/trackball.
+Da permisos al script de instalación y ejecútalo:</p>
+
+<pre><code>   chmod +x install-superboot-linux.sh
+   ./install-superboot-linux.sh
+</code></pre>
+
+<p>Listo, ya deberíamos tener el teléfono rooteado. Reinícialo, y
+deberías tener una aplicación nueva con un logotipo pirata. Esta
+aplicación hará las veces de &lsquo;sudo&rsquo;, se encargará de avisarte y
+pedirte confirmación cuando alguna aplicación pida privilegios de
+superusuario.</p>
+
+<h2><img src="./img/Sys-Installer_256.png" alt="image" />Instalar Cyanogen</h2>
+
+<p>Una vez con el terminal rooteado, los pasos son:</p>
+
+<ol>
+<li>Instalar Recovery</li>
+<li>Backup Nandroid</li>
+<li>Resetear el teléfono a los valores de fábrica.</li>
+<li>Instalar CyanogenMod</li>
+</ol>
+
+
+<p>Todos los pasos se harán empleando la aplicación <strong>ROM Manager</strong>,
+que dispone de una versión gratuita que se encuentra en el Market
+de Android. <br/>
+Justo tras terminar la instalación, encontré un
+<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">tutorial extremadamente claro</a> aunque en inglés que incluye
+screenshots que yo no pude hacer por carecer de cámara.</p>
+
+<h3>1. <img src="./img/Lifesaver-256.png" alt="image" />Instalar Recovery [<a href="http://forum.xda-developers.com/showthread.php?t=611829">Referencia Original</a>]</h3>
+
+<p>Antes de instalar un recovery debes asegurarte de que no hay ya uno
+de fábrica. Para ello vas a necesitar conectarte con el SDK de
+Android a tu teléfono y mirar si existen los archivos
+/system/etc/install-recovery.sh y /system/recovery-from-boot.p y si
+están, renombrarlos o borrarlos. No te preocupes, podemos utilizar
+la infraestructura de fastboot que hemos usado antes para conectar
+con el teléfono.</p>
+
+<p>En el directorio de fastboot hay un ejecutable llamado adb-linux.
+Podemos usarlo para conectar con el teléfono, estando este en
+encendido y con el modo debug activado. Lo que debemos hacer es
+entrar, remontar el sistema como escritura y cambiarle el nombre a
+los ficheros. Para remontar el sistema de ficheros necesitaremos
+permisos de superusuario, que tendremos que autorizar en la
+pantalla del teléfono. Me tiré 10 minutos hasta que me di cuenta de
+que tenía que habilitar el comando su que ponía en la consola, ya
+que tenía el teléfono debajo de unos papeles&hellip;</p>
+
+<pre><code>fastboot$ sudo ./adb-linux start-server
+
+* daemon started successfully *
+
+fastboot$ sudo ./adb-linux devices
+
+List of devices attached 
+
+0123456789ABCDEF    device
+
+fastboot$ sudo ./adb-linux shell
+
+$ su   # [ Autorizamos en el teléfono ]
+
+$$ mount
+
+rootfs on / type rootfs (ro,relatime)
+
+tmpfs on /dev type tmpfs (rw,relatime,mode=755)
+
+devpts on /dev/pts type devpts (rw,relatime,mode=600)
+
+...
+
+/dev/block/mtdblock3 on /system type yaffs2 (ro,relatime)  # Este es
+
+...
+
+$$ mount -o rw,remount -t yaffs2 /dev/block/mtdblock3 /system  # Montamos lectura escritura
+
+$$ mv /system/etc/install-recovery.sh  /system/etc/install-recovery-bk.sh 
+
+$$ mv system/recovery-from-boot.p system/recovery-from-boot-bk.p
+
+$$ mount -o ro,remount -t yaffs2 /dev/block/mtdblock3 /system  # Dejamos de nuevo en solo lectura
+
+$$ exit
+
+$ sync
+
+$ exit
+</code></pre>
+
+<p>Abre el ROM Manager.
+Dale a <strong>Flash ClockworkMod Recovery</strong> y espera.
+Dale a Flash Alternate Recovery e instalará el recovery en el
+bootloader.</p>
+
+<p><strong>Si falla:</strong> Asegúrate de que tienes suficiente espacio en la SD.
+Te puede ayudar deshacerte del directorio LOST.DIR</p>
+
+<p><strong>Si sigue fallando:</strong> Prueba con otra recovery como es Amon_RA.
+En ese caso descarga su <a href="http://androidspin.com/2010/11/13/amon_ra-recovery-version-2-0-released-for-the-google-nexus-one/">imagen</a> y la puedes instalar con
+flashloader, el que usamos antes, en <strong>bootloader</strong> mode también:</p>
+
+<pre><code>    fastboot flash recovery recovery-RA-passion-v2.2.1.img
+</code></pre>
+
+<h3>2. <img src="./img/Bonus-Backup_256.png" alt="image" />Backup Nandroid [<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes espacio suficiente en la SD (+500mb)
+Reinicia el teléfono en modo bootloader
+Selecciona el modo fastboot con las teclas + y &ndash; del volumen y el
+botón de encendido.
+Al entrar allí, selecciona <strong>backup nandroid</strong>, marca lo que
+necesites y haz el backup.
+<strong>Si falla:</strong> Lo más probable es que no tengas espacio suficiente
+en la SD. Pero asegúrate. Con el teléfono aún en fastboot, debes
+conectarte al terminal y mirar el log de errores.</p>
+
+<p>Puedes emplear el
+<a href="conexion-fastboot">mismo método de conexión que antes con fastboot</a> para entrar en
+el teléfono y comprobarlo:</p>
+
+<pre><code>    fastboot$ sudo ./adb-linux shell
+
+    $ cat cache/recovery/log
+
+    $ exit
+</code></pre>
+
+<h3>3. <img src="./img/Windshield-Wiper-256.png" alt="image" />Reseteo a valores de fábrica (Wipe)[<a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Referencia Original</a>]</h3>
+
+<p>Asegúrate de que tienes el <strong>backup</strong> hecho, porque esto te
+limpiará todo, menos las aplicaciones instaladas que se descargarán
+de nuevo cuando vuelvas a entrar.
+Reinicia el teléfono en modo <strong>bootloader</strong>
+Selecciona el modo fastboot
+Al entrar allí, selecciona <strong>wipe fabric reset</strong> y acto seguido,
+otra vez, <strong>wipe fabric reset</strong></p>
+
+<h3>4.<img src="./img/Gnome-System-Software-Installer-64.png" alt="image" /> Instalar CyanogenMod[<a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide">Referencia Original</a>]</h3>
+
+<p>Arranca el teléfono, y ve a <strong>ROM Manager</strong>, allí tienes dos
+opciones, <em>1.</em> pulsar en <strong>Download List of Roms</strong> elegir
+<em>CyanogenMod</em> y seguir la instalación o bien <em>2.</em> bajarte
+directamente la imagen e instalarla manualmente. Como solo disponía
+de 3G y la imagen pesa lo suyo, decidí bajármela.</p>
+
+<p>Ve a la wiki de <strong>CyanogenMod</strong> y descárgate la
+<a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">última imagen disponible</a>. En mi caso fue <em>CyanogenMod 7</em>.
+Bájate también las <a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Google_Apps">aplicaciones de Google</a>, que vienen
+empaquetadas aparte por motivos legales.
+Comprueba los md5 de ambas imágenes. Es importante, no quieres
+tener problemas.</p>
+
+<pre><code>    md5sum gaps-gb-2011307-signed.zip update-cm-7.0.3-N1-signed.zip
+</code></pre>
+
+<p>Copia ambos <em>.zip</em> al directorio raíz de la tarjeta SD del
+teléfono.
+Arranca en modo <strong>bootloader</strong> y entra en <strong>fastboot</strong>
+Elige la opción de <em>Flash/Install .zip from sdcard</em>
+Selecciona el .zip con <strong>CyanogenMod</strong> y se instalará.
+Cuando termine, selecciona el .zip con <strong>GoogleApps</strong> y lo
+instalará también.</p>
+
+<p>Listo, cuando termines y reinicies el teléfono, deberías ver el
+splash nuevo, en tono azul, de <strong>CyanogenMod</strong>.</p>
+
+<p><strong>Si se queda pillado en el arranque:</strong> No te preocupes,
+probablemente se te ha pasado hacer el
+<em>Reseteo a valores de fábrica</em>. Vuelve a modo <strong>bootloader</strong> y
+hazlo.</p>
+
+<p><strong>Si no funciona en absoluto:</strong> Vuelve a modo <strong>bootloader</strong> y
+restaura el backup <em>Nandroid</em>.</p>
+
+<p>Una vez con la nueva ROM, tendrás que volver a configurar de nuevo
+todas las cosas e instalar de nuevo las aplicaciones. El Market
+Android recuerda las que tenías instaladas de antes, de manera que
+eso no será problema.</p>
+
+<p>Mi experiencia con la nueva ROM es excelente. Va con mucho más
+rápido y es personalizable hasta el absurdo, de manera que puedo
+usar el teléfono como realmente quiero y pienso que es mejor.
+Normalmente es al revés, uno se adapta a los teléfonos que se
+compra, con mayor o menor fortuna.</p>
+
+<h2><img src="./img/library_64x64.png" alt="image" />Referencias:</h2>
+
+<p>Probablemente os convenga consultar los enlaces que empleé para
+instalarlo, ya porque no haya explicado un paso suficientemente o
+porque tengáis algún problema que yo no he mencionado. La
+información es abundante pero MUY dispersa y en ocasiones demasiado
+antigua.</p>
+
+<ul>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/299078/how-to-unlock-the-bootloader-on-your-nexus-one/">Unlock Bootloader</a></li>
+<li><a href="http://android.modaco.com/content/google-nexus-one-nexusone-modaco-com/298782/08-mar-superboot-erd79-gri40-rooting-the-nexus-one/">Descargar e instalar Superboot</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=611829">Instalar Recovery Mode</a></li>
+<li><a href="http://forum.cyanogenmod.com/topic/11455-cyanogenmod-61-for-nexus-one-v611-12152010/">Instrucciones instalación CyanogenMod (Atención! binarios antiguos!)</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Latest_Version#Nexus_One">Wiki CyanogenMod. Descarga de ROMs</a></li>
+<li><a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One:_Full_Update_Guide#Flashing_Radio">Wiki CyanogenMod. Instrucciones detalladas completas.</a></li>
+<li><a href="http://nexusonehacks.net/nexus-one-hacks/step-by-step-guide-on-how-to-install-cyanogen-mod-rom-on-your-nexus-one/">Tutorial instalación Cyanogen muy detallado con screenshots paso a paso.</a></li>
+<li><a href="http://forum.xda-developers.com/showpost.php?p=10467058&amp;postcount=1638">Problema con recovery por defecto; Soluciones dispersas.</a></li>
+<li><a href="http://www.pocketmagic.net/?p=757">Montando el sistema de ficheros como lectura/escritura.</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown Article]]></title>
+    <link href="http://ragingbit.com/blog/2011/04/20/markdown-article/"/>
+    <updated>2011-04-20T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2011/04/20/markdown-article</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Calcular la nota media ponderada Universidades Españolas.]]></title>
+    <link href="http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/"/>
+    <updated>2011-02-09T15:13:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas</id>
+    <content type="html"><![CDATA[<div class="img-center">
+
+![image][]
+
+</div>
+
+
+<p>Los alumnos de la universidad de Cádiz (y andaluces en general)
+podemos consultar este dato en la sección de información académica
+de la plataforma para prácticas de empresa <a href="http://icaro.ual.es">Ícaro</a> o acudiendo al
+Vicerrectorado de Alumnos donde pueden calculárnosla y extendernos
+un certificado de nota.</p>
+
+<p>Sin embargo, aunque lo podamos consultar o nos lo puedan hacer,
+nunca está de mas comprender como funciona el sistema, y aparte,
+calcular otras medias que siendo reales nos convengan más, ya que
+el sistema por bloques que se emplea es manifiestamente injusto y
+no refleja la nota real del alumno. Según el el cálculo actual,
+<strong>un alumno con 6,9 es dos veces peor que un alumno con un 7</strong> en
+lugar de haber entre ellos una diferencia de una décima.</p>
+
+<p>Este esquema supongo que ha sido heredado de cuando en las
+facultades no era obligatorio asignar una nota numérica sino tan
+solo APROBADO, NOTABLE, SOBRESALIENTE y MATRÍCULA DE HONOR y en mi
+opinión ya está más que superado; en todas las facultades se
+utiliza un sistema numérico que permite saber con exactitud la nota
+del alumno. Y aunque no se pudiese porque siguiesen existiendo
+facultades &lsquo;chapadas a la antigua&rsquo;, no es conveniente tener un
+estadístico que &lsquo;destruye&rsquo; información como este, que no es
+representativo de la nota del alumno y expresa fatal el valor del
+mismo. Tiene &lsquo;truco&rsquo;.</p>
+
+<p>Entre estos cálculos para la nota media y algunos
+profesores/aplicaciones informáticas en la universidad que
+truncaban notas como 6,7 a 6, no me parece raro que los españoles
+tengamos una nota media tan ridículamente baja en el currículum, la
+cual nos dificulta y mucho la búsqueda de empleo en el extranjero,
+donde las universidades si que inflan las finales que da gusto.
+Cuando te juegas plazas, becas, puestos de trabajo y tu vida en
+general, estas pequeñas idioteces y tristes clasificaciones saltan
+a un primer plano y adquieren tanta importancia que me sorprende
+que se use este método desde mi punto de vista tan malo. Tener
+egresados con notas bajas <strong>no</strong> debería ser un signo de prestigio.
+Pero bueno que me enredo.</p>
+
+<p>La nota media del expediente académico universitario es un número
+del 1 al 4, siendo 1 aprobado y 4 matrícula de honor. <br/>
+La relación es la siguiente, solo se tienen en cuenta las
+asignaturas aprobadas:</p>
+
+<table>
+    <th>
+        <td>Nota 1-10</td>
+        <td>Nota 1-4</td>
+        <td>Nombre</td>
+    </th>
+    <tr>
+        <td>1</td>
+        <td>[5-7)</td>
+        <td>Aprobado</td>
+    </tr>
+
+    <tr>
+        <td>2</td>
+        <td>[7-9)</td>
+        <td>Notable</td>
+    </tr>
+
+    <tr>
+        <td>3</td>
+        <td>[9-10]</td>
+        <td>Sobresaliente</td>
+    </tr>
+
+    <tr>
+        <td>4</td>
+        <td>10</td>
+        <td>Matrícula de Honor</td>
+    </tr>
+</table>
+
+
+<p>La manera de calcularla es aplicar la siguiente fórmula, tomando la
+nota de cada asignatura, pasándola a la escala anterior y
+multiplicándola por sus créditos:</p>
+
+<p><img src="./img/media_1_4.svg" width="250px"/></p>
+
+<p>Como comenté antes, este es un estadístico terrible para resumir el
+expediente académico de un alumno, debido a los &lsquo;saltos&rsquo; que tiene
+en el 7, el 9 y el 10. Una medida, con mucho, más representativa,
+sería calcular la media aritmética ponderada con los créditos y
+aplicar una &lsquo;regla de tres&rsquo; para pasarlo al intervalo 1-4.</p>
+
+<p>Esto es precisamente lo que también hice, calcular esta y otras
+medias para ver que estadístico representaba mejor mi expediente
+académico. Con mejor no solo quiero decir que saliese más
+favorecido, sino más adecuadamente en vista a los valores de mis
+notas (que tienden al 6).</p>
+
+<p>Para calcular la nota a partir de una cantidad numérica 1-10 y
+obtener un porcentaje, empleé esta fórmula. Nótese que nota_min y
+nota_max son la nota mínima para aprobar y la máxima que es
+posible obtener en la Universidad correspondiente.</p>
+
+<p><img src="./img/media_normalizada.svg" width="400px"/></p>
+
+<p>O la media aritmética normal, sin ponderar con los créditos:</p>
+
+<p><img src="./img/media_suma.svg" width="150px"/></p>
+
+<p>En la Universidad de Cádiz tenemos disponibles nuestro expediente
+completo a traves del <a href="http://www.uca.es/web/servicios/servicio_alumnos/automatricula/Paginas/uxxiportal">XXI Portal</a> de donde nos podemos bajar un
+xls con las notas de las asignaturas aprobadas.</p>
+
+<div class="img-center">
+  
+![Screenshot de calc con el csv de las notas][]
+
+<sub>&#8220;Las notas copiadas, pegadas y con las líneas sin nota y cabeceras
+eliminadas.&#8221;</sub> 
+</div>
+
+
+<p>Lo que hago es seleccionar solo las asignaturas, eliminar las que
+no tienen nota (normalmente créditos de libre provinentes de
+prácticas de empresa, seminarios o conferencias) y pegarlo sin
+cabecera en un csv plano con caracter separador la coma <strong>,</strong> y
+delimitador de texto la doble comilla <strong>&ldquo;</strong>.</p>
+
+<p>Tras hacer esto lo que tenemos es un notas.csv con la siguiente
+estructura:</p>
+
+<pre><code>code-block::csv
+"1711014 ","ESTRUCTURA Y TECNOLOGÍA DE COMPUTADORES","9","TRONCAL","2006-07","JUNIO","APROBADO","6,6"
+
+"1711013 ","FUNDAMENTOS DE SISTEMAS DIGITALES","6","TRONCAL","2006-07","FEBRERO","SOBRESALIENTE","9,6"
+
+"1711022 ","INFORMÁTICA GENERAL","6","OBLIGATORIA","2006-07","FEBRERO","APROBADO","6,5"
+</code></pre>
+
+<p>Los campos que nos interesan son el tercero (créditos) y el octavo
+y último (nota). Empleando python y su procesador de csv (baterías
+incluidas!) podemos fácilmente parsear el fichero y obtener
+nuestras notas. <br/>
+Para ello creé un script que calcula todo esto, siguiendo una
+plantilla para una beca del CSIC (Centro Superior de
+Investigaciones Científicas) a la hora de realizar los cálculos. La
+nota final coincide con la que obtengo en Ícaro, de manera que
+supongo que es correcta.</p>
+
+<p>El script lo llamo con ./media.py notas.csv e imprime tanto los
+resultados como los cálculos intermedios. Tened en cuenta que la
+formula del porcentaje emplea los valores de nota mínima para
+aprobar y nota máxima a recibir, que en Cádiz son 5 y 10 pero que
+de centro a centro pueden variar.</p>
+
+<p>Para terminar, agradecería muchísimo cualquier tipo de
+<strong>corrección o aviso de errores</strong>. Lo más probable es que haya
+metido la pata en algún momento, que ignore algo relacionado con el
+cálculo de notas o sobre la organización Universitaria, de manera
+que si ves algo que no cuadre, por favor, deja un comentario :)</p>
+
+<pre><code>#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import csv
+
+def error(text):
+    print "Error:" + text
+    sys.exit()
+
+def nota_14(nota):
+    """
+    Recibe una nota del 5 al 10
+    Devuelve la nota del 1-4 según la siguiente tabla del CSIC:
+        [5-7)   -&gt; 1
+        [7-9)   -&gt; 2
+        [9-10)  -&gt; 3
+        10      -&gt; 4
+
+    Devuelve None si la nota no está en el intervalo [5-10]
+    """
+    if nota &lt; 5: return None
+    elif nota &lt; 7: return 1.0
+    elif nota &lt; 9: return 2.0
+    elif nota &lt; 10: return 3.0
+    elif nota == 10: return 4.0
+
+def nota_percent(nota):
+    """
+    Recibe una nota del 0 al 10
+    Devuelve la nota en porcentaje según la fórmula del CSIC
+    """
+    nota_min = 5.0   # nota minima para aprobar en Cádiz
+    nota_max = 10.0  # nota máxima en Cádiz
+
+    return 50.0 + ((50.0 * (nota - nota_min)) / (nota_max - nota_min))
+
+def media(csvfile):
+    """
+    Toma un csv con las notas y devuelve la media de todas las asignaturas.
+    Asume que la nota de las asignaturas está en el último campo de cada línea.
+    """
+
+    try:
+        reader = csv.reader(open(csvfile, 'rb'), delimiter=",", quotechar='"')
+    except:
+        error("No se puede abrir el fichero %s" % csvfile)
+
+    # cabecera de la tabla
+    print "Nota, Expediente, Percent, 1-4, Creditos, creditos x 1-4"
+
+    # totales
+    creditos_total = 0.0
+    nota_total = 0.0
+    ponderada_14_total = 0.0
+    ponderada_100_total = 0.0
+    nasignaturas = 0.0
+    n = 0
+
+    for row in reader:
+
+        n += 1
+
+        if len(row) &lt; 8 :
+            print "La linea: %s no tiene el número de campos necesarios."   
+                 % str(row)
+            next
+
+        # El signo decimal es . no , como en españa
+        row = [f.replace(',', '.') for f in row]
+
+        # Obtener los campos
+        curso = row[4]
+        try: 
+            creditos = float(row[2]) 
+        except ValueError: 
+            print "En la línea linea %d el campo 2 (creditos) %s no es un número"   
+                    % (n,row[2])
+            next
+
+        try:
+            nota = float(row[7])
+        except ValueError:
+            print "En la línea linea %d el campo 7 (notas) %s no es un número"   
+                    % (n,row[2])
+            next
+
+        # Convertir entre escalas
+        percent = nota_percent(nota)
+        nota14 = nota_14(nota)
+        ponderada_100 = creditos * percent
+        ponderada_14 = creditos * nota14
+
+        # Actualizar totales
+        creditos_total += creditos
+        nota_total += nota
+        ponderada_14_total += ponderada_14
+        ponderada_100_total += ponderada_100
+        nasignaturas += 1
+
+        # curso,  nota, percent, 14, creditos, creditos x 14
+        print "%s   %d      %d       %d      %d      %d"   
+                % (curso, nota, percent, nota14, creditos, ponderada_14)
+
+    # calcular
+    media_ponderada_14 = ponderada_14_total / creditos_total
+    media_ponderada_100 = ponderada_100_total / creditos_total
+    media_ponderada_100_14 = media_ponderada_100 * (4.0 / 100.0)
+    media_normal = nota_total / nasignaturas
+
+    #imprimir totales y resultado
+    print "     Total Créditos: %d   Total creditos x 14: %d"   
+            % (creditos_total, ponderada_14_total)
+    print "     Media ponderada 1-4:         %.2f" % media_ponderada_14
+    print "     Media ponderada 100:         %.2f" % media_ponderada_100
+    print "     Media ponderada 100 en 1-4:  %.2f" % media_ponderada_100_14
+    print "     Media sin ponderar:          %.2f" % media_normal
+
+
+def main():
+    if len(sys.argv) &lt; 1:
+        error("Numero incorrecto de argumentos. \n\n Use: media.py file.csv")
+
+    media(sys.argv[1])
+
+main()
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Edición de PDF]]></title>
+    <link href="http://ragingbit.com/blog/2011/02/08/edicion-de-pdf/"/>
+    <updated>2011-02-08T22:52:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2011/02/08/edicion-de-pdf</id>
+    <content type="html"><![CDATA[<p>A la hora de lidiar con burocracia y rellenar formularios, lo ideal
+es escribir directamente sobre el fichero, de manera que al
+imprimirlo sea perfecto y no tengamos siquiera un machón de
+bolígrafo. Es mucho más cómodo, ya que de esta manera pueden
+editarse en caso de error y volver a imprimir tranquilamente,
+evitando correcciones y tachones poco estéticos.</p>
+
+<p>Cuando el formulario está en un formato editable (.doc, .odt) no
+hay problema alguno, pero si está en PDF la cosa se complica. Lo
+que hacía antes era tomar capturas del PDF como imágenes, editarlas
+con GIMP y después imprimirlas. Sin embargo el procedimiento es
+primitivo, lento, dificultoso y debes guardar ficheros aparte de
+GIMP si necesitas corregir cualquier error. Lo ideal es escribir
+directamente en el PDF y generar uno nuevo que puedes editar otra
+vez y transportar cómodamente.</p>
+
+<p>Todo el software que comento aquí está cómodamente disponible en
+los repositorios de Debian. De manera que con un sudo apt-get
+install lo tendremos funcionando rápidamente.</p>
+
+<h3>Herramientas de edición PDF</h3>
+
+<h4>pdfedit</h4>
+
+<p><strong>pdfedit</strong> es una herramienta grande y compleja que permite editar
+muchos aspectos de un PDF, incluyendo el añadir texto nuevo que es
+lo que buscamos. <br/>
+Sin embargo su interfaz es un desastre, es complicado y sobre todo
+tan lento que es inusable. Cada operación podía tardar cerca de 10
+segundos, y cuanto más lo usaba, iba a peor. El formulario de mi
+Erasmus lo rellené con este programa y tardé cerca de una hora. No
+lo dejaba porque ya iba por la mitad y había invertido demasiado
+tiempo como para tirarlo a la basura. Muy frustrante.</p>
+
+<div class="img-center">
+
+![Usando pdfedit][]
+
+<sub>Usando pdfedit con mi formulario. La interfaz es
+demasiado&#8230; &#8216;ingenieril&#8217;.</sub>
+
+</div>
+
+
+<h4>Scribus</h4>
+
+<p><strong>Realmente no he probado <em>Scribus</em> * ya que </strong>no llegó a abrir los PDF que
+quería<strong> editar. Se supone que el programa acepta como entrada el formato pdf y
+permite editarlos y exportarlos de nuevo, sin embargo no le gustó los que tenía
+y el muy señorito se negó a abrirlos aduciendo que se encontraban en un formato
+inaceptable. Aún así,</strong>su interfaz tenía muy buena pinta**, de manera que
+quizás sea una opción para más adelante con otros ficheros.</p>
+
+<div class="img-center">
+  
+![Error al iniciar scribus][]
+
+<sub>Error al iniciar Scribus con el pdf que quería editar</sub>
+
+</div>
+
+
+<h4>flpsed</h4>
+
+<p>Con <strong>flpsed</strong> tenemos un ganador. Es exactamente lo que buscaba,
+un editor de PDF/PostScript <strong>muy ligero, ágil y sencillo</strong>. Solo
+permite abrir PS/PDF y añadir/editar texto, pero es que es
+precisamente lo que buscaba. Solo permite cambiar el tamaño y el
+color de la letra, de manera que para muchos puede quedarse corto
+si pretenden realizar algo complejo o visual, pero para el uso para
+el que busco un editor de PDFs es sencillamente perfecto. En menos
+de 5 minutos tenía todos mis datos puestos sobre las casillas que
+se dejan para escribir en el formulario. Después, permite exportar
+tanto a PS o a PDF.</p>
+
+<div class="img-center">
+
+![flpsed en acción][]
+
+<sub>&#8220;Editando un formulario PDF con flpsed&#8221;</sub>
+
+</div>
+
+
+<p>Otra opción interesante de <strong>flpsed</strong> es que también exporta a PS,
+de manera que podemos exportar nuestro PDF a PS, abrirlo con GIMP,
+editar algún campo si necesita tachaduras o algún tipo de grafismo
+más complejo (¿Estampar una firma?), guardarlo en PS y volverlo a
+abrir con <strong>flpsed</strong> para terminar la edición y volverlo a pasar a
+PDF. <br/>
+Este <a href="http://www.cyberciti.biz/tips/open-source-linux-pdf-writer.html">post</a> me ayudó mucho a la hora de orientarme y probar estos
+programas.</p>
+]]></content>
+  </entry>
+  
+</feed>

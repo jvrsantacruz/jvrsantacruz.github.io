@@ -1,0 +1,44 @@
+<div class="img-right">
+
+![El causante de mis penas][]
+
+<sub>El causante de mis penas</sub>
+</div>
+
+
+<p>Hoy decidí liarme la manta a la cabeza e instalar la beta de ubuntu
+10.10, y para ello intenté hacer un usb autoarrancable empleando
+usb-creator-gtk, con el que es muy sencillo crear uno a partir de
+una imagen .iso de una distribución.</p>
+
+<p>Una vez que terminaba el proceso de crear el pendrive
+autoarrancable, reiniciaba y me encontraba con el siguiente error:</p>
+
+<p><code>Unknown keyword in configuration file</code></p>
+
+<p>Y no arrancaba.</p>
+
+<p>Tras <a href="http://www.khattam.info/solved-syslinux-unknown-keyword-in-configuration-file-2010-09-01.html#more-1070">leer un poco</a> parece ser que es un error debido a una
+versión antigua de syslinux, así que me lancé a buscar los deb de
+una versión más nueva que funcionase.</p>
+
+<p>Desinstalé syslinux (también desinstala syslinux-common,
+usb-creator-gtk y usb-creator-common) <br/>
+<code>sudo apt-get remove syslinux</code></p>
+
+<p>Instalé a partir de los deb más nuevos de <a href="http://mirrors.kernel.org/ubuntu/pool/main/s/syslinux/syslinux_4.01+dfsg-3ubuntu1_amd64.deb">syslinux</a> y
+<a href="http://mirrors.kernel.org/ubuntu/pool/main/s/syslinux/syslinux-common_4.01+dfsg-3ubuntu1_all.deb">syslinux-common</a></p>
+
+<p>Y por último volví a instalar usb-creator-gtk</p>
+
+<p><code>sudo apt-get install usb-creator-gtk</code></p>
+
+<p>Y ahora si, ya funcionó el arranque convenientemente.</p>
+
+<p>Todo esto me trajo un buen rato de cabeza, pues antes comprobé el
+hash de la imagen para saber que no estaba corrupta, cambié de usb,
+lo formateé, miré la bios de mi portátil y además cada vez que se
+genera un usb autoarrancable a partir de una iso el proceso tarda
+media vida. Si a ello le unimos una conexión a internet muy
+deficiente, el proceso completo me cabreó lo que no hay escrito y
+me llevó 4 horas.</p>

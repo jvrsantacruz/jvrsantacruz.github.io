@@ -1,0 +1,46 @@
+<div class="img-right">
+
+![image][]
+
+</div>
+
+
+<p>Ayer me fijé que mi consola de Guake no estaba igual
+que siempre, sino que fallaba al ejecutar ciertas aplicaciones y la
+pantalla se desdibujaba cuando empleaba el comando man. En concreto
+recibía el siguiente error:</p>
+
+<p><code>WARNING: terminal is not fully functional</code></p>
+
+<p>Trasteando, comparé la variable de entorno TERM de la consola de
+guake con la de la gnome-console normal, que funcionaba bien, y en
+efecto la consola de Guake mostraba una terminal diferente</p>
+
+<p>En Guake: <br/>
+<code>echo $TERM  dumb</code></p>
+
+<p>En gnome-terminal: <br/>
+<code>echo $TERM  xterm</code></p>
+
+<p>El error se podía solucionar temporalmente simplemente cambiando el
+valor de la variable TERM a xterm <br/>
+<code>export TERM=xterm</code> <br/>
+de manera que inicialmente puse esa línea en mi .bashrc y listo.</p>
+
+<p>Sin embargo, buscando más información sobre el problema, encontré
+el <a href="https://bugs.launchpad.net/ubuntu/+source/guake/+bug/621927">track del bug</a> en launchpad, donde se daba una solución
+alternativa que me gusta más.</p>
+
+<p>Guake es un programa en python que se lanza mediante un script que
+está en /usr/bin/guake de manera que lo único que hay que hacer es
+modificar ese último script y añadir el export ahí.</p>
+
+<pre><code>code-block::bash
+GUAKEPATH="/usr/lib/guake"  
+PYTHONPATH="$PYTHONPATH:$GUAKEPATH"  
+PYTHON="/usr/bin/python"  
+export TERM=xterm    
+exec -a guake $PYTHON -OO $GUAKEPATH/guake.py "$@"
+</code></pre>
+
+<p>Y santas pascuas.</p>

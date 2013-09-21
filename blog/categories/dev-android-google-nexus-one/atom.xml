@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: dev, android, google, nexus one | Raging Bits]]></title>
+  <link href="http://ragingbit.com/blog/categories/dev-android-google-nexus-one/atom.xml" rel="self"/>
+  <link href="http://ragingbit.com/"/>
+  <updated>2013-09-21T19:48:38+02:00</updated>
+  <id>http://ragingbit.com/</id>
+  <author>
+    <name><![CDATA[Javier Santacruz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cosas que nadie te cuenta del Nexus One]]></title>
+    <link href="http://ragingbit.com/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/"/>
+    <updated>2010-09-03T19:15:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one</id>
+    <content type="html"><![CDATA[<p><img src="./img/eng_nexus_60012.jpg" title="HTC Nexus One" alt="Nexus One" /></p>
+
+<h2>HTC Nexus One</h2>
+
+<p>Hace un par de meses, decidí darme un regalazo y obtuve a buen
+precio un <a href="http://www.google.com/support/android/bin/answer.py?hl=en&amp;answer=166593">HTC Nexus One</a> en una portabilidad a Vodafone. Es un
+teléfono muy potente (Procesador 1ghz) corriendo el sistema
+operativo <a href="http://www.google.es/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCIQFjAA&amp;url=http://www.android.com/&amp;ei=sySBTKXeB8PQ4waoqPXTCw&amp;usg=AFQjCNHfzbq0x_Q2qIGrN49w6Y9Om_Yeag">Android</a> en su última versión Froyo 2.2.</p>
+
+<p>Cuando lo elegí no pensaba en cambiar de teléfono sino en empezar a
+tener un pequeño ordenador en el bolsillo y lo cierto es que lo uso
+tanto que no me separo de el.</p>
+
+<p>Este post no es una queja o crítica, solo que existen algunas cosas
+de las que he tenido que darme cuenta por mi mismo y que no he
+leido antes junto a la información relativa al teléfono, y eso que
+ha dado muchísimo que hablar.</p>
+
+<p>Allá vamos con las pequeñas reservas del Nexus, todo junto, bueno y
+malo.</p>
+
+<p><img src="./img/google_nexus_one.jpg" title="Nexus One Horizontal" alt="Nexus One Horizontal" /></p>
+
+<p><sub>&ldquo;Hay que
+procurar no tapar la antena, situada en la parte
+superior.&rdquo;</sub></p>
+
+<h3>La carne de burro no es transparente</h3>
+
+<p>Si cubres con la mano la parte superior del teléfono, lo cual es
+habitual al sostenerlo en horizontal, la cobertura se reduce
+drásticamente tanto wifi como 3G.</p>
+
+<p>Resulta evidente donde está situada la antena, y lo cierto es que
+se hace algo pesado tener que sujetarlo con dos dedos por esa parte
+so pena de
+<strong>bajar hasta dos o tres rayitas (unidad estandar de medida de cobertura) la recepción</strong>.</p>
+
+<p>Así es, al menos mi terminal, comprado en Junio de 2010,
+<strong>es libre de emplear tarjetas SIM de cualquier otra compañía</strong>.</p>
+
+<p>De esto me di cuenta al&hellip; tratar desesperadamente de liberarlo.
+Existen multitud de páginas web, a cual más patética y con peores
+intenciones, que ofertan servicios de liberación para el Nexus, y
+los resultados de Google se encuentran completamente copados por
+ellos, de manera que no es fácil dar con que&hellip; no tienes que
+hacerlo.</p>
+
+<h3>El Market oficial de Android&hellip;</h3>
+
+<div style="float:left"> 
+  
+![Android Market][]
+
+<sub>"No tendrían que trabajar mucho para mejorar el Market de
+Android..."</sub>
+
+</div>
+
+
+<p>&hellip; es bastante malo. No por motivos técnicos complejos, seguridad
+o falta de variedad, sino por una carencia tan necesaria y
+sorprendente (viniendo de Google) como es la categorización y la
+búsqueda.</p>
+
+<p>Podríamos perdonar una categorización demasiado general y en
+ocasiones errónea debido a que es un Market donde uno sube su
+aplicación donde le parece y las revisiones se hacen a posteriori.</p>
+
+<p>Pero lo de la búsqueda si que es un fallo determinante.
+<strong>No se pueden filtrar aplicaciones por valoración, tiempo, popularidad, nº de comentarios&hellip; nada</strong>;
+los resultados además, son imprecisos y responden muy mal a las
+variaciones en las peticiones de búsqueda.</p>
+
+<p>Mal, mal&hellip; a pesar de ello en el market hay muchas cosas y se
+encuentra lo que se quiere, pero no es precisamente un sitio fácil
+para buscar aplicaciones o encontrar otras nuevas.</p>
+
+<p>Por último, y quizás para evitar dejar mal sabor de boca al
+terminar:</p>
+
+<h3>Tethering&hellip; ¡Wifi! Comparte internet sin cables</h3>
+
+<div style="float:left"> 
+
+![Tethering][] 
+
+</div>
+
+
+<p>La nueva versión de Android, Froyo 2.2 trae <strong>de serie</strong> el
+<strong>Tethering via Wifi</strong>. Lo que hace el sistema es crear un Punto de
+Acceso Ad-Hoc sorprendentemente configurable (Wep, WPA, filtros&hellip;)
+al cual se puede uno conectar como si fuese el router de su casa&hellip;
+pero en medio de la sierra.</p>
+
+<p>El Tethering ya lo probé por cable empleando la aplicación
+EasyTether y lo cierto es que me salvó de un aburrido y largo viaje
+en coche, donde tuve acceso al correo, svn, ssh desde el portátil y
+pude estar como en mi casa.</p>
+
+<p>Como nota de aviso, se supone que al menos <strong>Vodafone</strong> se reserva
+el derecho a detectar que haces Tethering y
+<strong>subir automáticamente la cuota</strong> de tu tarifa si lo haces, aunque
+en mi caso no me han pillado.</p>
+
+<h3>Conclusión</h3>
+
+<p>Cuando hago pequeños comentarios sobre estas cosas, mucha gente se
+sorprende para bien y mal. A mi me hubiese gustado ser consciente
+de estos detalles desde el principio. Espero que a alguien le sirva
+de ayuda.</p>
+]]></content>
+  </entry>
+  
+</feed>

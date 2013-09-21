@@ -1,0 +1,16 @@
+<p>Si os pasa como a mi que confundís <code>git stash pop</code> (aplica y borrar un stash) con <code>git stash drop</code>
+(que borra directamente), no lloreis aún. <code>git stash drop</code> imprime el hash del commit que estaba en
+stash y que hemos borrado, y con el puede recuperarse.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>Si tienes el hash aún, puedes hacer simplemente:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>Y salvarlo.</p>
+
+<p>La verdad es que he pasado mal un ratillo.</p>

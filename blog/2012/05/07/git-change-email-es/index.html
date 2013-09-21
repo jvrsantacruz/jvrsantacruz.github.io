@@ -1,0 +1,17 @@
+<p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
+curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
+bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
+puedes hacer un <code>git reset --hard HEAD</code> y listo.</p>
+
+<p>Para el rewrite solo hay que usar <code>git filter-branch</code>, que permite este tipo de cosas peligrosas
+como son las reescrituras en masa.</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>Digo que son peligrosas porque esto le pondrá tu email a <em>absolutamente todos</em> los commits, si
+tienes código de colaboradores, te cargarás sus emails. Si ese es tu caso, pon alguna condición en
+el filtro para evitar sobreescribir lo que no quieres.</p>

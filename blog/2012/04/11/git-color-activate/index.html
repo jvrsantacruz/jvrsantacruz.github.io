@@ -1,0 +1,24 @@
+<p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
+config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
+the <code>git config VAR VALUE</code> command, so initially I ran:</p>
+
+<pre><code>code-block::bash
+$ for CONF in branch grep diff interactive status;\ 
+    do git config color.$CONF auto --global;\ 
+  done
+</code></pre>
+
+<p>To activate them all by setting each single color option to <code>auto</code>. But after reading a little more
+I found a much simpler way to have everything using color by default. Just simply type:</p>
+
+<pre><code>$ git config color.ui true
+</code></pre>
+
+<p>And that will do the trick. It is very nice and useful to read coloured output when using git,
+specially when reviewing diffs in the midst of a <code>git add -p</code> messy jam.</p>
+
+<p>My <code>.gitconfig</code> ended up like this:</p>
+
+<pre><code>[color]
+        ui = true
+</code></pre>

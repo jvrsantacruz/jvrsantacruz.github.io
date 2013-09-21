@@ -1,1 +1,1441 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Raging Bits</title>
+  <meta name="author" content="Javier Santacruz">
+
+  
+  <meta name="description" content="I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
+from the early version I had (MIUI 2.5), I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ragingbit.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Raging Bits" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Raging Bits</a></h1>
+  
+    <h2>Easy systems, raging bits</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-01T00:00:00+02:00" pubdate data-updated="true">Jun 1<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
+from the early version I had (MIUI 2.5), I felt I couldn&rsquo;t go back to Android 2.3 after getting
+used to it for a while.</p>
+
+<p>When I tried to get a more stable ROM version (MIUI 2.9), I found lots of trouble, obscure fails
+aggravated by a considerable lack of documentation about how to go for it. So here is how I made
+it.</p>
+
+<h2>Introduction</h2>
+
+<p>Android 4.1 Jelly Bean needs more space in the <code>/system</code> and <code>/cache</code> partitions than it&rsquo;s
+originally allowed in the Nexus, so we&rsquo;ll need a custom bootloader and resize those partitions
+before think about flashing the ROM itself.</p>
+
+<p>Steps are:</p>
+
+<ol>
+<li>Download Blackrose</li>
+<li>Get fastboot to work</li>
+<li>Install Blackrose and resize partitions</li>
+<li>Install the ROM</li>
+</ol>
+
+
+<h2>Download HBOOT Blackrose</h2>
+
+<p>Download and unzip <a href="blackrose_120421.zip">Blackrose</a> and <a href="blackrose_manual_120421.zip">Blackrose Manual</a> (check md5 checksums)</p>
+
+<pre><code>$ md5sum blackrose_120421.zip
+f89de99e616a56e1bae29a9f8a190ee1  blackrose_120421.zip
+$ unzip blackrose_120421.zip
+$ ls blackrose_120421
+binary  BlackRose  BlackRose.exe fastboot-linux-i386  fastboot-linux-i386.zip  other
+
+$ md5sum oblackrose_manual_120421.zip
+3c2bc61256aba2df1575ce2b6c66c977  blackrose_manual_120421.zip
+$ unzip blackrose_manual_120421.zip
+$ ls blackrose_manual_120421
+fastboot-l  fastboot-m  fastboot-w.exe  go2.lol  go33.lol  go35.lol  hboot_220-16-200.nb0
+hboot_blackrose.nb0  README.txt
+</code></pre>
+
+<h2>Get fastboot to work</h2>
+
+<p>You&rsquo;ll need fastboot working properly in order to be able to interact with your phone.
+The blackrose_manual version does include a fastboot implementation.
+We&rsquo;ll use <code>fastboot-l</code> for Linux.</p>
+
+<ol>
+<li>Get your phone into <code>fastboot</code> mode. You should read <code>fastboot</code> on your phone&rsquo;s screen.
+To enter into fastboot mode:
+
+<ol>
+<li>Turn your phone off</li>
+<li>Turn your phone on while pressing the direction ball</li>
+<li>Enter into <code>fastboot</code> mode</li>
+</ol>
+</li>
+<li>Connect your phone via usb to the computer. You should read <code>fastboot USB</code> on your phone&rsquo;s
+screen.</li>
+<li>Check wether it&rsquo;s detected by fastboot:
+     $ ./fastboot-l devices
+     HT066P800146fastboot
+ If that does not work:
+
+<pre><code> 1. Try with `sudo ./fastboot-l devices` (might be mounted with root permissions, you can [write a udev rule](http://wiki.cyanogenmod.com/wiki/Udev) to prevent this)
+ 2. Check your [fastboot setup](http://wiki.cyanogenmod.com/wiki/Fastboot), your [android sdk installation](http://wiki.cyanogenmod.com/wiki/ADB) and make sure that the  `android_sdk/tools` dir is within `$PATH`.
+</code></pre></li>
+</ol>
+
+
+<h2>Install Custom Blackrose and resize</h2>
+
+<p>Once you get <code>fastboot</code> to work, run the <code>Blackrose</code> executable which comes with
+blackrose_120421, and install the <code>Custom</code> version, to resize the partitions on the same operation.</p>
+
+<p>Mind the <code>skip</code> parameter, <a href="http://forum.xda-developers.com/showthread.php?t=1842419">it&rsquo;s important</a>.</p>
+
+<pre><code>$ ./BlackRose skip
+    Loading...
+    * daemon not running. starting it now *
+    * daemon started successfully *
+
+    -------------------------------
+    |   Nexus One BlackRose 120421  |
+    |  Made by Lecahel(XDA-dla5244) |
+    |    Dok-Do belongs to KOREA    |
+    -------------------------------
+    1    Apply stock/custom BlackRose
+    2    Disable HBOOT flashing protect
+    3    Uninstall BlackRose
+    4    More information
+    5    Exit
+    Please make a decision:1
+</code></pre>
+
+<p>Choose 1: <code>Apply stock/custom BlackRose</code></p>
+
+<pre><code>    Select which you want
+    1    Stock BlackRose
+    2    Custom BlackRose
+    3    Back
+    Please make a decision:2
+</code></pre>
+
+<p>Choose 2: <code>Custom BlackRose</code>.</p>
+
+<pre><code>:::text
+error: device not found
+Input BlackRose password(48 char max):
+</code></pre>
+
+<p>Ignore the <code>error: device not found</code> erro and insert a blank password. Just press Enter.</p>
+
+<pre><code>Nexus One BlackRose Editor
+If you want resize partition, type [resize] and press enter key:resize
+SYSTEM + CACHE + USERDATA = 436MB
+system size(MB):280
+cache size(MB):20
+label name(20 char max):ARL
+</code></pre>
+
+<p>Here is the root of all problems: size partitions.</p>
+
+<ol>
+<li>Set <code>280</code> for the <code>/system</code> partition. If you <a href="http://forum.xda-developers.com/showthread.php?p=30852043">don&rsquo;t do so</a>, the installation will fail with <code>symlink: some symlinks failed</code> because MIUI 2.9 demands a lot of space.</li>
+<li>Set 20 MB for cache. Otherwise your phone might not boot and enter into a loop.</li>
+<li><p>Set whatever as the label.</p>
+
+<p> system size:280MB cache size:20MB userdata size:136MB
+ label:ARL</p>
+
+<ul>
+<li>Customize success
+sending &lsquo;hboot&rsquo; (512 KB)&hellip; OKAY
+writing &lsquo;hboot&rsquo;&hellip; OKAY
+rebooting into bootloader&hellip; OKAY</li>
+<li>Stock/Custom BlackRose has been successfully applied</li>
+</ul>
+</li>
+</ol>
+
+
+<p>Done here!</p>
+
+<h2>Install the ROM</h2>
+
+<ol>
+<li>Get the <a href="MIUI.us_passion_v4.1_2.9.29_0xD34D.zip">MIUI 2.9.29 ROM</a> (or the latest one from the <a href="http://roms.miui.us/">MIUI website</a>)
+     $ md5sum MIUI.us_passion_v4.1_2.9.29_0xD34D.zip
+     6433fa6970e65e910c9ebd77cb81563b  MIUI.us_passion_v4.1_2.9.29_0xD34D.zip</li>
+<li>Put the image into your sdcard root directory
+
+<pre><code> - You can do so from recovery itself by going to `storage` and setting the storage mode on.
+</code></pre></li>
+<li>Now <strong>wipe both caches</strong></li>
+<li>Use the <code>install image from zip</code> and select the ROM.</li>
+<li>Cross your fingers.</li>
+<li>Reboot your phone after the installation has finished.</li>
+</ol>
+
+
+<p>Used links and further documentation:</p>
+
+<ul>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1270589">Blackrose thread</a></li>
+<li><a href="http://www.youtube.com/watch?v=ScIMetgk7Zw">Blackrose resize video-tutorial</a></li>
+<li><a href="http://forums.miui.us/showthread.php?21396-Tutorial-Blackrose-(Custom-Hboot">Blackrose tutorial</a>-Installation-for-Miui-2-6-8)</li>
+<li><a href="http://www.nexusoneforum.net/forum/nexus-one-development-hacking/13358-s-off-nexus-one.html">Blackrose manual howto</a>:</li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Nexus_One:_Full_Update_Guide">Cyanogen wiki nexus one fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Fastboot">Cyanogen wiki fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/ADB">Cyanogen wiki ADB</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Udev">Cyanogen wiki udev rules</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?p=30852043">symlinks install errors</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1842419">Use skip when executing Blackrose</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/01/git-slice-repo/">Export Part of a Git Repo to a New One Keeping History</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-01T00:00:00+02:00" pubdate data-updated="true">Jun 1<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I maintain my personal scripts (only a few by now) on a
+<a href="github.com/jvrsantacruz/scripts">public repository</a> on GitHub, so it forces myself to take them more
+seriously and keep it clean. It looked like a good idea back then, because all I&rsquo;ve got were just
+not enough for a repo on its own. So I kept them together in separate directories under the same
+repo this way:</p>
+
+<pre><code>scripts
+ |- README.md
+ |- project1
+ |   `- script1.py
+ `- project2
+     `- script2.py
+</code></pre>
+
+<p>And each commit in the repo clarifies which project modifies by preceding it with a <em>code</em> this way:</p>
+
+<pre><code>d65bf0e project1: Adds test_rotate function to test rotate verb
+2943d69 project1: Removes unused TestFileOperations.newfile
+..
+dc37490 project2: Rewrites comments
+9d00b0a project2: Fixes output-based tests redirecting stderr
+</code></pre>
+
+<p>But as some of them are now well grown up, like <code>backup.py</code>, I thought they deserved more
+visibility and wanted those specific directories out into a new repo&hellip; but keeping the history with
+them, and without the commit message <em>code</em> boilerplate.</p>
+
+<p>There is one easy obvious way to to this, by <em>(1)</em> cloning the repository, then <em>(2)</em> using <code>git
+filter-branch</code> to remove the undesired directories and <em>(3)</em> to rewrite commits messages
+afterwards.</p>
+
+<pre><code># 1: Clone repository
+$ git clone --no-hardlinks /original-repo /new-repo
+
+# 2: Filter away undesired stuff
+$ git filter-branch --tree-filter "rm -rf project2" --prune-empty HEAD
+
+# 3: Filter 'project1:' code from commits messages
+$ git filter-branch --msg-filter "sed 's/project1: //' --prune-empty HEAD
+</code></pre>
+
+<p>The <code>--prune-empty</code> option makes git to discard commits that become empty after the filter and
+therefore are now useless.</p>
+
+<p>You can se the difference from the original repo and the <a href="github.com/jvrsantacruz/backup">new one</a> for <code>backup</code>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/14/sd-emergency-backup-en/">SD-Card Emergency Encrypted Backup</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-14T14:49:00+02:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="./img/backup-logo.jpeg" alt="" /></p>
+
+<p>I must confess I am a little bit obsessive about data loss. I am not just obsessed, but <em>paranoid</em>.
+I like backups. I love them. I do it constantly, automatically, distributed and encrypted. I even
+<a href="http://github.com/jvrsantacruz/scripts/tree/master/backup">write my own backup tools</a>. It&rsquo;s never enough.</p>
+
+<p>I usually have a <code>500GB</code> 2.5&#8221; hard disk connected to my laptop when I&rsquo;m working at home, and use
+<code>fcron</code> and my <code>backup.py</code> to take a complete snapshot of the working environment every 5h or so. I
+also <em>backup my backups</em> on another hard disk, on another city, each time I pass by my family
+house. I use <em>Dropbox</em> too. I love <em>Dropbox</em>. But I do not trust it, I don&rsquo;t rely on it. I want to
+<strong>keep my data</strong> myself, so I replicate the &lsquo;Dropbox directory&rsquo; at my own home server, with regular
+backups of it, and at my family&rsquo;s PC (with its own backup schema as well). Sensible data is
+encrypted by using <code>ecryptfs</code> because this way, data happens to be scattered across different
+places and although barely accessible, it wouldn&rsquo;t take much to a geek with physical access to
+hardware to get it.</p>
+
+<p>But as I said before, it is never enough. This way of making backups isn&rsquo;t bad, It makes it
+difficult to completely lose <em>everything</em>. But what happens with last-time files and changes?. I
+often imagine an scenario (a bad nightmare, really) where I&rsquo;m travelling, carrying all my stuff
+with me, and for some stupid reason, my bag falls to the road being swiftly smashed and crunched by
+an evil double-decker. There is not hard-disk anymore, either the laptop&rsquo;s or the backup one. They&rsquo;re
+magnetics flying fragments now. <em>Dropbox</em> happened to be unsynced since a day or so of no internet
+connection, my last backup at home is 3 days old, my sister accidentally removed some backups to
+make room for a movie and I was being quite productive these past blank hours at the airport.
+<strong>Data loss</strong>. Horreur.  I wake up screaming, soaked in cold sweat.</p>
+
+<p>I know it&rsquo;s not very wise to move around with data and backups in the same bag, and actually I
+don&rsquo;t. And I also know that the chance for absolutely everything to fail it&rsquo;s quite low, but you got
+the point, and remember: I&rsquo;m <em>paranoid</em>.</p>
+
+<p>Then I was at a store and saw one of those 32Gb tiny flash pen-drives. 32Gb, that&rsquo;s a lot. At least for
+my important data being about 7Gb. Then I thought I could regularly backup my physical disk
+backups, not only after some weeks, but every few days, into a pen I&rsquo;ll always carry around
+inserted in my keyring, performing the copies manually.</p>
+
+<p>But after the first moment, I didn&rsquo;t like the idea. Besides of being a backup-freak, I am, as any
+other conceited programmer, quite lazy about repetitive tasks. Even further, I&rsquo;m slack. If there is
+any task that I must perform completely unchanged more than 10 times, I&rsquo;ll start growing annoyed
+about the 11th time. Actually I&rsquo;m being self-indulgent here, let&rsquo;s say 5 times. If I have to
+remember and manually perform each backup, I will screw it at some copy, forget about it, delay
+doing them or a combination of the previous. I wanted my flash copies, but I wanted them
+<em>automated</em>.</p>
+
+<p>Next thing I saw was a <em>32Gb sd-card</em>. They&rsquo;re unlikely to die in an accident, they even survive
+being washed along clothes. They have this cell <a href="http://en.wikipedia.org/wiki/Flash_memory">worn out</a> issue, but hey, they&rsquo;re also relatively
+cheap. It would be nice to have one of those inserted into my machine and perform copies to it. My
+laptop happens to have one of those integrated card-readers, so I just went straight to <em>Amazon</em> and
+ordered a <a href="http://www.amazon.co.uk/s?ie=UTF8&amp;tag=firefox-uk-21&amp;index=blended&amp;link_code=qs&amp;field-keywords=class-10%20card&amp;sourceid=Mozilla-search"><em>class-10 32Gb</em> for about £17</a>.</p>
+
+<p><img src="./img/card-reader.jpg" alt="Laptop integrated SD card-reader" /></p>
+
+<p>This way I could have an absolutely up-to-date copy of all my data with me, automatically done at
+each system shutdown or every few hours. It won&rsquo;t help me in case of losing my laptop, because it
+would be gone with it, but it can definitely save my butt if some drastic hardware failure happens.
+There are a couple of drawbacks for backing up to a SD card:</p>
+
+<ol>
+<li>Flash cells worn out on write. If you constantly write to a flash memory, you will exhaust it
+soon.</li>
+<li>It is exposed. The **** card suddenly pops out when careless manipulating the laptop. Or someone could
+take it. It may be lost somewhere, with all my data in it.</li>
+</ol>
+
+
+<p>Fortunately, (1) incremental backups only writes few Mb each time, so it won&rsquo;t be so bad for cells,
+and (2) encryption exists for a reason, I can always prevent all it&rsquo;s contents from being taken.</p>
+
+<p>Once I got my card, I moved it from <code>vfat</code> (it has issues with +4Gb files), to <code>ext4</code> and created a
+<code>ecryptfs</code> private directory on it.</p>
+
+<p>Once the sdcard has been inserted, it is auto mounted by gnome on <code>/media/4785B20834</code>, so let&rsquo;s get
+the device number from the mountpoint.</p>
+
+<pre><code>$$ df -h /media/4785B20834 
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sdb1              30G   44M   28G   1% /media/4785B20834
+</code></pre>
+
+<p>Once we know it&rsquo;s <code>/dev/sdb1</code>, (1) unmount it and (2) format it. I will format
+it using <code>ext4</code> with no <a href="http://en.wikipedia.org/wiki/Journaling_file_system">journaling</a>. Journaling helps to keep data integrity, by
+keeping an index of last recently written files, but it means constantly write
+a list on the device. We don&rsquo;t want that, remember?</p>
+
+<pre><code>$$ eject /media/4785B20834
+# -O ^has_journal disables journaling
+# -L sets the volume label
+$$ sudo mkfs.ext4 -O ^has_journal /dev/sdb1 -L sdbk
+
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label=sdbk
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+1957888 inodes, 7817984 blocks
+390899 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=4294967296
+239 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+4096000
+
+Writing inode tables: dataone                            
+Writing superblocks and filesystem accounting information: 
+done
+
+$$ udisks --mount /dev/sdb1
+Mounted /org/freedesktop/UDisks/devices/sdb1 at /media/sdbk
+</code></pre>
+
+<p>Well, we already have the card, let&rsquo;s go for the encryption. <code>ecryptfs</code> allows
+you to encrypt a certain directory on the fly, storing the data encrypted, and
+mounting it on at some point on &lsquo;<em>clear</em>&rsquo;, so you can work with it normally,
+while still ciphering file contents underneath one by one and changing its
+names. <code>ecryptfs</code> can be found in the <code>ecryptfs-utils</code> package.</p>
+
+<p>So let&rsquo;s go for it, first of all (1) create the <code>ecrypt</code> directory by mounting
+it for the first time, (2) answer the questions that the program raises: I use
+the <code>aes</code> algorithm, with a <code>32 bytes</code> key, no to <code>plaintext passthrough</code> and
+yes to <code>filename encryption</code>.  You can see the settings for your new partition
+when it is created, and (3) take a look to your password&rsquo;s signature
+(<code>8e85340a483cb3ce</code>) because you&rsquo;ll recognize it in further steps.</p>
+
+<pre><code>    mkdir /media/sdbk/bk
+    sudo mount -t ecryptfs /media/sdbk/bk /media/sdbk/bk
+
+    Passphrase: 
+    Select cipher: 
+-&gt;  1) aes: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    2) blowfish: blocksize = 16; min keysize = 16; max keysize = 56 (not loaded)
+    3) des3_ede: blocksize = 8; min keysize = 24; max keysize = 24 (not loaded)
+    4) twofish: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    5) cast6: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+    6) cast5: blocksize = 8; min keysize = 5; max keysize = 16 (not loaded)
+    Selection [aes]: 1
+    Select key bytes: 
+    1) 16
+-&gt;  2) 32
+    3) 24
+    Selection [16]: 2
+    Enable plaintext passthrough (y/n) [n]: n    &lt;- Nope
+    Enable filename encryption (y/n) [n]: y      &lt;- Yep
+    Filename Encryption Key (FNEK) Signature [8e85340a483cb3ce]:  
+    Attempting to mount with the following options:   ^-- Look!
+    ecryptfs_unlink_sigs
+    ecryptfs_fnek_sig=8e85340a483cb3ce
+    ecryptfs_key_bytes=32
+    ecryptfs_cipher=aes
+    ecryptfs_sig=8e85340a483cb3ce
+    Mounted eCryptfs
+</code></pre>
+
+<p>Once you have it mounted, let&rsquo;s put some sensible data in it, unmount it and see what happens.</p>
+
+<pre><code># ex-girlfriend pic
+cp ~/Photos/DSC0069.jpg /media/sdbk/bk
+ls /media/sdbk/bk
+DSC0069.jpg
+
+# umount it
+sudo umount /media/sdbk/bk
+ls /media/sdbk/bk
+ECRYPTFS_FNEK_ENCRYPTED.FWaCVHE8G1mnnUZhhyZe.Z6vRrz42cu8a5gt8p.H7pcoIB8nbl3brC-QfE--
+</code></pre>
+
+<p>Oh! so when we do not set the password and mount the directory, all we have in
+there are weird files. Just perfect. If you mount it again with <code>mount -t
+ecryptfs DIR DIR</code>, you&rsquo;ll have to go through the whole set-up process again and
+answer algorithms, sizes and options to be able to mount. Second step is to
+make it mount automatically without having to type our password.</p>
+
+<p>We&rsquo;ll use the <code>gnome-keyring</code> for this. The <code>gnome-keyring</code> will pop out at
+system start-up asking for the keyring password, and once you have supplied it,
+applications can request passwords by its signature (ahh! <code>8e85340a483cb3ce</code>)
+and use it without user interaction.</p>
+
+<p>First, we&rsquo;ll (1) add the partition to <code>/etc/fstab</code>, so it will mount
+automatically and configure it so the user can mount it without being root.
+Once we&rsquo;ve got that, we (2) add our password to the <code>gnome-keyring</code> and (3)
+enjoy mounting/unmounting as we please.</p>
+
+<pre><code># 1. Mount it and get the config from /etc/mtab
+mount -t ecryptfs /media/sdbk/bk /media/sdbk/bk
+Passphrase: 
+Select cipher: 
+1) aes: blocksize = 16; min keysize = 16; max keysize = 32 (not loaded)
+2) blowfish: blocksize = 16; min keysize = 16; max keysize = 56 (not loaded)
+
+(... yes, all this again ...)
+Mounted eCryptfs
+$$ ls /media/sdbk/bk
+DSC0069.jpg
+$$ grep ecryptfs /etc/mtab
+/media/sdbk/bk /media/sdbk/bk ecryptfs rw,ecryptfs_sig=8e85340a483cb3ce,ecryptfs_cipher=aes,
+        ecryptfs_key_bytes=32,ecryptfs_fnek_sig=8e85340a483cb3ce,ecryptfs_unlink_sigs 0 0
+$$ sudo vim /etc/fstab
+</code></pre>
+
+<p>We add <code>user</code> to the options, so the user can <code>mount</code>/<code>umount</code> as he wishes. Leaving the file like this</p>
+
+<pre><code># sdbk
+/media/sdbk/bk /media/sdbk/bk ecryptfs user,noauto,rw,ecryptfs_sig=8e85340a483cb3ce,ecryptfs_cipher=aes,
+        ecryptfs_key_bytes=32,ecryptfs_fnek_sig=8e85340a483cb3ce,ecryptfs_unlink_sigs 0 0
+</code></pre>
+
+<p>Well, we have it on the <code>/etc/fstab</code>, ready to mount at startup and at anytime
+we do <code>mount -i</code>. Lets add the key to the keyring to avoid typing it each time.</p>
+
+<pre><code># 2. add key to the keyring
+$$ ecryptfs-manager
+eCryptfs key management menu
+-------------------------------
+    1. Add passphrase key to keyring  &lt;--- this one
+    2. Add public key to keyring
+    3. Generate new public/private keypair
+    4. Exit
+
+Make selection: 1
+
+    Mount-wide passphrase:   &lt;-- type your password
+    Confirm passphrase:      &lt;-- do it again
+    Using the default salt value      
+                                      v---- Look ma! same signature!
+Added key to keyring with signature [8e85340a483cb3ce].
+</code></pre>
+
+<p>Now it&rsquo;s time to test that everything works as expected. Lets (1) unmount it
+and then (2) mount it with no password annoyance, and finally (3) unmount it
+the same way.</p>
+
+<pre><code># umount it as root
+$$ sudo umount /media/sdbk/bk
+# check whether we can mount it
+$$ mount -i /media/sdbk/bk
+$$ ls /media/sdbk/bk
+DSC0069.jpg
+$$ umount /media/sdbk/bk
+</code></pre>
+
+<p>Got it!  This way is easy enough to get encrypted contents in the sdcard. All
+we have to do now it&rsquo;s automate the backups via <code>fcron</code>. I use <code>fcron</code> and not
+just <code>cron</code> because its for a laptop. <code>fcron</code> works similar to <code>anacron</code> and
+remembers where it was at system shutdown. So if I set it to make a backup each
+5h, work for 2 and then shut it down, next time it will keep the count and wait
+just 3h for the next backup.</p>
+
+<pre><code>Options frequency command
+2 # if lavg5 &lt;= 0.5 wait 1h max, start inmediately if it had to happen whilst off
+3 @lavg5(0.5),until(1h),bootrun(true) 5h python2.6 backup.py --plan .hdbk.conf backup
+4 @lavg5(0.5),until(1h),bootrun(true) 4h python2.6 backup.py --plan .sdbk.conf backup
+</code></pre>
+
+<p>I have it one each 5h and another each 4h. Starting only when system average load is less than 0.5.
+Backup!</p>
+
+<p><strong>EDIT</strong>: I&rsquo;ve found that this configuration does not properly mount the <code>ecryptfs</code> file system on
+startup, and trying it with <code>sudo mount -a</code> it asks for the password. I&rsquo;m obviously missing
+something. My solution was to add <code>noauto</code> to the <code>fstab</code> options so the partition won&rsquo;t be mounted
+on startup and to add <code>mount -i /media/sdbk/bk</code> in my <code>.profile</code> file this way.</p>
+
+<pre><code># Mount ecryptfs sdbk directory
+SDBK="/mnt/sdbk/bk"
+if [ -d "$SDBK" ]; then
+    mount -i "$SDBK"
+fi
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-07T18:12:00+02:00" pubdate data-updated="true">May 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
+curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
+bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
+puedes hacer un <code>git reset --hard HEAD</code> y listo.</p>
+
+<p>Para el rewrite solo hay que usar <code>git filter-branch</code>, que permite este tipo de cosas peligrosas
+como son las reescrituras en masa.</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>Digo que son peligrosas porque esto le pondrá tu email a <em>absolutamente todos</em> los commits, si
+tienes código de colaboradores, te cargarás sus emails. Si ese es tu caso, pon alguna condición en
+el filtro para evitar sobreescribir lo que no quieres.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-07T18:12:00+02:00" pubdate data-updated="true">May 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I wanted to <em>replicate</em> an old git repo, in which I used as author my old university-work email,
+but using my current gmail account as email. Changing it for both <em>commiter</em> and <em>author</em> for all
+commits involves rewriting the whole repo. It&rsquo;s not difficult at all, but better work on a copy of
+the repo, and remember that if you shoot yourself on the foot you can always get back by doing <code>git
+reset --hard HEAD</code>.</p>
+
+<p>The rewrite can be easily done by using the <code>filter-branch</code> tool applied to all branches at once:</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>This is the <em>nuclear</em> way, it will rewrite absolutely all commits. This won&rsquo;t work straight if you
+have code from collaborators, then you&rsquo;d lose their emails after the unconditional rewrite.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/11/git-color-activate/">Activate Color in Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-11T02:30:00+02:00" pubdate data-updated="true">Apr 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
+config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
+the <code>git config VAR VALUE</code> command, so initially I ran:</p>
+
+<pre><code>code-block::bash
+$ for CONF in branch grep diff interactive status;\ 
+    do git config color.$CONF auto --global;\ 
+  done
+</code></pre>
+
+<p>To activate them all by setting each single color option to <code>auto</code>. But after reading a little more
+I found a much simpler way to have everything using color by default. Just simply type:</p>
+
+<pre><code>$ git config color.ui true
+</code></pre>
+
+<p>And that will do the trick. It is very nice and useful to read coloured output when using git,
+specially when reviewing diffs in the midst of a <code>git add -p</code> messy jam.</p>
+
+<p>My <code>.gitconfig</code> ended up like this:</p>
+
+<pre><code>[color]
+        ui = true
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/21/git-stash-fail-es/">Recuperar Un Stash Borrado en Git.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-21T19:00:00+01:00" pubdate data-updated="true">Mar 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Si os pasa como a mi que confundís <code>git stash pop</code> (aplica y borrar un stash) con <code>git stash drop</code>
+(que borra directamente), no lloreis aún. <code>git stash drop</code> imprime el hash del commit que estaba en
+stash y que hemos borrado, y con el puede recuperarse.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>Si tienes el hash aún, puedes hacer simplemente:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>Y salvarlo.</p>
+
+<p>La verdad es que he pasado mal un ratillo.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/21/git-stash-fail/">Recover a Lost Stashed Commit in Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-21T18:44:00+01:00" pubdate data-updated="true">Mar 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If it happens that you confuse <code>git stash pop</code> (apply and remove an stashed commit) with <code>git stash
+drop</code> (simply remove it), do not cry yet. <code>git stash drop</code> yells the hash of the dropped commit, so
+you still have a chance to recover it.</p>
+
+<pre><code>git stash drop
+Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
+</code></pre>
+
+<p>If you manage to keep the hash, you can just do:</p>
+
+<pre><code>git stash apply e692be2bc305348380c7c71a80867539babad3d7
+</code></pre>
+
+<p>And save it.</p>
+
+<p>So close.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/06/c-list-dir/">List Directories Within a Dir in C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-06T03:00:00+01:00" pubdate data-updated="true">Mar 6<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When you just only want to list directories within a given directory in C, things
+can be not <em>so</em> obvious.</p>
+
+<p>Using the non-standard function <code>scandir</code> its quite easy to get all files in a directory.
+The prototype looks like this:</p>
+
+<pre><code>code-block::c
+int scandir(const char *dirp, struct dirent ***namelist,
+    int (*filter)(const struct dirent *),
+    int (*compar)(const struct dirent **, const struct dirent **));
+</code></pre>
+
+<p>Scary? Don&rsquo;t worry, it just takes:</p>
+
+<ul>
+<li><code>dirp</code>: Path to the directory to list.</li>
+<li><code>namelist</code>: List of <code>struct dirent *</code> by reference. Uninitialized, <code>scandir</code> will alloc space for it. Should be freed afterwards.</li>
+<li><code>filter</code>: Filter function. Will be called per each dir entry which will be excluded from the list in case of <code>filter</code> returns 0. Takes a <code>struct dirent *</code> to decide.</li>
+<li><p><code>compar</code>: Comparison function. Used to sort entries. Takes two entries and returns &lt; 0 , 0 or > 0. Lexicographical ordering its already implemented in <code>alphasort</code>, also included in <code>&lt;dirent.h&gt;</code>.</p>
+
+<pre><code>  code-block::c
+  #define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+  #include &lt;dirent.h&gt;
+
+  int main(int argc, char * argv[]) {
+      int i = 0;
+      struct dirent ** filelist = NULL;
+      int ndirs = scandir(argv[1], &amp;filelist, NULL alphasort);
+
+      if( ndirs &lt; 0 )  /* Check errors */
+          return 1;
+
+      for(; i &lt; ndirs; ++i)
+          printf("Full path to file in %s: %s/%s", 
+              argv[1], argv[1], filelist[i]-&gt;d_name);
+
+      if( filelist != NULL ) {
+          for(i = 0; i &lt; ndirs; ++i)
+              free(filelist[i]);
+          free(filelist);
+      }
+
+      return 0;
+  }
+</code></pre></li>
+</ul>
+
+
+<p>We&rsquo;re ignoring the filter function and using the standar <code>alphasort</code> so it&rsquo;s really easy to list all files within a dir (which includes special entries like <code>.</code> and <code>..</code>).</p>
+
+<p>The problem is that I just wanted to get the directories within the <code>dir_path</code>. To do this, I thought: &ldquo;<em>Ok, I&rsquo;ll just implement a filter which calls <code>stat</code> and checks the file with the S_ISDIR(st_struct) macro</em>&rdquo;. But you just can&rsquo;t. The filter function only takes a <code>struct dirent *</code>, which has an incomplete <code>d_name</code> with just the filename, not the complete path, needed for <code>stat</code>.</p>
+
+<p>Not all is lost, thought. The <code>struct dirent</code> also has a <code>d_type</code> member which can be checked to be <code>DT_DIR</code>. The drawback for this is that it isn&rsquo;t supported by all filesystems, so some of them may return a <code>DT_UNKNOWN</code> which would make me cry bitterly. The (incomplete) solution then, is to write a filter that checks <code>d_type</code> and then re-check the opening of these directories.</p>
+
+<p>Will work like charm for most filesystems, won&rsquo;t crash on the sloppy ones.
+I&rsquo;ve been looking for the <em>right</em> way to do this in C, or even better POSIX C, but all I can find its the advice to write my own <code>scandir</code>, based on standard functions, which would be easy enough indeed, but not really the <em>right</em> way I&rsquo;m always pursuing.</p>
+
+<pre><code>code-block::c
+#define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+#include &lt;dirent.h&gt;
+
+int filter(const struct dirent * dire){
+
+    /* Discard . and .. */
+    if( strncmp(dire-&gt;d_name, ".", 2) == 0
+        || strncmp(dire-&gt;d_name, "..", 3) == 0 )
+        return 0;
+
+    /* Check whether it is a DIR or not.
+    * Some FS doesn't handle d_type, so we check UNKNOWN as well */
+    if( dire-&gt;d_type != DT_UNKNOWN
+            &amp;&amp; dire-&gt;d_type != DT_DIR )
+        return 0;
+
+    /* We've nothing against it. Accept */
+    return 1;
+}
+
+int main(int argc, char * argv[]) {
+    int i = 0;
+    struct dirent ** filelist = NULL;
+    int ndirs = scandir(argv[1], &amp;filelist, filter, alphasort);
+
+    if( ndirs &lt; 0 )  /* Check errors */
+        return 1;
+
+    printf("Only directories\n");
+    for(; i &lt; ndirs; ++i) {
+        printf("Full path to dir in %s: %s/%s\n", 
+                argv[1], argv[1], filelist[i]-&gt;d_name);
+    }
+
+    /* Check dir again using stat, opendir or... */
+    if( filelist != NULL ) {
+        for(i = 0; i &lt; ndirs; ++i)
+            free(filelist[i]);
+        free(filelist);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>If someone has any ideas/suggestions/complains please, <em>tell me</em>. Please.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/19/migrar-gmail/">Migrar De Gmail a Gmail</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-19T22:00:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="./img/migrar-gmail-header.svg" width="580px"/></p>
+
+<p>Intento migrar mi cuenta de gmail, de una antigua a otra más seria, llevándome
+todos los contactos, feeds, filtros, calendarios, chats y, por supuesto, los
+correos.
+Los correos deben mantener:</p>
+
+<ul>
+<li>Leidos</li>
+<li>Preferidos</li>
+<li>fechas</li>
+<li>Origen y destino (no ser un reenvio)</li>
+<li>Etiquetas (múltiples)</li>
+</ul>
+
+
+<h2>Migrar correo</h2>
+
+<p>Probé 4 opciones, <a href="http://code.google.com/p/got-your-back/">gyb</a>, <a href="http://imapsync.lamiral.info/README">imapsync</a>, <a href="http://gmail-backup.com">gmail-backup</a> y <a href="http://getthunderbird.com">thunderbird</a>, decantándome finalmente por <a href="http://code.google.com/p/got-your-back/">gyb</a>.
+Todas ellas sincronizan el correo mediante <em>IMAP</em> entre las dos cuentas de google, por el procedimiendo de descargar primero el correo de la cuenta antigua al disco duro, y enviarlo posteriormente a la nueva.</p>
+
+<h3>Activar <em>imap</em></h3>
+
+<p>Debe irse a las opciones de ambas cuentas, a <code>Forwarding and POP/IMAP</code> y activar IMAP en ambas cuentas.</p>
+
+<p><img src="./img/activate-imap.png" alt="activate-imap" /></p>
+
+<h2>Con <a href="http://code.google.com/p/got-your-back/">Got-your-back</a></h2>
+
+<p>Es el más rápido con diferencia, hace backup y restaura todo (etiquetas multiples, marca de importante, leidos&hellip;) y solo envía cada correo una vez.
+Emplea autenticación mediante token como app Google. Al ejecutarlo escribirá una url a la que tendrás que acceder y logearte con la cuenta de gmail para permitirle acceso.</p>
+
+<ol>
+<li>Descargar el <a href="http://code.google.com/p/got-your-back/downloads/list">script</a></li>
+<li><p>Realizar el backup de la cuenta antigua:</p>
+
+<pre><code> python gyb.py --email antigua@gmail.com --backup --compress
+</code></pre>
+
+<p> Creará el directorio <code>GYB-Gmail-Backup-antigua@gmail.com</code> con el correo guardado.</p></li>
+<li><p>Restaurar el correo en la nueva</p>
+
+<pre><code> python gyb.py --email nueva@gmail.com --restore 
+     --compress --folder GYB-Gmail-Backup-antigua@gmail.com
+</code></pre></li>
+</ol>
+
+
+<p>El proceso de restore lleva mucho más tiempo.
+Es la mejor forma con diferencia para hacer backup a una cuenta gmail.
+De hecho me estoy pensando en mantener un backup offline de mi cuenta metiendo la orden de backup en el cron.</p>
+
+<hr />
+
+<h2>Con <a href="http://gmail-backup.com">gmail-backup</a></h2>
+
+<p><a href="http://gmail-backup.com">gmail-backup</a> se ve que esté mantenido desde el 2009,
+y solo está disponible en formato binario, no tiene licencia libre y está
+compilado con una versión antigua de python. Aún así, es bastante más rápido
+que <a href="http://imapsync.lamiral.info/README">imapsync</a> y es más sencillo de usar.</p>
+
+<h3>Instalar <a href="http://gmail-backup.com">gmail-backup</a></h3>
+
+<ol>
+<li>Descargar el binario <a href="http://www.gmail-backup.com/gmail-backup-0-104">de su página oficial</a> y descomprimir.</li>
+<li><p>Descargar e instalar <a href="http://www.python.org/download/releases/2.5.6/">python2.5</a> si no se encuentra en el sistema (intenta ejecutar <code>python2.5</code> en consola).</p>
+
+<pre><code> code-block::bash
+ tar -xvzf Python-2.5.6.tgz
+ cd Python-2.5.6
+ ./configure
+ make
+ sudo make altinstall
+</code></pre></li>
+</ol>
+
+
+<p>  <strong>¡Ojo!</strong>: Usad <code>altinstall</code> y no simplemente <code>install</code>, o sobreescribirá la
+  versión actual por defecto de Python en el sistema.</p>
+
+<h3>backup &amp; restore</h3>
+
+<p>Primero haremos un backup completo de nuestra cuenta <em>antigua</em> para a continuación restaurarla en la cuenta <em>nueva</em>.
+Haciendo de esto, tendremos de paso una copia de seguridad de todo nuestro correo. Eso sí, tardará, aunque menos que <a href="http://imapsync.lamiral.info/README">imapsync</a>.</p>
+
+<pre><code>code-block::bash
+./gmail-backup.sh backup ~/gbackup antigua@gmail.com p4sw0rd \
+&amp;&amp; ./gmail-backup.sh restore ~/gbackup nueva@gmail.com p4sw0rd
+</code></pre>
+
+<hr />
+
+<h2>Con imapsync</h2>
+
+<p><a href="http://imapsync.lamiral.info/README">imapsync</a> es una herramienta escrita en <em>Perl</em>, que sincroniza dos servidores
+<em>IMAP</em>. Se le indica la cuenta de origen y de destino, y manda todos los
+correos de orige a destino, sincronizándolos.</p>
+
+<h3>Instalar imapsync</h3>
+
+<pre><code>sudo apt-get install imapsync
+</code></pre>
+
+<h3>Sincronizar</h3>
+
+<p>Para ello se llama a imapsync <em>dos veces</em>. Una para sincronizar los labels (folders) y otra para enviar el correo.</p>
+
+<pre><code>imapsync\
+    –user1 antigua@gmail.com\
+    –user2 nueva@domain.com\
+    -passfile1 ./antigua-pass\
+    -passfile2 ./nueva-pass\
+    –host1 imap.gmail.com\
+    –host2 imap.gmail.com\
+    -authmech1 LOGIN -authmech2 LOGIN\
+    -port1 993 -port2 993\
+    -split1 100 -split2 100\
+    -ssl1 -ssl2\
+    –syncinternaldates\
+    –justfolders\
+
+
+imapsync \
+    –user1 antigua@gmail.com\
+    –user2 nueva@domain.com\
+    -passfile1 ./antigua-pass\
+    -passfile2 ./nueva-pass\
+    –host1 imap.gmail.com\
+    –host2 imap.gmail.com\
+    -authmech1 LOGIN -authmech2 LOGIN\
+    -port1 993 -port2 993\
+    -split1 500 -split2 100\
+    -ssl1 -ssl2\
+    --fastio1 --fastio2
+    -syncinternaldates\
+    -allowsizemismatch\
+    --nofoldersizes\
+    --skipsize\
+    --fast\
+    --useheader 'Message-Id' \
+    --useheader 'X-Gmail-Received'
+    --exclude "(Trash|Spam|Publicidad)"
+    --timeout 100
+</code></pre>
+
+<p>Explicación de las opciones:</p>
+
+<ul>
+<li><strong>passfile</strong>: es un fichero de texto plano que contiene solo la clave, para
+no ponerla directamente en la consola.</li>
+<li><strong>syncinternaldates</strong>: Evita que se cargue la fecha de los emails.</li>
+<li><strong>justfolders</strong>: Crea solo los directorios/labels.</li>
+<li><strong>allowsizemismatch</strong>: Se quejaba de error por diferente tamaño en los correos
+bajados, esto hace que los ignore.</li>
+<li><strong>exclude</strong>: Carpetas/Labels a excluir de la sincronización.</li>
+<li><strong>useheader</strong>: El imap de gmail omite esas cabeceras, forzarlas.</li>
+<li><strong>split</strong>: Tamaño de petición a cada servidor. Al de subida pedimos menos.</li>
+<li><strong>fastio</strong> <strong>fast</strong>: Realiza las operaciones más rápido</li>
+<li><strong>nofoldersizes</strong> <strong>skipsize</strong>: No calcula estadísticas ni tamaños, que es lento.</li>
+<li><strong>timeout</strong>: Abortar tras <em>x</em> segundos de inactividad.</li>
+</ul>
+
+
+<p>Aviso que tarda muchísimo, ya que debe descargar todo el correo y volverlo a
+enviar, incluyendo attachments, <strong>para cada etiqueta</strong>, lo que hace que envie
+<code>L</code> veces cada correo, donde <code>L</code> es el número de etiquetas que tiene. <strong>No se
+duplica</strong> ya que gmail los detecta como el mismo y simplemente les añade la
+etiqueta correspondiente en lugar de copiarlo de nuevo.</p>
+
+<p>Cuando el proceso se para, es conveniente volverlo a ejecutar añadiendo el
+parámetro: <code>--maxage int</code> donde <code>int</code> indica la fecha del el último correo que
+enviamos, y así descarta evaluar los más antiguos.</p>
+
+<p>Para reiniciar la conexión cuando se pilla usé un bucle infinito y la opción <code>--timeout 100</code>, para no tener que estar cuidando yo del proceso.</p>
+
+<pre><code>code-block::bash
+while [ 1 -eq 1 ] 
+ do
+    imapsync\
+    -host1 imap.gmail.com -port1 993 -user1 antigua@gmail.com -passfile1\
+    ./antiguapass -ssl1 -host2 imap.gmail.com -port2 993 -user2\
+    nueva@gmail.com -passfile2 ./nuevapass -ssl2 -syncinternaldates -split1\
+     500 -split2 500 --fastio1 --fastio2 -authmech1 LOGIN -authmech2 LOGIN\
+     -useheader 'Message-Id' -useheader 'X-Gmail-Received'\
+    --exclude "(Junk|Spam|Trash|Publicidad|All Mail|dspace-list|wp-admin|spam)"\
+     --allowsizemismatch --nofoldersizes --skipsize --fast --timeout 100
+
+    sleep 5
+  done
+</code></pre>
+
+<hr />
+
+<h2>Migrar Contactos</h2>
+
+<p>En la página de gmail, en la cuenta <em>antigua</em>, vamos a <em>Contactos</em>, en <em>Más
+Opciones</em> seleccionamos <em>Exportar</em> y lo descargamos en formato Google CSV.</p>
+
+<p><img src="./img/export-import-contacts.png" alt="export-import-contacts" /></p>
+
+<p>En la cuenta nueva, realizamos el proceso inverso, <em>Más opciones</em>&ndash;><em>Importar</em> y seleccionamos el CSV.</p>
+
+<h2>Migrar feeds Google Reader</h2>
+
+<p>Los feeds suscritos en Google Reader pueden exportarse también en un fichero.
+Dentro del Reader, logeado con la cuenta <em>antigua</em>, vamos a <em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em> y descarga el fichero tipo <strong>OPML</strong>.</p>
+
+<p><img src="./img/export-reader.png" alt="export-reader" /></p>
+
+<p>Una vez conseguido ese fichero, vamos al reader de la cuenta <em>nueva</em>, también a
+<em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em>  y subimos el fichero <strong>OPML</strong> que antes
+descargamos.</p>
+
+<h2>Migrar calendarios</h2>
+
+<p>Los calendarios realmente no están <em>dentro</em> de tu cuenta, sino que pueden ser
+compartidos por varias personas con privilegios similares a los del usuario que
+los creó, de forma que lo único que hay que hacer realmente es compartirlo con
+la cuenta de correo nueva con privilegios de administrador.</p>
+
+<p><img src="./img/share-calendar.png" alt="share-calendar" /></p>
+
+<h2>Migrar filtros</h2>
+
+<p>Debe activarse la importación/exportación de filtros en el labs para ambas cuentas:</p>
+
+<p><img src="./img/export-filter.png" alt="export-filter" /></p>
+
+<p>Después de activarla solo tenemos que exportar en la página de la cuenta
+antigua e importar en la de la nueva.</p>
+
+<p><img src="./img/import-filter.png" alt="import-filter" /></p>
+
+<h2>Intentos fallidos</h2>
+
+<p>Lo intenté antes con <a href="http://getthunderbird.com">thunderbird</a>, como hacen <a href="http://www.twistermc.com/27915/move-gmail-to-gmail/">aquí</a>,
+sincronizando ambos correos y arrastrando los directorios de una a otra cuenta,
+y lo hace bien, pero no mantiene más de una etiqueta/carpeta por correo. Y
+luego con <a href="http://gmail-backup.com">gmail-backup</a>, que no me conservó las etiquetas (y aparte es
+propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/git-slice-repo/">Export Part of a Git Repo to a New One Keeping History</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/14/sd-emergency-backup-en/">SD-Card Emergency Encrypted Backup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jvrsantacruz">@jvrsantacruz</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jvrsantacruz',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Javier Santacruz -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

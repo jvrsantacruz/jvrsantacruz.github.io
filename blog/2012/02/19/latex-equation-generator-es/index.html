@@ -1,0 +1,46 @@
+<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
+
+<p>Mientras reconstruia este blog en <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> a partir de una exportación del
+blog antiguo en Wordpress, tuve que resolver como volver a generar las
+ecuaciones en LaTeX que había insertado en esos posts.</p>
+
+<p>Wordpress me generaba esas ecuaciones como imágenes de forma automática,
+simplemente poniendo el código entre llaves <code>[latex]</code>, de esta manera:</p>
+
+<pre><code>code-block::latex
+[latex size="4"]
+    \frac { \sum{(nota \cdot creditos)} }
+          { \sum{creditos} } 
+[/latex]
+</code></pre>
+
+<p>Generando una imagen como resultado:</p>
+
+<p><img src="./img/latex-example-equation.svg" width="250px"/></p>
+
+<p>Para poder hacer lo mismo (preferiblemente en consola) y poder insertar
+ecuaciones en LaTeX en los posts como imágenes, escribí este pequeño script:</p>
+
+<pre><code>code-block::bash
+#!/bin/bash
+
+TMPNAME=tmpfile
+TMP=/tmp/$TMPNAME
+
+echo "\documentclass[14pt,english]{article}" &gt; $TMP
+echo "\usepackage[utf8]{inputenc}" &gt;&gt; $TMP
+echo "\thispagestyle{empty}" &gt;&gt; $TMP
+echo "\begin{document}" &gt;&gt; $TMP
+echo "$ ${1} $" &gt;&gt; $TMP
+echo "\end{document}" &gt;&gt; $TMP
+
+pdflatex $TMP
+pdfcrop $TMPNAME.pdf $TMPNAME.pdf
+pdf2svg $TMPNAME.pdf $2
+rm -f $TMPNAME.pdf $TMP
+</code></pre>
+
+<p>El cual genera un documento LaTeX al vuelo, sin ningún tipo de estilo, lo
+compila en <em>pdf</em> usando <code>pdflatex</code> y elimina todos los márgenes usando
+<code>pdfcrop</code>, convirtiendo lo que queda (solo la ecuación) a <em>svg</em> con <code>pdf2svg</code>,
+que es la imagen que finalmente coloco.</p>

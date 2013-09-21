@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux, git | Raging Bits]]></title>
+  <link href="http://ragingbit.com/blog/categories/linux-git/atom.xml" rel="self"/>
+  <link href="http://ragingbit.com/"/>
+  <updated>2013-09-21T19:48:38+02:00</updated>
+  <id>http://ragingbit.com/</id>
+  <author>
+    <name><![CDATA[Javier Santacruz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cambiar email en muchos commits de git]]></title>
+    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email-es/"/>
+    <updated>2012-05-07T18:12:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/05/07/git-change-email-es</id>
+    <content type="html"><![CDATA[<p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
+curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
+bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
+puedes hacer un <code>git reset --hard HEAD</code> y listo.</p>
+
+<p>Para el rewrite solo hay que usar <code>git filter-branch</code>, que permite este tipo de cosas peligrosas
+como son las reescrituras en masa.</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>Digo que son peligrosas porque esto le pondrá tu email a <em>absolutamente todos</em> los commits, si
+tienes código de colaboradores, te cargarás sus emails. Si ese es tu caso, pon alguna condición en
+el filtro para evitar sobreescribir lo que no quieres.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Activate color in git]]></title>
+    <link href="http://ragingbit.com/blog/2012/04/11/git-color-activate/"/>
+    <updated>2012-04-11T02:30:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/04/11/git-color-activate</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
+config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
+the <code>git config VAR VALUE</code> command, so initially I ran:</p>
+
+<pre><code>code-block::bash
+$ for CONF in branch grep diff interactive status;\ 
+    do git config color.$CONF auto --global;\ 
+  done
+</code></pre>
+
+<p>To activate them all by setting each single color option to <code>auto</code>. But after reading a little more
+I found a much simpler way to have everything using color by default. Just simply type:</p>
+
+<pre><code>$ git config color.ui true
+</code></pre>
+
+<p>And that will do the trick. It is very nice and useful to read coloured output when using git,
+specially when reviewing diffs in the midst of a <code>git add -p</code> messy jam.</p>
+
+<p>My <code>.gitconfig</code> ended up like this:</p>
+
+<pre><code>[color]
+        ui = true
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

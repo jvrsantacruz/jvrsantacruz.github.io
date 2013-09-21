@@ -1,0 +1,13 @@
+<p>Para el coloreado de código de este blog empleo la herramienta <a href="http://pygments.org">pygmentize</a>, la
+cual es capaz de generar un fichero css con el estilo con el que quiero que
+salga el texto de los programas.</p>
+
+<p>Para generar un estilo usar:</p>
+
+<pre><code>code-block::bash
+pygmentize -f html -S borland -a .codehilite &gt; pygment.css
+</code></pre>
+
+<p>Donde <code>borland</code> es el estilo y <code>.codehilite</code> es la clase a emplear para
+localizar el código en la página posteriormente.
+<a href="http://pygments.org/docs/cmdline/">Otras cosas</a> que pueden hacerse con la línea de comandos.</p>

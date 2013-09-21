@@ -1,0 +1,45 @@
+<p>I maintain my personal scripts (only a few by now) on a
+<a href="github.com/jvrsantacruz/scripts">public repository</a> on GitHub, so it forces myself to take them more
+seriously and keep it clean. It looked like a good idea back then, because all I&rsquo;ve got were just
+not enough for a repo on its own. So I kept them together in separate directories under the same
+repo this way:</p>
+
+<pre><code>scripts
+ |- README.md
+ |- project1
+ |   `- script1.py
+ `- project2
+     `- script2.py
+</code></pre>
+
+<p>And each commit in the repo clarifies which project modifies by preceding it with a <em>code</em> this way:</p>
+
+<pre><code>d65bf0e project1: Adds test_rotate function to test rotate verb
+2943d69 project1: Removes unused TestFileOperations.newfile
+..
+dc37490 project2: Rewrites comments
+9d00b0a project2: Fixes output-based tests redirecting stderr
+</code></pre>
+
+<p>But as some of them are now well grown up, like <code>backup.py</code>, I thought they deserved more
+visibility and wanted those specific directories out into a new repo&hellip; but keeping the history with
+them, and without the commit message <em>code</em> boilerplate.</p>
+
+<p>There is one easy obvious way to to this, by <em>(1)</em> cloning the repository, then <em>(2)</em> using <code>git
+filter-branch</code> to remove the undesired directories and <em>(3)</em> to rewrite commits messages
+afterwards.</p>
+
+<pre><code># 1: Clone repository
+$ git clone --no-hardlinks /original-repo /new-repo
+
+# 2: Filter away undesired stuff
+$ git filter-branch --tree-filter "rm -rf project2" --prune-empty HEAD
+
+# 3: Filter 'project1:' code from commits messages
+$ git filter-branch --msg-filter "sed 's/project1: //' --prune-empty HEAD
+</code></pre>
+
+<p>The <code>--prune-empty</code> option makes git to discard commits that become empty after the filter and
+therefore are now useless.</p>
+
+<p>You can se the difference from the original repo and the <a href="github.com/jvrsantacruz/backup">new one</a> for <code>backup</code>.</p>

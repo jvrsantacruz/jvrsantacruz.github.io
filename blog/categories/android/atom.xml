@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: android | Raging Bits]]></title>
+  <link href="http://ragingbit.com/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://ragingbit.com/"/>
+  <updated>2013-09-21T19:48:38+02:00</updated>
+  <id>http://ragingbit.com/</id>
+  <author>
+    <name><![CDATA[Javier Santacruz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install Jelly Bean MIUI 2.9.29 in Nexus One using blackrose]]></title>
+    <link href="http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9/"/>
+    <updated>2012-06-01T00:00:00+02:00</updated>
+    <id>http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9</id>
+    <content type="html"><![CDATA[<p>I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
+from the early version I had (MIUI 2.5), I felt I couldn&rsquo;t go back to Android 2.3 after getting
+used to it for a while.</p>
+
+<p>When I tried to get a more stable ROM version (MIUI 2.9), I found lots of trouble, obscure fails
+aggravated by a considerable lack of documentation about how to go for it. So here is how I made
+it.</p>
+
+<h2>Introduction</h2>
+
+<p>Android 4.1 Jelly Bean needs more space in the <code>/system</code> and <code>/cache</code> partitions than it&rsquo;s
+originally allowed in the Nexus, so we&rsquo;ll need a custom bootloader and resize those partitions
+before think about flashing the ROM itself.</p>
+
+<p>Steps are:</p>
+
+<ol>
+<li>Download Blackrose</li>
+<li>Get fastboot to work</li>
+<li>Install Blackrose and resize partitions</li>
+<li>Install the ROM</li>
+</ol>
+
+
+<h2>Download HBOOT Blackrose</h2>
+
+<p>Download and unzip <a href="blackrose_120421.zip">Blackrose</a> and <a href="blackrose_manual_120421.zip">Blackrose Manual</a> (check md5 checksums)</p>
+
+<pre><code>$ md5sum blackrose_120421.zip
+f89de99e616a56e1bae29a9f8a190ee1  blackrose_120421.zip
+$ unzip blackrose_120421.zip
+$ ls blackrose_120421
+binary  BlackRose  BlackRose.exe fastboot-linux-i386  fastboot-linux-i386.zip  other
+
+$ md5sum oblackrose_manual_120421.zip
+3c2bc61256aba2df1575ce2b6c66c977  blackrose_manual_120421.zip
+$ unzip blackrose_manual_120421.zip
+$ ls blackrose_manual_120421
+fastboot-l  fastboot-m  fastboot-w.exe  go2.lol  go33.lol  go35.lol  hboot_220-16-200.nb0
+hboot_blackrose.nb0  README.txt
+</code></pre>
+
+<h2>Get fastboot to work</h2>
+
+<p>You&rsquo;ll need fastboot working properly in order to be able to interact with your phone.
+The blackrose_manual version does include a fastboot implementation.
+We&rsquo;ll use <code>fastboot-l</code> for Linux.</p>
+
+<ol>
+<li>Get your phone into <code>fastboot</code> mode. You should read <code>fastboot</code> on your phone&rsquo;s screen.
+To enter into fastboot mode:
+
+<ol>
+<li>Turn your phone off</li>
+<li>Turn your phone on while pressing the direction ball</li>
+<li>Enter into <code>fastboot</code> mode</li>
+</ol>
+</li>
+<li>Connect your phone via usb to the computer. You should read <code>fastboot USB</code> on your phone&rsquo;s
+screen.</li>
+<li>Check wether it&rsquo;s detected by fastboot:
+     $ ./fastboot-l devices
+     HT066P800146fastboot
+ If that does not work:
+
+<pre><code> 1. Try with `sudo ./fastboot-l devices` (might be mounted with root permissions, you can [write a udev rule](http://wiki.cyanogenmod.com/wiki/Udev) to prevent this)
+ 2. Check your [fastboot setup](http://wiki.cyanogenmod.com/wiki/Fastboot), your [android sdk installation](http://wiki.cyanogenmod.com/wiki/ADB) and make sure that the  `android_sdk/tools` dir is within `$PATH`.
+</code></pre></li>
+</ol>
+
+
+<h2>Install Custom Blackrose and resize</h2>
+
+<p>Once you get <code>fastboot</code> to work, run the <code>Blackrose</code> executable which comes with
+blackrose_120421, and install the <code>Custom</code> version, to resize the partitions on the same operation.</p>
+
+<p>Mind the <code>skip</code> parameter, <a href="http://forum.xda-developers.com/showthread.php?t=1842419">it&rsquo;s important</a>.</p>
+
+<pre><code>$ ./BlackRose skip
+    Loading...
+    * daemon not running. starting it now *
+    * daemon started successfully *
+
+    -------------------------------
+    |   Nexus One BlackRose 120421  |
+    |  Made by Lecahel(XDA-dla5244) |
+    |    Dok-Do belongs to KOREA    |
+    -------------------------------
+    1    Apply stock/custom BlackRose
+    2    Disable HBOOT flashing protect
+    3    Uninstall BlackRose
+    4    More information
+    5    Exit
+    Please make a decision:1
+</code></pre>
+
+<p>Choose 1: <code>Apply stock/custom BlackRose</code></p>
+
+<pre><code>    Select which you want
+    1    Stock BlackRose
+    2    Custom BlackRose
+    3    Back
+    Please make a decision:2
+</code></pre>
+
+<p>Choose 2: <code>Custom BlackRose</code>.</p>
+
+<pre><code>:::text
+error: device not found
+Input BlackRose password(48 char max):
+</code></pre>
+
+<p>Ignore the <code>error: device not found</code> erro and insert a blank password. Just press Enter.</p>
+
+<pre><code>Nexus One BlackRose Editor
+If you want resize partition, type [resize] and press enter key:resize
+SYSTEM + CACHE + USERDATA = 436MB
+system size(MB):280
+cache size(MB):20
+label name(20 char max):ARL
+</code></pre>
+
+<p>Here is the root of all problems: size partitions.</p>
+
+<ol>
+<li>Set <code>280</code> for the <code>/system</code> partition. If you <a href="http://forum.xda-developers.com/showthread.php?p=30852043">don&rsquo;t do so</a>, the installation will fail with <code>symlink: some symlinks failed</code> because MIUI 2.9 demands a lot of space.</li>
+<li>Set 20 MB for cache. Otherwise your phone might not boot and enter into a loop.</li>
+<li><p>Set whatever as the label.</p>
+
+<p> system size:280MB cache size:20MB userdata size:136MB
+ label:ARL</p>
+
+<ul>
+<li>Customize success
+sending &lsquo;hboot&rsquo; (512 KB)&hellip; OKAY
+writing &lsquo;hboot&rsquo;&hellip; OKAY
+rebooting into bootloader&hellip; OKAY</li>
+<li>Stock/Custom BlackRose has been successfully applied</li>
+</ul>
+</li>
+</ol>
+
+
+<p>Done here!</p>
+
+<h2>Install the ROM</h2>
+
+<ol>
+<li>Get the <a href="MIUI.us_passion_v4.1_2.9.29_0xD34D.zip">MIUI 2.9.29 ROM</a> (or the latest one from the <a href="http://roms.miui.us/">MIUI website</a>)
+     $ md5sum MIUI.us_passion_v4.1_2.9.29_0xD34D.zip
+     6433fa6970e65e910c9ebd77cb81563b  MIUI.us_passion_v4.1_2.9.29_0xD34D.zip</li>
+<li>Put the image into your sdcard root directory
+
+<pre><code> - You can do so from recovery itself by going to `storage` and setting the storage mode on.
+</code></pre></li>
+<li>Now <strong>wipe both caches</strong></li>
+<li>Use the <code>install image from zip</code> and select the ROM.</li>
+<li>Cross your fingers.</li>
+<li>Reboot your phone after the installation has finished.</li>
+</ol>
+
+
+<p>Used links and further documentation:</p>
+
+<ul>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1270589">Blackrose thread</a></li>
+<li><a href="http://www.youtube.com/watch?v=ScIMetgk7Zw">Blackrose resize video-tutorial</a></li>
+<li><a href="http://forums.miui.us/showthread.php?21396-Tutorial-Blackrose-(Custom-Hboot">Blackrose tutorial</a>-Installation-for-Miui-2-6-8)</li>
+<li><a href="http://www.nexusoneforum.net/forum/nexus-one-development-hacking/13358-s-off-nexus-one.html">Blackrose manual howto</a>:</li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Nexus_One:_Full_Update_Guide">Cyanogen wiki nexus one fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Fastboot">Cyanogen wiki fastboot</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/ADB">Cyanogen wiki ADB</a></li>
+<li><a href="http://wiki.cyanogenmod.com/wiki/Udev">Cyanogen wiki udev rules</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?p=30852043">symlinks install errors</a></li>
+<li><a href="http://forum.xda-developers.com/showthread.php?t=1842419">Use skip when executing Blackrose</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Screencast]]></title>
+    <link href="http://ragingbit.com/blog/2011/02/03/android-screencast/"/>
+    <updated>2011-02-03T23:12:00+01:00</updated>
+    <id>http://ragingbit.com/blog/2011/02/03/android-screencast</id>
+    <content type="html"><![CDATA[<div class="img-center">
+
+![image][]   
+
+</div>
+
+
+<p>Estas navidades para una asignatura, <em>&ldquo;Mobile Technology&rdquo;</em>
+desarrollé un pequeño videojuego de prueba para <strong>Android</strong>. Desde
+hace unos días vengo buscando la manera de grabar un vídeo del
+juego sin necesidad de emplear una cámara externa (cutre y baja
+calidad) o grabar el emulador (el cual va lentísimo).
+<strong>Aún no lo he conseguido</strong>, pero sin embargo he tenido una
+aproximación interesante mediante la aplicación
+<strong><a href="http://code.google.com/p/androidscreencast/">Android Screencast</a></strong> con la cual he podido grabar un video
+pero que es insuficiente para las necesidades de un videojuego, que
+funciona a un framerate alto.</p>
+
+<div class="img-center">
+
+<iframe src="http://player.vimeo.com/video/19533141?title=0&amp;byline=0&amp;portrait=0" width="590" height="330" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a> from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+</div>
+
+
+<p>La aplicación <strong>Android Screencast</strong> sirve para manejar el teléfono
+desde el ordenador. Permite navegación de archivos, manejo de
+teclado y ratón (solo root), screenshots y <strong>grabación de video</strong>.
+Los pasos para utilizarlo son:
+Tener el sdk de android instalado
+Tener Java SDK 6 instalado
+Tener conectado el teléfono y reconocido por el server del sdk
+Ejecutar el archivo jnlp del programa</p>
+
+<p>El programa automáticamente intenta 6 conexiones al teléfono
+conectado y tras eso desiste. Mis pasos para instalarlo fueron:</p>
+
+<pre><code>arl@lap$ cd android-sdk/platform-tools
+arl@lap$ ./adb stop-server
+arl@lap$ sudo ./adb start-server
+arl@lap$ ./adb devices
+List of devices attached
+HT066P800146    device
+</code></pre>
+
+<p>Con la secuencia de comandos anterior conecto mi <em>Nexus One</em> al pc.
+Tengo que <strong>iniciar el demonio como root</strong> o de otra manera no me
+coge el teléfono. Un día de estos debería escribir una regla para
+que se monte solo con los permisos adecuados para el sdk.</p>
+
+<p>Una vez conectado, ejecutamos AndroidScreencast:</p>
+
+<pre><code>gnome-open androidscreencast.jnlp
+</code></pre>
+
+<p>Y debería abrirse y detectar el teléfono solo, mostrando la
+siguiente pantalla en mi escritorio:</p>
+
+<div class="img-right">
+
+![image][1]
+
+<sub>Escritorio mostrado en pantalla </sub>
+
+</div>
+
+
+<p>Ahí podemos ver todo lo que sucede en la pantalla del teléfono en
+&lsquo;tiempo real&rsquo;, tenemos acceso al arbol de fichero y un par de cosas
+más. Sin embargo no va fluido. Probablemente porque se basa en la
+toma de screenshots, que es horriblemente lenta. Para tomar una
+screen de la pantalla, el teléfono se toma su tiempo, tardando
+varios milisegundos. El refresco de la pantalla es mucho más
+rápido, de manera que todas las animaciones que se muestren en el
+teléfono saldrán cortadas o no saldrán en la pantalla.</p>
+
+<p>En la parte superior izquierda podemos ver el botón <strong>Grabar</strong> que
+al pulsar nos preguntará donde queremos guardar el vídeo y
+comenzará el vídeo, quedando el boton pulsado. Para parar la
+grabación simplemente pulsar de nuevo sobre el botón y parará.</p>
+
+<div class="img-left">
+  
+![image][2]
+
+<sub>Captura del juego</sub>
+
+</div>
+
+
+<p>El formato de salida es .mov y empleé <strong>Avidemux</strong> para editarlo.
+Debo rectificar una pequeña injusticia que cometí contra
+<strong>Avidemux</strong> en mi anterior entrada. No es tan limitado como me
+pareció la otra vez, soporta una buena serie de filtros que hacen
+que para ediciones menores sea mucho más que suficiente. En este
+caso lo único que quería era rotar la imagen y suavizarla
+ligeramente, para lo cual funcionó muy bien.</p>
+
+<p>La única dificultad fué encontrar un encoder que me aceptase .mov
+como entrada para generar la salida. Menos mal que <strong>Avidemux</strong>
+soporta bastantes formatos y el MPEG4 (xvid) me sirvió.</p>
+
+<div class="img-center">
+
+![Editando el vídeo con Avidemux][]
+<sub>"Editando el video con
+Avidemux"</sub>
+</div>
+
+
+<p>Finalmente, el vídeo quedó subido a <strong>Vimeo</strong> y
+<a href="http://vimeo.com/19533141">podeis verlo aquí</a>.</p>
+
+<p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a>
+from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,16 @@
+<p>I wanted to <em>replicate</em> an old git repo, in which I used as author my old university-work email,
+but using my current gmail account as email. Changing it for both <em>commiter</em> and <em>author</em> for all
+commits involves rewriting the whole repo. It&rsquo;s not difficult at all, but better work on a copy of
+the repo, and remember that if you shoot yourself on the foot you can always get back by doing <code>git
+reset --hard HEAD</code>.</p>
+
+<p>The rewrite can be easily done by using the <code>filter-branch</code> tool applied to all branches at once:</p>
+
+<pre><code>code-block::bash
+git filter-branch --env-filter '
+ GIT_AUTHOR_EMAIL=&lt;new.email@gmail.com&gt;
+ GIT_COMMITER_EMAIL=&lt;new.email@gmail.com&gt;' --all
+</code></pre>
+
+<p>This is the <em>nuclear</em> way, it will rewrite absolutely all commits. This won&rsquo;t work straight if you
+have code from collaborators, then you&rsquo;d lose their emails after the unconditional rewrite.</p>

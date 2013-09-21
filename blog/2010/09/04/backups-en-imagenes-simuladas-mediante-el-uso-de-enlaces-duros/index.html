@@ -1,0 +1,324 @@
+<div style="float: left; margin: 5px;"> 
+
+![Disco Duro][]  
+
+</div>
+
+
+<p>Enfrentado una vez a la situación de tener que hacer backups de una aplicación
+con muchos gigas en datos importantes, acabé adoptando una manera interesante
+pero no excesivamente conocida de backup.  Antes de meterme a ello, para
+comprender mejor el problema que resuelve y las ventajas que aporta, haré un
+repaso a las formas más comunes de hacer backup en entornos unix y las
+herramientas que usaremos en los ejemplos: tar y rsync. Que son viejos
+conocidos de este entorno y sencillos de utilizar o de automatizar desde
+scripts para poner en el cron.</p>
+
+<h3>Herramientas</h3>
+
+<h4>Tar:</h4>
+
+<p><em>(De <strong>T</strong>ape <strong>Ar</strong>chiver)</em>: Programa antediluviano
+originalmente pensado para realizar copias de seguridad en cinta
+magnética. Crea un solo archivo a partir de una jerarquia de
+directorios, adicionalmente usando compresión.</p>
+
+<h4>Rsync:</h4>
+
+<p>Simplemente transmite ficheros. Es como un cp muy mejorado. Se basa
+en un algoritmo que le permite calcular las diferencias entre dos
+ficheros y mandar <strong>solo eso</strong> lo cual lo hace ideal para
+transmitir backups por red.</p>
+
+<p>A continuación haremos un breve repaso de los tipos de backup más
+empleados.</p>
+
+<h3>1. Imagen o Snapshot</h3>
+
+<p>El sistema más sencillo probablemente fuese hacer un paquete
+(comprimido o no) con cp,  zip o tar del directorio del que
+deseamos hacer backup.<br/>
+Por ejemplo:</p>
+
+<pre><code>$ tar -cvf dir-fecha.tar dir  
+$ cp -r dir dir-fecha  
+$ zip dir-fecha.zip dir
+</code></pre>
+
+<p>Así se obtiene una imagen del directorio&hellip; que ocupa lo mismo que
+el contenido directorio (según compresión). Muchas veces no es una
+opción. Por ejemplo, si el directorio dir ocupa 1 Terabyte y son
+datos críticos que necesitan copias varias veces al día, no es
+abordable guardar tantos Terabytes de información <em>CADA DÍA</em>, y
+quizá durante <em>MUCHO TIEMPO</em>. Alguno dirá: &ldquo;Podemos simplemente
+borrar las imágenes más antiguas&rdquo;. Pero&hellip; ¿Y si necesitamos esas
+imágenes, y si necesitamos garantizar datos durante tanto tiempo
+que nos quedemos sin espacio?. Tenemos un problema. El método no
+nos sirve.</p>
+
+<h3>2. Diferenciales</h3>
+
+<p>Lo normal es que cuando se tienen grandes volúmenes de datos, solo
+cambien unos pocos ficheros de un día a otro. Si se piensa, resulta
+ridículo copiarlo <strong>todo</strong> cada vez, replicando un montón de
+ficheros iguales. Tiene mucho más sentido copiar solo <em>ESA</em> pequeña
+parte que cambia, porque lo demás permanece inalterado, ya lo
+tenemos.<br/>
+Estamos hablando de un backup diferencial, en el que cada día se
+calcula la diferencia (△) con respecto al backup anterior y se
+copia solo eso.<br/>
+Por ejemplo:</p>
+
+<blockquote><p>Día1: dir &mdash;> dir.copia  # Primer día se copia todo.<br/>
+Día2: dir &mdash;> △dir-dia2  # Siguientes días, se copia solo lo que
+ha cambiado.<br/>
+Día3: dir &mdash;> △dir2-dia3</p></blockquote>
+
+<p>Después, para recuperar tal y como estaba dir en un día
+determinado, deberíamos empezar con la copia completa del día 1, e
+ir añadiendo diferencias siguiendo la cadena hasta el día deseado.
+Descompriendo dir.copia y aplicándole encima las △ de cada día una
+tras otra hasta el 3.</p>
+
+<p>Esto podríamos hacerlo empleando tar o aún mejor, rsync</p>
+
+<h4>Usando tar</h4>
+
+<p>Por ejemplo con tar podríamos usar un listado list.txt que nos
+sirva para saber que ficheros cambian de una vez a otra. La primera
+vez lo copiará todo:</p>
+
+<pre><code># A realizar cada día.  
+$ tar --listed-incremental list.txt -cvf dir-$DIA dir
+</code></pre>
+
+<p>Con esto conseguiríamos ficheros diferenciales con lo que cambia de
+cada día:</p>
+
+<blockquote><p>dir-1.tar<br/>
+dir-2.tar<br/>
+dir-3.tar</p></blockquote>
+
+<p>Siendo el primero el que sirve de base y contiene una imagen
+completa. Para rescatarlas, tendríamos que descomprimir primero la
+base y luego el resto encima por orden:</p>
+
+<pre><code># Descomprime dir-1, luego dir-2, luego dir-3 uno encima de otro.  
+for i in dir-*; do  
+  tar -xvf $i  
+done
+</code></pre>
+
+<h4>Usando rsync</h4>
+
+<p>Con rsync podríamos tener un directorio destino con una copia de lo
+que hay en dir y emplear las opciones combinadas &mdash;backup y
+&mdash;backup-dir=dir-$DIA para crear los △ diferenciales. De esta forma
+tendríamos la última versión de dir en el directorio destino, y un
+directorio △ dir-$DIA con los ficheros que cambiaron en cada
+copia.</p>
+
+<pre><code># Copia dir en dest, poniendo las diferencias en dir-$DIA  
+$ rsync --backup --backup-dir dir-$DIA dir dest 
+</code></pre>
+
+<p>Para recuperarla, deberíamos ir copiando y sobreescribiendo los
+ficheros por orden en un directorio aparte recup.</p>
+
+<pre><code># Copia machacando en recup el contenido de los dir dia-1, dia-2 ...
+for i in dia-*; do  
+    cp -R $i recup  
+done
+</code></pre>
+
+<p>Tras hacer esto, en recup tendremos el estado del directorio dir en
+el último día del que hayamos descomprimido.</p>
+
+<p>Aunque parezca bonito, este sistema conlleva dos problemas
+fundamentales:</p>
+
+<ol>
+<li>Es costoso acceder a los datos tal y como estaban un día
+determinado.<br/>
+Los datos no están disponibles para que el administrador entre y
+los vea directamente, sino que hay que procesarlos aparte y puede
+llevar mucho tiempo.</li>
+<li>Es un sistema extremadamente peligroso&hellip; ¿Que ocurre si se
+corrompe la △ de un solo día intermedio? Pues que TODOS los datos
+posteriores son irrecuperables.<br/>
+Repito, si se corrompe dia-2, desde dia-3 a dia-10000 serán
+irrecuperables. Por lo general, se hace una imagen completa cada
+cierto tiempo, de manera que la cadena de diferencias no sea
+demasiado larga (y se multipliquen las probabilidades de hecatombe)
+pero de nuevo estamos hablando de grandes imágenes que ocupan
+mucho, que es de lo que veníamos huyendo.
+Demasiado peligroso.</li>
+</ol>
+
+
+<h3>3. Imágenes &ldquo;diferenciales&rdquo;</h3>
+
+<p>Y por fin, mi solución favorita.</p>
+
+<p>Viendo que los diferenciales son más peligrosos que un sudo rm -rf,
+volvamos a la idea de las imágenes. Era una idea bonita. Un día, un
+paquetito completo con todo. Sencillo, directo. ¿El problema? El
+horrible consumo de espacio debido a la replicación de ficheros.</p>
+
+<p>En ese punto, enfrentado a mis backups de 40Gigas diarios con
+discos por alrededor de 150G, un día pensé&hellip; ¿No podrían compartir
+los ficheros que no cambian los mismos datos, es decir, ser enlaces
+duros unos de otros? Y comencé a buscar <a href="http://www.mikerubel.org/computers/rsync_snapshots">documentación</a> animado
+por esa idea.</p>
+
+<p>¿Enlace duro? Se hace necesario presentar algún concepto de los
+sistemas de ficheros.</p>
+
+<h4>Ficheros y Enlaces Duros</h4>
+
+<p><img src="./img/file1-300x100.png" title="file1" alt="Es solo un fichero normal..." /></p>
+
+<p>Tiene sus distintas partes:</p>
+
+<p>Descriptor: Mantiene el nombre del fichero, los permisos, fecha de
+creación&hellip; y guarda la dirección donde se encuentran los inodes y
+datos.
+datos: Los datos se encuentran divididos en bloques de cierto
+tamaño en el disco duro, enlazados en cadena osea cada uno cogido
+de la mano del siguiente y del anterior.
+inode: El inode es bloque cabecera que hace de índice de estos
+bloques de datos y permite acceder a ellos así como guardar
+información de más bajo nivel sobre el fichero.
+Quedamos entonces en que un fichero tiene un descriptor con
+información sobre el y por otra parte sus bloques de datos,
+indizados por el inode. El descriptor es lo que &ldquo;vemos&rdquo; del
+fichero, lo que se lista en los directorios etc&hellip;<br/>
+Entonces, espera. ¿Un fichero tiene un descriptor de fichero o&hellip;
+&hellip;o uno o más?. En efecto, puede darse que un solo fichero tenga
+varios descriptores apuntando por debajo a los mismos datos, a la
+manera de un animal con muchas cabezas y un solo cuerpo.</p>
+
+<p><img src="./img/file2-300x112.png" title="file2" alt="image" /></p>
+
+<p>A esto lo llamamos un <em>enlace duro</em>, desde &ldquo;fuera&rdquo; vemos lo que
+parecen dos ficheros, pero que por debajo es uno solo; En &ldquo;la
+superficie&rdquo; no nos enteramos de mucho y a nivel conceptual
+manejaremos ficheros que están ligados entre si:</p>
+
+<p>Si accedemos y modificamos los datos empleando cualquiera de los
+descriptores, los modificamos para todos los demás.
+Si movemos uno de sitio, el resto no es afectado (dentro de la
+misma partición).
+Si se borra uno, los datos no se borran hasta que no desaparezca el
+último enlace duro.
+Es muy fácil cargarse datos sin querer sobreescribiendo a traves de
+un enlace duro, hay aplicaciones (como rsync) que lo que hacen por
+defecto al sobreescribir un archivo que es un enlace duro es
+&ldquo;romper&rdquo; el enlace, esto es eliminar el enlace duro y crear un
+archivo nuevo para no sobreescribir el anterior que es referenciado
+desde otra parte y que probablemente nos sea problemático si
+cambia.<br/>
+Este comportamiento de rsync y otros programas es importante y será
+utilizado en el backup.</p>
+
+<p>Bien, volvamos a la copia de seguridad.</p>
+
+<p>La idea era hacer backups que pareciesen completos, pero en los que
+los ficheros que no cambian se comparten, de manera que evitásemos
+el horrible consumo de espacio de las imágenes y a la vez la
+dispersión de tener archivos diferenciales y tener que tratar con
+ellos.</p>
+
+<p>El procedimiento es:</p>
+
+<ol>
+<li>Copiar los ficheros que cambian a un directorio llamado Actual</li>
+<li>Crear un directorio para ese dia en concreto llamado dir.$DIA
+De esta manera, tenemos una carpeta para cada día con la imagen
+exacta del estado del directorio dir en ese momento. La copia en el
+directorio Actual la haremos mediante rsync de manera que cuando
+vaya a sobreescribir un fichero, rompa el enlace y no modifique la
+información de los antiguos, que la queríamos tal y como está.</li>
+</ol>
+
+
+<p>Un ejemplo práctico para mejor comprensión:</p>
+
+<ol>
+<li>Sincronizamos todos los datos del directorio dir al directorio
+Actual.</li>
+</ol>
+
+
+<p><img src="./img/copy1-300x189.png" title="copy1" alt="Sincronizar ficheros a un directorio" /></p>
+
+<pre><code>    $ rsync --delete dir Actual
+</code></pre>
+
+<ol>
+<li>Creamos una carpeta específica para el día y enlazamos todos
+los contenidos.</li>
+</ol>
+
+
+<p><img src="./img/copy2-300x136.png" title="copy2" alt="Aprovechando espacio..." /></p>
+
+<pre><code>    $ cp -rl Actual dir-$DIA
+</code></pre>
+
+<p>¡Lo hemos conseguido! Tenemos lo que parece son imágenes completas
+de dir, cuando en realidad no ocupamos más espacio que con una sola
+imagen.</p>
+
+<p>Ha sido un poco simple, de manera que veamos que ocurre cuando
+lanzamos el backup al día siguiente, tras realizarse cambios en los
+ficheros a guardar.</p>
+
+<ol>
+<li>Sincronizamos de nuevo con los cambios del día siguiente.</li>
+</ol>
+
+
+<p>Esta vez, rsync trae un fichero nuevo llamado File3 y modifica
+File2 que ha sufrido cambios. Fijaos en cómo rsync rompe los
+enlaces duros que había entre los ficheros a sobreescribir mediante
+la creación de uno nuevo con un inode diferente.</p>
+
+<p><img src="./img/copy3-300x109.png" title="copy3" alt="image" /></p>
+
+<pre><code>    $ rysnc --delete dir Actual
+</code></pre>
+
+<ol>
+<li>Creamos otra carpeta específica para el día y enlazamos los
+contenidos cambiados.</li>
+</ol>
+
+
+<p>Ahora volvemos a crear otra carpeta que hará la ilusión de ser una
+imagen completa de dir.</p>
+
+<p><img src="./img/copy4-300x99.png" title="copy4" alt="Aprovechando espacio... siguiente día" /></p>
+
+<pre><code>    $ cp -rl Actual dir-$DIA
+</code></pre>
+
+<p>¡Así funciona! Cada vez que se sincroniza Actual, creamos una
+carpeta nueva y enlazamos los contenidos. Al final, el espacio
+ocupado es el tamaño de la imagen inicial más los incrementos
+(exactamente igual que en el backup diferencial) pero manteniendo
+un fácil acceso a los datos y la apariencia de imágenes completas
+(como en el backup mediante imágenes).</p>
+
+<p>A aquella aplicación que pesaba tanto, al menos para los medios de
+los que disponía, se le hacían dos copias externamente desde dos
+sitios distintos mediante este sistema, empleando rsync a través
+ssh, resultando en una imagen de unos \~50Gb en cada sitio, por un
+total de <code>\~100Gb</code>. Respiré tranquilo :D</p>
+
+<p>Existe información en este post, referida sobre todo a la
+estructura del sistema de ficheros y a las órdenes de consola
+puestas como ejemplo que no son del todo exactas o bien están
+incompletas (las órdenes acaban siendo más complejas a medida que
+se les añade flags y datos). Si alguien detecta errores de
+concepto, que no dude en hablar y señalarlo.</p>

@@ -1,0 +1,50 @@
+<p>En este caso es una tarjeta <em>SD</em> en FAT32 que no tiene label y al montarla
+Ubuntu la llama <code>9016-4EF8</code>, lo cual no me dice mucho y me gustaría cambiarlo.
+La herramienta para cambiar labels de FAT32 se llama <code>mlabel</code> y viene en el
+paquete <code>mtools</code>.</p>
+
+<ol>
+<li><p>Averiguamos que dispositivo es, para llamarlo por su nombre después.</p>
+
+<pre><code> $ df /media/9016-4EF8
+ Filesystem           1K-blocks      Used Available Use% Mounted on
+ /dev/sdb1             31263744        32  31263712   1% /media/9016-4EF8
+</code></pre>
+
+<p> Se llama <code>/dev/sdb1</code>.</p></li>
+<li><p>La desmontamos para trabajar con el a gusto, que estaba en <code>/media/9016-4EF8</code>.</p>
+
+<pre><code> $ sudo umount /media/9016-4EF8
+</code></pre></li>
+<li><p>Para usar <code>mlabel</code> necesitamos que el dispositivo tenga un nombre, asi que
+copiamos la config por defecto de <code>mtools</code> y le añadimos nuestro dispositivo.
+Lo llamaremos <code>i</code>.</p>
+
+<pre><code>  $ cp /etc/mtools.conf ~/.mtoolsrc
+  $ echo 'drive i: file="/dev/sdb1"' &gt;&gt; ~/.mtoolsrc
+</code></pre></li>
+<li><p>Renombramos la partición con <code>mlabel</code>.</p>
+
+<pre><code> $ sudo mlabel i:mi_tarjeta
+</code></pre></li>
+</ol>
+
+
+<p><strong>Nota</strong>: si <code>mlabel</code> os escupe algo parecido a esto:</p>
+
+<pre><code>code-block::text
+Total number of sectors (62543872) not a multiple of sectors per track (63)!
+Add mtools_skip_check=1 to your .mtoolsrc file to skip this test
+</code></pre>
+
+<p>Sed obedientes y simplemente añadid <code>mtools_skip_check=1</code> al fichero.</p>
+
+<pre><code>$ echo 'mtools_skip_check=1' &gt;&gt; ~/.mtoolsrc
+</code></pre>
+
+<p>Y listo, al conectar el dispositivo se monta solo con el nombre bueno:</p>
+
+<pre><code>code-block::console
+$ ls /media/
+MI_TARJETA
+</code></pre>

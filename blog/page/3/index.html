@@ -1,0 +1,1861 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Raging Bits</title>
+  <meta name="author" content="Javier Santacruz">
+
+  
+  <meta name="description" content="![image][] Estas navidades para una asignatura, &ldquo;Mobile Technology&rdquo;
+desarrollé un pequeño videojuego de prueba para Android. Desde
+hace &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ragingbit.com/blog/page/3">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Raging Bits" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Raging Bits</a></h1>
+  
+    <h2>Easy systems, raging bits</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/03/android-screencast/">Android Screencast</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T23:12:00+01:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="img-center">
+
+![image][]   
+
+</div>
+
+
+<p>Estas navidades para una asignatura, <em>&ldquo;Mobile Technology&rdquo;</em>
+desarrollé un pequeño videojuego de prueba para <strong>Android</strong>. Desde
+hace unos días vengo buscando la manera de grabar un vídeo del
+juego sin necesidad de emplear una cámara externa (cutre y baja
+calidad) o grabar el emulador (el cual va lentísimo).
+<strong>Aún no lo he conseguido</strong>, pero sin embargo he tenido una
+aproximación interesante mediante la aplicación
+<strong><a href="http://code.google.com/p/androidscreencast/">Android Screencast</a></strong> con la cual he podido grabar un video
+pero que es insuficiente para las necesidades de un videojuego, que
+funciona a un framerate alto.</p>
+
+<div class="img-center">
+
+<iframe src="http://player.vimeo.com/video/19533141?title=0&amp;byline=0&amp;portrait=0" width="590" height="330" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a> from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+</div>
+
+
+<p>La aplicación <strong>Android Screencast</strong> sirve para manejar el teléfono
+desde el ordenador. Permite navegación de archivos, manejo de
+teclado y ratón (solo root), screenshots y <strong>grabación de video</strong>.
+Los pasos para utilizarlo son:
+Tener el sdk de android instalado
+Tener Java SDK 6 instalado
+Tener conectado el teléfono y reconocido por el server del sdk
+Ejecutar el archivo jnlp del programa</p>
+
+<p>El programa automáticamente intenta 6 conexiones al teléfono
+conectado y tras eso desiste. Mis pasos para instalarlo fueron:</p>
+
+<pre><code>arl@lap$ cd android-sdk/platform-tools
+arl@lap$ ./adb stop-server
+arl@lap$ sudo ./adb start-server
+arl@lap$ ./adb devices
+List of devices attached
+HT066P800146    device
+</code></pre>
+
+<p>Con la secuencia de comandos anterior conecto mi <em>Nexus One</em> al pc.
+Tengo que <strong>iniciar el demonio como root</strong> o de otra manera no me
+coge el teléfono. Un día de estos debería escribir una regla para
+que se monte solo con los permisos adecuados para el sdk.</p>
+
+<p>Una vez conectado, ejecutamos AndroidScreencast:</p>
+
+<pre><code>gnome-open androidscreencast.jnlp
+</code></pre>
+
+<p>Y debería abrirse y detectar el teléfono solo, mostrando la
+siguiente pantalla en mi escritorio:</p>
+
+<div class="img-right">
+
+![image][1]
+
+<sub>Escritorio mostrado en pantalla </sub>
+
+</div>
+
+
+<p>Ahí podemos ver todo lo que sucede en la pantalla del teléfono en
+&lsquo;tiempo real&rsquo;, tenemos acceso al arbol de fichero y un par de cosas
+más. Sin embargo no va fluido. Probablemente porque se basa en la
+toma de screenshots, que es horriblemente lenta. Para tomar una
+screen de la pantalla, el teléfono se toma su tiempo, tardando
+varios milisegundos. El refresco de la pantalla es mucho más
+rápido, de manera que todas las animaciones que se muestren en el
+teléfono saldrán cortadas o no saldrán en la pantalla.</p>
+
+<p>En la parte superior izquierda podemos ver el botón <strong>Grabar</strong> que
+al pulsar nos preguntará donde queremos guardar el vídeo y
+comenzará el vídeo, quedando el boton pulsado. Para parar la
+grabación simplemente pulsar de nuevo sobre el botón y parará.</p>
+
+<div class="img-left">
+  
+![image][2]
+
+<sub>Captura del juego</sub>
+
+</div>
+
+
+<p>El formato de salida es .mov y empleé <strong>Avidemux</strong> para editarlo.
+Debo rectificar una pequeña injusticia que cometí contra
+<strong>Avidemux</strong> en mi anterior entrada. No es tan limitado como me
+pareció la otra vez, soporta una buena serie de filtros que hacen
+que para ediciones menores sea mucho más que suficiente. En este
+caso lo único que quería era rotar la imagen y suavizarla
+ligeramente, para lo cual funcionó muy bien.</p>
+
+<p>La única dificultad fué encontrar un encoder que me aceptase .mov
+como entrada para generar la salida. Menos mal que <strong>Avidemux</strong>
+soporta bastantes formatos y el MPEG4 (xvid) me sirvió.</p>
+
+<div class="img-center">
+
+![Editando el vídeo con Avidemux][]
+<sub>&#8220;Editando el video con
+Avidemux&#8221;</sub>
+</div>
+
+
+<p>Finalmente, el vídeo quedó subido a <strong>Vimeo</strong> y
+<a href="http://vimeo.com/19533141">podeis verlo aquí</a>.</p>
+
+<p><a href="http://vimeo.com/19533141">Android Screencast showing a tiny test videogame</a>
+from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/02/screencast-de-aplicacion-3d-en-linux/">Screencast De Aplicación 3D en Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-02T20:09:00+01:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="img-center">
+
+<iframe src="http://player.vimeo.com/video/19469223?title=0&amp;byline=0&amp;portrait=0" width="590" height="230" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/19469223">Flocking Behaviour 2D Demo</a> from <a href="http://vimeo.com/user5909254">Javier Santacruz</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+</div>
+
+
+<p>Tras realizar un trabajo para una asignatura en la que escribí una
+pequeña aplicación en 3D, quería hacer un pequeño video de demo de
+su funcionamiento. El objetivo era grabar la aplicación mientras
+corría y añadirle al video algún que otro diagrama explicativo
+conforme iban sucediéndose las imágenes, de forma que quedase claro
+que es lo que realmente realicé en el trabajo y cuales son sus
+objetivos.</p>
+
+<p>Lo que acabé usando fue: <br/>
+<strong>Xvidcap</strong> Para la grabación del escritorio.
+<strong>Avidemux</strong> y <strong>LiVe</strong> Para la edición del video.</p>
+
+<p>Sin embargo por el camino probé algunas alternativas, ya que el
+campo de la edición de video parece estar bastante verde y no me
+resultó nada sencillo poder montar lo que quería.</p>
+
+<h3>Grabar la aplicación funcionando</h3>
+
+<p>Como herramienta de grabación de escritorio mi primera opción fué
+<strong><a href="http://live.gnome.org/Istanbul">Istanbul</a></strong>, el cual es un programa de captura de video de
+escritorio muy sencillo e integrado con GNOME que puede encontrarse
+en los repositorios. <br/>
+Prácticamente no tiene interfaz. Cuando se arranca se queda en la
+barra de tareas como un botón rojo. Si pulsas sobre él, comienza a
+grabar, y para al volver a pulsar. <br/>
+Tenía muy buena pinta y probablemente haga muy bien su trabajo para
+grabar simplemente el escritorio, pero mi aplicación tiene gráficos
+en 3D que sencillamente no aparecían en el video resultante, de
+manera que lo descarté como opción.</p>
+
+<p>El siguiente fué el que me salió bueno: <strong><a href="http://xvidcap.sourceforge.net/">Xvidcap</a></strong>. Muy
+sencillo también consiste en una pequeña barra y un cuadrado rojo
+que marca el área de la pantalla que va a ser grabada. En mi
+sistema tenía un bug importante que no me permitía abrir el panel
+de opciones, sin embargo, afortunadamente, las opciones por defecto
+me funcionaron bien. Tras grabar el video, me generó un mpg a 10fps
+suficientemente bueno como para evitar trompicones. La parte
+negativa es que grabar el escritorio es una operación terriblemente
+costosa que degrada el rendimiento del sistema hasta el punto en
+que la aplicación se notaba que renqueaba.</p>
+
+<h3>Editar el video grabado</h3>
+
+<p>A la hora de editar el video pensaba emplear el editor web que trae
+Youtube, que es razonablemente rápido y muy efectivo para poner
+textos simples. Ya lo usé antes en este video de mi Proyecto de Fin
+de Carrera <strong><a href="http://www.youtube.com/watch?v=xMHqlmfxLjc">idiginBPEL</a></strong> con buen resultado. Sin embargo,
+tenía ganas de probar la plataforma de <strong><a href="http://vimeo.com">Vimeo</a></strong>, que no trae
+tales cosas, de manera que comencé la búsqueda de mi herramienta de
+edición de video.</p>
+
+<h4>Avidemux</h4>
+
+<p>Primero probé <strong><a href="http://fixounet.free.fr/avidemux/">Avidemux</a></strong> que funciona muy bien y se ve
+software bastante robusto, pero que no permite otra cosa salvo
+cortar, pegar, redimensionar y poco más. En realidad, que haga esto
+y lo haga bien, no es poco.</p>
+
+<h4>Petazos con Kino</h4>
+
+<p>Mi segunda opción fué <strong><a href="http://www.kinodv.org/">Kino</a></strong> que tiene una buena interfaz y
+parece plagado de opciones avanzadas; Sin embargo fué un fracaso
+total, la aplicación me lanzaba excepciones con errores de coma
+flotante y se caia completamente cuando intentaba exportar video,
+fuese al formato que fuese. Esto es lo que yo llamaría una función
+vital para un programa de video, de manera que me obligó a
+descartarlo.</p>
+
+<h4>Funcionalidad con sufrimiento en LiVe</h4>
+
+<p>Mi tercera y última ha sido <strong><a href="http://lives.sourceforge.net/">LiVe</a></strong>. LiVe tiene una interfaz
+horrorosa y completamente antiintuitiva, sin embargo tras unos
+minutos de horror intenso he aprendido a manejarlo y a hacer lo que
+pretendía con el. La interfaz, en serio, es un obstáculo. Menús en
+popups con barras de desplazamiento que incomodan, scrolls que no
+funcionan, inputs numéricos sin opciones de sincronización en los
+que hay que ir editando los valores uno a uno. También tiene una
+completa ausencia de interacción con el ratón a la hora de aplicar
+los efectos como mover una imagen.</p>
+
+<p>A pesar de ser tan feo e inusable, parecía funcionar. Eso sí, no a
+la primera. Inicialmente el programa petaba cuando intentaba abrir
+los mpg generados con <strong>Xvidcap</strong> de manera que los convertí usando
+<strong>Avidemux</strong> a avi y eso si pareció gustarle.</p>
+
+<h4>Más lento que el caballo del malo</h4>
+
+<p>Una vez comencé a editar, me di cuenta con horror, que no soporta
+deshacer acciones más allá de la última realizada. Esto significa
+que tienes que ir realizando backups cada poco tiempo. Un backup
+significa copiar totalmente el vídeo realizado y en mi caso tardaba
+entre 2 o 3 minutos. Después, cada efecto aplicado es escrito en
+disco directamente y procesa el video completo, de manera que
+cualquier acción me tomaba también entre 40 segundos y 2 minutos. A
+ese ritmo, tardé unas <strong>4 o 5 horas</strong> en cortar el video, incluir
+un par de imágenes que entrasen y saliesen animadamente con efectos
+de alpha. Es cierto que estaba haciendo otras cosas como
+escribiendo funciones recursivas a petición de compañeros y
+comiendo galletas, pero fué realmente desesperante.</p>
+
+<h4>Añadir imágenes</h4>
+
+<p>Los pasos que seguía con el programa para añadir las imágenes .png
+generadas con Inkscape era realizar una selección de frames y
+aplicar un efecto de tipo &lsquo;image overlay&rsquo; en el cual se me permitía
+poner un tamaño, posición y alpha inicial y final, pudiendo dejar
+la imagen fija o animándola. A la hora de realizar animaciones de
+entrada-salida, me cabreó bastante que las posiciones para las
+imágenes no soportasen valores negativos. Esto hace que no puedas
+mover una imagen por el borde superior-izquierdo hasta hacerla
+desaparecer de la pantalla y me fastidió lo que tenía en mente.
+Para generar nuevos frames elegía &lsquo;generate colour frames&rsquo; y añadía
+frames de color blanco que insertaba antes o después de la
+selección.</p>
+
+<h4>Texto sin anti-aliasing</h4>
+
+<p>Hacia el final del video pretendía introducir mi nombre y la
+dirección de mi blog. Sin embargo el texto que añade al vídeo va
+sin anti-aliasing de manera que mostraba bordes tan irregulares que
+me dio vergüenza y lo sustituí por una imagen (que no me encajaba y
+terminé descartando).</p>
+
+<h4>Fallos al exportar</h4>
+
+<p>A la hora de exportar, <strong>LiVe</strong> si que está bien equipado y soporta
+múltiples encoders y muchos formatos. Sin embargo, como en cada
+paso debe haber problemas, dolor y desconcierto, cada formato tiene
+sus restricciones en cuanto a framerate y resolución. Primero lo
+intenté con el formato libre OGG Theora codificándolo en un .ogv
+pero al visualizar el video codificado, mostraba problemas graves
+con las transparencias de algunas imágenes, que salían en amarillo.
+Fueron momentos muy frustrantes porque ya estaba realmente cansado,
+el video se reproducía bien en el programa de edición, pero al
+exportar mostraba cosas extrañas que no podía obviar porque eran
+demasiado llamativas.</p>
+
+<p>Ahí comenzó mi búsqueda de un encoder y formato adecuados. Cada vez
+que quería probar un formato diferente, debía cambiar el framerate
+y la resolución. En uno de los cambios, cambiar la resolución llevó
+20 minutos largos más el tiempo de codificación posterior que
+depende del formato destino pero que no baja de 5 minutos.</p>
+
+<p>Finalmente probé con el encoder &lsquo;multi_encoder&rsquo; que es el que
+viene preseleccionado por defecto y vídeo en MPEG a la más alta
+calidad posible. Tras 35 minutos de espera, el video por fin salió
+limpio.</p>
+
+<h4>Vimeo</h4>
+
+<p>La subida a <strong>Vimeo</strong> fué bastante sencilla y rápida y por una vez,
+no me falló el sistema de subida en flash, que normalmente no suele
+funcionar bien con Firefox en Linux. Lo cierto es que la página
+tiene un excelente diseño, es agradable de usar y va como un tiro.
+Todo bien sin ningún problema y el video
+<a href="http://vimeo.com/19469223">quedó subido aquí</a>.</p>
+
+<h3>Conclusión</h3>
+
+<p>Esta ha sido la primera &lsquo;demo&rsquo; que he editado yo mismo sobre mi
+propio trabajo, y definitivamente necesito encontrar herramientas
+nuevas para la próxima vez. <strong>Xvidcap</strong> funciona bien, pero
+empleando <strong>LiVeS</strong> me sentí como si estuviese editando el video
+empleando un palo y piedras de silex afiladas.</p>
+
+<p>Con respecto al video, si hubiese podido deshacer/rehacer con
+comodidad, podría haber pulido mucho mejor los efectos,
+reencuadrado el tamaño y haberlo tocado hasta que hubiese quedado
+bien, pero con lo trabajoso que era cada paso, cometí un par de
+errores pero así se han quedado.</p>
+
+<p>A la hora de elegir herramientas para realizar la grabación y la
+edición estos dos posts me fueron de mucha ayuda:</p>
+
+<ul>
+<li><strong>Screencast para linux:</strong> <a href="http://www.linuxhaxor.net/?p=815">http://www.linuxhaxor.net/?p=815</a></li>
+<li><strong>Editores de video para linux:</strong></li>
+<li><a href="http://www.cyberciti.biz/faq/top5-linux-video-editing-system-software">http://www.cyberciti.biz/faq/top5-linux-video-editing-system-software</a></li>
+<li><strong>Xvidcap:</strong> <a href="http://xvidcap.sourceforge.net/">http://xvidcap.sourceforge.net/</a></li>
+<li><strong>Avidemux:</strong> <a href="http://fixounet.free.fr/avidemux/">http://fixounet.free.fr/avidemux/</a></li>
+<li><strong>LiVeS:</strong> <a href="http://lives.sourceforge.net/">http://lives.sourceforge.net/</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/11/18/impresiones-sobre-la-charla-de-judi-spiers-the-business-of-making-games-the-deal-and-publishing-operations/">Impresiones Sobre La Charla De Judi Spiers the Business of Making Games the Deal and Publishing Operations</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-18T00:00:00+01:00" pubdate data-updated="true">Nov 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>&mdash;
+title: Impresiones sobre la charla de Judi Spiers &quot;The business of making games, the deal and publishing operations&quot;
+date: 2010-11-18 15:47
+category: dev</p>
+
+<h2>tags: gaming, industry</h2>
+
+<p>En la Universidad de Kingston realizan charlas destinadas a los
+alumnos que cursan asignaturas de desarrollo de videojuegos,
+invitando a trabajadores de <em>La Industria</em> a hablar sobre su
+experiencia en ella.</p>
+
+<p>Hoy venía a hablar a <em>Judi Spiers</em>, desarrolladora que ha trabajado
+en títulos para PC, Xbox 360 y varias plataformas móviles. El
+motivo principal de la charla era dar las claves a la hora de
+enfrentar la presentación de una idea o de un juego a una empresa
+distribuidora de juegos, que es la que nos va a proveer de
+Marketing, Testers y recursos. Desde los primeros momentos de la
+presentación, me pareció que el proceso es muy parecido a la
+Televisión, en el que uno debe presentar su idea de manera que
+convenza y que haga que el estudio la compre y aporte recursos a
+ella, no tanto por sus cualidades artísticas o técnicas sino como
+producto que se producirá en un plazo determinado y con un coste
+reducido.</p>
+
+<p>A la hora de presentar una idea, se nos dieron las claves para
+dejar tranquilos y contentos a la gente del estudio. La
+presentación de un juego es un documento y una presentación a la
+que denomina <strong>Game Proposal</strong> en el que deben tenerse muy en
+cuenta las fechas, el coste y el público objetivo del producto. <br/>
+La presentación de la idea y los documentos asociados, deben
+describir el juego perfectamente y mostrar que su realización es no
+solo posible sino práctica.
+Fecha de salida
+Público objetivo
+Coste
+Presupuestos
+Estudio de Competidores
+Plataforma
+Plan de desarrollo
+Equipo de producción
+Argumento
+Historia
+Curva de aprendizaje
+Como se maneja a los principiantes
+Descripción del gameplay
+Controles
+Tecnologías usadas</p>
+
+<h3>Fecha de salida</h3>
+
+<p>Es un concepto muy importante, que debe ser tenido en cuenta ya que
+es una preocupación principal para los ejecutivos, que trabajan con
+presupuestos y fechas. El cuando estará disponible un juego puede
+marcar una gran diferencia y es de lo más influyente en las
+decisiones de los estudios. Siempre es muy difícil pillarse los
+dedos, pero hay que hacerlo.</p>
+
+<h3>Público objetivo</h3>
+
+<p>Al igual que en el cine o la televisión, los videojuegos suelen
+estar enfocados a un público muy concreto que tiene determinados
+patrones que los estudios manejan, de manera que será una pregunta
+obligatoria a la hora de presentar un juego y tratar de que
+apuesten por el.</p>
+
+<h3>Coste y Presupuestos</h3>
+
+<p>El coste total del proyecto es también algo que aunque sea muy
+difícil de calcular, debe darse, ya que es con lo que los
+ejecutivos van a empezar a trabajar y da una perspectiva más real
+del proyecto. Debe hacerse un presupuesto aunque sea aproximado
+para que la proposición esté bien clara y no sea algo vago que hay
+que concretar.</p>
+
+<h3>Estudio de competidores</h3>
+
+<p>Esto es algo realmente importante y consiste en simplemente mostrar
+en que manera tu juego es diferente a los que ya hay, que aporta
+nuevo a la escena y por que no es <em>uno más</em>. También se debe mirar
+con quien va a competir a la hora de salir al mercado y debes
+tratar de vender que tiene posibilidades de diferenciarse del resto
+y convertirse en un producto único.</p>
+
+<h3>Plataforma</h3>
+
+<p>Esto es algo que discrimina mucho a la hora de realizar un juego,
+de lo que depende el coste, el tiempo, presupuestos e incluso
+público y que es de capital importancia a la hora de calcular todo
+lo demás.</p>
+
+<h3>Plan de desarrollo y Equipo de Producción</h3>
+
+<p>Los planes de desarrollo incluyen cuantos desarrolladores,
+disñadores y artistas se necesitarán, durante cuanto tiempo y los
+recursos que empleará el proyecto durante su producción.</p>
+
+<h3>Argumento e Historia</h3>
+
+<p>Como si realmente fuese un proyecto de cine, los juegos suelen
+presentarse junto con un <em>High Level Concept Document</em>, que es un
+documento breve que describe el argumento y la historia del juego;
+normalmente consta de no más de 2 páginas.</p>
+
+<h3>Curva de aprendizaje y principiantes</h3>
+
+<p>Todos los juegos tienen una curva de aprendizaje, que naturalmente
+debe empezar desde un nivel muy bajo y luego evolucionar. Debe
+preveerse la curva del juego, mostrarla y explicarla, ya que de esa
+manera es como se determina que clase de jugador objetivo se busca.
+También debe especificarse como se maneja a los jugadores
+principiantes que <strong>no leen el manual</strong> sino que directamente
+tratan de jugar. Eso es bastante importante ya que un juego con una
+mala curva (muy frustrante al inicio) o demasiado complicado de
+aprender sobre la marcha sin leer el manual está condenado al
+fracaso.</p>
+
+<h3>Descripción del gameplay</h3>
+
+<p>Hasta ahora realmente no hemos descrito el juego en si, es hora de
+que se explique como es una partida típica, como se juega y en que
+consiste realmente el juego y que características (features) lleva.</p>
+
+<h3>Controles</h3>
+
+<p>Esto es una parte que me sorprendió y sobre la que se hizo énfasis.
+Los controles del juego son de lo más importante a la hora de jugar
+y deben ser explicados durante el Game Proposal, especialmente si
+se utiliza algún tipo de periférico adicional.</p>
+
+<h3>Tecnologías usadas</h3>
+
+<p>Por lo general es necesario comentar la tecnología que se va a usar
+a la hora del desarrollo del juego ya que muchas de las preguntas
+irán dirigidas a esa materia. <br/>
+Además, y se nos insistió mucho en ese punto, a la hora de
+presentar una idea, debemos hacer que <strong>todo el mundo en la sala</strong>
+firme un <em>NDA</em> es decir un &ldquo;No Discretionary Agreement&rdquo; por
+anticipado, en el cual se estipule que no puedan reutilizar la idea
+tal cual está sin vosotros. Toda la sala significa <strong>toda</strong>
+incluyendo las limpiadoras que pasaban por allí.</p>
+
+<p>En la parte de lo que <strong>debemos preguntar</strong> están asuntos como la
+<strong>localización</strong> de idiomas del juego y el reparto de
+<strong>royalties</strong>, que es básicamente lo que vamos a cobrar y es muy
+importante negociarlo adecuadamente.</p>
+
+<p>Si nuestro <em>Game Proposal</em> es lo suficientemente bueno y no solo
+eso, sino que es aceptado y tenemos la oportunidad de empezar a
+trabajar, se nos pedirá una demo del juego tras cierto plazo para
+demostrar que el proyecto va por buen camino y apostar
+definitivamente por él.</p>
+
+<p>Para mostrar una Demo nos comentó las siguientes premisas:
+Videos de alta resolución que impreisonen (efecto &lsquo;wow&rsquo;
+literalmente).
+Mostrar una demo jugable en el que se muestren las 3C&rsquo;s: Controles,
+Cámara y Personaje (Character).
+Mostrar el potencial del juego y artwork relacionado para mostrar
+por donde va a evolucionar.
+Hacer la demo escalable &lsquo;por si las moscas&rsquo;. Luego podemos ir
+cortos de tiempo.</p>
+
+<p>El efecto general que debe hacer una demo es el de asombrar a los
+que están viéndola y generar expectación ante el producto completo.</p>
+
+<p>Las 3 Ces que mencioné antes son un aspecto fundamental en el
+diseño de un juego: que <em>controles</em> se van a emplear para manejar
+el juego, donde se va a colocar la <em>cámara</em>, lo cual es muy
+problemático, y como es y funciona el <em>personaje</em> principal. <br/>
+Como la demo obviamente no es el juego completo, pero debe
+ofrecerse una visión lo más completa posible de por donde va a
+seguir el desarrollo y que más va a conseguirse.</p>
+
+<p>Pero no todo es trabajo y exigencias para nosotros, debemos esperar
+de las compañias distribuidoras que nos provean de una campaña de
+<em>Marketing</em> y <em>Testing</em> aunque bien nos avisaron que no podemos
+hacer nada si deciden dar a nuestro producto una distribución y un
+márketing de pena bien porque no les guste o porque piensen que no
+les merece la pena.</p>
+
+<p>Durante la charla contó un par de anécdotas sobre las típicas
+preguntas que los ejecutivos pueden hacer durante una presentación,
+y salió a colación <a href="http://en.wikipedia.org/wiki/Bing_Gordon">Bing Gordon</a> socio fundador de <em>EA Games</em> el
+cual, contaba la ponente, le preguntó durante una exposición,
+<em>que que coche conducía</em>. Cuando ella respondió que conducía un
+Honda Civic, la sala entera se partió la caja. Al parecer esperaban
+que respondiese un Ferrari.</p>
+
+<p>También parece típico para los alumnos de desarrollo de videojuegos
+el trabajar durante el verano en la industria de videojuegos como
+Tester y se estuvieron comentando algunas empresas de la zona que
+trabajan con testers y que emplean a personas jóvenes para probar
+los videojuegos. Cuando un alumno preguntó que si se podía trabajar
+de tester para EA, Judi respondió que lamentablemente no, que EA
+había movido todo su sistema y equipos de testeo de videojuegos
+Europeos a España :&ndash;)</p>
+
+<p>Y bueno, esto es todo lo que he podido sacar de mis notas de la
+charla que duró unos 45 minutos.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/16/establecer-entorno-de-desarrollo-java-me-en-linux/">Establecer Entorno De Desarrollo JAVA ME en Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-16T17:08:00+02:00" pubdate data-updated="true">Oct 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ahora que estoy metiéndome poco a poco en el mundo Java, estoy
+aprendiendo a programar para plataformas móviles usando Java Mobile
+Edition con la versión 2.5 (la 3.0 no es compatible con Linux). <br/>
+Aunque es muy sencillote, me ha costado un poco encontrar
+información completa y clara sobre como establecer el entorno de
+desarrollo, tanto usando un IDE como para programar a pelo. Estos
+son los pasos que yo he seguido:</p>
+
+<p>Tenemos dos opciones:
+Instalar solo el SDK y usar nuestro propio editor (vim).
+Instalar un IDE con todo integrado (NetBeans).</p>
+
+<p>Inicialmente opino que merece mucho la pena usar NetBeans ya que la
+ayuda es tremenda a la hora de empezar, con los esqueletos,
+diferentes apis, chequeo de tipos etc&hellip; pero el editor de texto
+del NetBeans me pone de los nervios, de manera que se que en algún
+momento, en cuanto adquiera cierto control sobre lo que estoy
+haciendo, me pasaré a vim, así que <strong>cubriré las dos opciones</strong> a
+la hora de realizar el tutorial.</p>
+
+<p>Ambas partes tienen en común que se necesita la maquina virtual
+Java de Sun de <strong>32 bits</strong> de manera que si el sistema es de 64
+tienes que instalarla e indicar donde se encuentra.</p>
+
+<h3>Instalar Sun Java SE (Standar Edition) 32 bits (i586)</h3>
+
+<p>Descargar la versión de Java SE de 32 bits de la <a href="https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jdk-6u22-oth-JPR@CDS-CDS_Developer">página de Sun</a>
+Descomprimir el bin:</p>
+
+<pre><code>chmod +x jdk-6u22-linux-i586.bin  ./jdk-6u22-linux-i586.bin
+</code></pre>
+
+<p>Una vez descomprimido, yo lo coloqué en <code>/opt/jdk1.6.0\_22-32bit</code>
+pero ya es cosa tuya.</p>
+
+<p>Recuerda donde lo instalas porque vas a necesitar usar la ruta más
+tarde.</p>
+
+<p>Ahora describiré el proceso completo de instalación para cada modo.</p>
+
+<h3>Solo el SDK</h3>
+
+<p>Nos descargamos el Wireless Toolkit (WTK) de la <a href="https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=sun_java_wireless_toolkit-2.5.2_01b-oth-JPR@CDS-CDS_Developer">página de Sun</a>:
+Ejecutamos el script:</p>
+
+<p><code>./sun_java_wireless_toolkit-2.5.2_01-linuxi486.bin.sh</code></p>
+
+<p>Donde tendremos que aceptar la licencia y
+<strong>nos preguntará la ruta del entorno java</strong> que en mi caso como
+dije antes es <code>/opt/jdk1.6.0\_22-32bit</code>.
+Después nos preguntará la ruta a donde queremos instalarlo. Yo lo
+hice en <code>/usr/local/WTK2.5.2</code> pero puedes tenerlo donde quieras.</p>
+
+<p>Ya debería estar instalado el WTK. Para crear proyectos,
+compilarlos y ejecutarlos en el simulador se utiliza una aplicación
+gráfica en java que trae el WTK llamada ktoolbar cuyo ejecutable se
+encuentra en el directorio de instalación del WTK, en mi caso en
+<code>/usr/local/WTK2.5.2/bin/ktoolbar</code>.</p>
+
+<p>Desde la aplicación se maneja ya todo. Solo tienes que crear un
+proyecto, editar los fuentes con tu editor favorito y ejecutarlo
+desde ahi. DONE.</p>
+
+<h3>NetBeans</h3>
+
+<p>Descarga la versión de NetBeans que incluye el WTK y trae soporte
+para desarrollo móvil <a href="http://netbeans.org/downloads/">desde la página</a>.
+La descomprimimos e instalamos.</p>
+
+<pre><code>code-block::bash
+chmod +x netbeans-6.9.1-ml-java-linux.sh  
+./netbeans-6.9.1-ml-java-linux.sh
+</code></pre>
+
+<p>Por defecto yo lo instalé en mi directorio home.  El emulador probablemente
+fallará al tratar de ejecutar lo que compiles, de manera que tienes que
+establecer la ruta del entorno java. En concreto se hace editando el script
+<code>~/netbeans-6.9.1/mobility/WTK2.5.2/bin/emulator</code> y estableciendo la variable
+javapathtowtk con la ruta del entorno.</p>
+
+<pre><code>code-block::bash
+#!/bin/sh
+javapathtowtk=/opt/jdk1.6.0_22-32bit/bin/
+</code></pre>
+
+<p>Hay que tener especial cuidadito con que la ruta termine en
+(..)bin/. Y con esto ya deberíamos tener instalado NetBeans con
+soporte para móviles. Puedes crear un proyecto de ejemplo y
+probarlo convenientemente.</p>
+
+<p>Espero que sirva :D <br/>
+Otras referencias:</p>
+
+<p>Solucionar error para 64b de NetBeans:
+<a href="http://http://forums.sun.com/thread.jspa?threadID=5447892">http://forums.sun.com/thread.jspa?threadID=5447892</a> <br/>
+Establecer y usar ktoolbar:
+<a href="http://http://www.linux.com/archive/articles/122050">http://www.linux.com/archive/articles/122050</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/11/mover-el-ultimo-archivo/">Mover El último Archivo&#8230;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-11T22:05:00+02:00" pubdate data-updated="true">Oct 11<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Una de las cosas tontas en las que perdía más tiempo era a la hora
+de rescatar un archivo descargado con el navegador. La situación
+típica era la de estar trabajando en consola, ver que ha terminado
+una descarga en la barra de tareas (usualmente música) y no poder
+mover el archivo fácilmente.</p>
+
+<p>Usualmente lo que descargo se va a la carpeta \~/Downloads de
+manera que si me descargaba pongamos un comprimido, por ejemplo
+music.zip tenía que mirar en el directorio \~/Downloads el último
+archivo modificado (rebuscando porque siempre acaba lleno de
+basura) y traérmelo al directorio de trabajo.</p>
+
+<pre><code>ls -t ~/Descargas | head -n 1 
+mv ~/Descargas/nombre_tecleado.zip .
+</code></pre>
+
+<p>Con el coñazo de que si hay un directorio, ls lo lista primero y ya
+me tenía que poner a mirar. Aunque os parezca poco para teclear,
+cuando se realiza repetidamente es simplemente demasiado. Intenté
+acortarlo poniendo un enlace simbólico, como hago con muchos otros
+directorios. Lo acorté a \~/dwn pero ni por esas, seguia siendo
+demasiado farragoso.</p>
+
+<p>Friki como es uno, me hice un pequeño script para sh que movía al
+directorio de trabajo el último archivo modificado en el directorio
+de descargas. Le puse por defecto la ruta. \~/dwn</p>
+
+<pre><code>#!/bin/sh
+# Francisco Javier Santacruz López-Cepero
+# 3 - 12 - 2009 
+# Move the most recent modified file from SOURCE DIR TO USR DIR
+# If called without arguments SRC is /home/user/dwn y destination work
+# directory
+# mvlast [ SOURCE DIR ] [ DESTINATION DIR ]
+
+SRC='/home/'$USER'/dwn'
+DEST=$(pwd)
+
+# Take arguments 
+if [ $# -gt 0 ] 
+then
+    SRC=$1
+    if [ $# -eq 2 ] 
+    then
+        DEST=$2
+    else
+        echo "mvlast [ SOURCE DIR ] [ DESTINATION DIR ]"
+    fi
+fi
+
+FILE=$(ls -t1 $SRC | head -n 1)
+/bin/mv "$SRC/$FILE"  "$DEST" &amp;&amp; echo "$SRC/$FILE"
+</code></pre>
+
+<p>Lo situé en mi home como \~/.mvlast.sh y creé un alias. (No veía
+muy bien meterlo en \~/usr/bin/mvlast):</p>
+
+<pre><code>alias mvlast='~/./.mvlast.py'
+</code></pre>
+
+<p>El script tenía varios inconvenientes:</p>
+
+<p>No sabía lo que iba a mover hasta haberlo hecho.
+Si por error mueves un archivo .part, te cargas una descarga.
+Cuando descargaba varios ficheros, tenía que repetir el comando.
+A veces no quería exactamente la última descarga, sino otra en
+concreto.</p>
+
+<p>Sin embargo el otro día, mientras me bajaba una <em>.iso</em> muy pesada, descargué
+también unos apuntes, tra lo cual raudo y veloz ejecuté mvlast lo que me trajo
+el .part de la iso, deteniendo la descarga y dejándome absorto un rato durante
+el cual miraba la consola extrañado con cara de imbécil.</p>
+
+<p>En ese momento me replanteé reescribir el script&hellip; y ya de paso lo
+hice en python. <br/>
+Le añadí algunas cosillas que me hacen la vida mucho más fácil:</p>
+
+<p>Listado de ficheros a mover (opción -l)
+Mover más de un fichero (opción -n)
+<strong>No</strong> mover .part salvo explícitamente.
+Mover solo ficheros que cumplan un patrón (por ejemplo el último
+*.pdf)</p>
+
+<p>Aquí el script. No me he parado mucho a comentarlo ni a mirar las
+burradas. De hecho durante el uso supongo que algo tendré que
+depurar ya que no está tan probado como el otro, que llevaba
+conmigo casi un año.</p>
+
+<p>Son pequeñas cositas que vamos usando en el día a día. Supongo que
+habrá otro método para listar las cosas y MUY probablemente el mio
+no sea el más óptimo. De hecho, me animo a postear esto en busca de
+comentarios. Si teneis pegas decidlo :-D</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/07/problema-con-guake-en-ubuntu-maverick-10-10/">Problema Con Guake en Ubuntu Maverick 10.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-07T17:06:00+02:00" pubdate data-updated="true">Oct 7<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="img-right">
+
+![image][]
+
+</div>
+
+
+<p>Ayer me fijé que mi consola de Guake no estaba igual
+que siempre, sino que fallaba al ejecutar ciertas aplicaciones y la
+pantalla se desdibujaba cuando empleaba el comando man. En concreto
+recibía el siguiente error:</p>
+
+<p><code>WARNING: terminal is not fully functional</code></p>
+
+<p>Trasteando, comparé la variable de entorno TERM de la consola de
+guake con la de la gnome-console normal, que funcionaba bien, y en
+efecto la consola de Guake mostraba una terminal diferente</p>
+
+<p>En Guake: <br/>
+<code>echo $TERM  dumb</code></p>
+
+<p>En gnome-terminal: <br/>
+<code>echo $TERM  xterm</code></p>
+
+<p>El error se podía solucionar temporalmente simplemente cambiando el
+valor de la variable TERM a xterm <br/>
+<code>export TERM=xterm</code> <br/>
+de manera que inicialmente puse esa línea en mi .bashrc y listo.</p>
+
+<p>Sin embargo, buscando más información sobre el problema, encontré
+el <a href="https://bugs.launchpad.net/ubuntu/+source/guake/+bug/621927">track del bug</a> en launchpad, donde se daba una solución
+alternativa que me gusta más.</p>
+
+<p>Guake es un programa en python que se lanza mediante un script que
+está en /usr/bin/guake de manera que lo único que hay que hacer es
+modificar ese último script y añadir el export ahí.</p>
+
+<pre><code>code-block::bash
+GUAKEPATH="/usr/lib/guake"  
+PYTHONPATH="$PYTHONPATH:$GUAKEPATH"  
+PYTHON="/usr/bin/python"  
+export TERM=xterm    
+exec -a guake $PYTHON -OO $GUAKEPATH/guake.py "$@"
+</code></pre>
+
+<p>Y santas pascuas.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/06/problemas-con-syslinux-y-usb-creator-gtk/">Problemas Con Syslinux Y Usb-creator-gtk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-06T04:48:00+02:00" pubdate data-updated="true">Oct 6<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="img-right">
+
+![El causante de mis penas][]
+
+<sub>El causante de mis penas</sub>
+</div>
+
+
+<p>Hoy decidí liarme la manta a la cabeza e instalar la beta de ubuntu
+10.10, y para ello intenté hacer un usb autoarrancable empleando
+usb-creator-gtk, con el que es muy sencillo crear uno a partir de
+una imagen .iso de una distribución.</p>
+
+<p>Una vez que terminaba el proceso de crear el pendrive
+autoarrancable, reiniciaba y me encontraba con el siguiente error:</p>
+
+<p><code>Unknown keyword in configuration file</code></p>
+
+<p>Y no arrancaba.</p>
+
+<p>Tras <a href="http://www.khattam.info/solved-syslinux-unknown-keyword-in-configuration-file-2010-09-01.html#more-1070">leer un poco</a> parece ser que es un error debido a una
+versión antigua de syslinux, así que me lancé a buscar los deb de
+una versión más nueva que funcionase.</p>
+
+<p>Desinstalé syslinux (también desinstala syslinux-common,
+usb-creator-gtk y usb-creator-common) <br/>
+<code>sudo apt-get remove syslinux</code></p>
+
+<p>Instalé a partir de los deb más nuevos de <a href="http://mirrors.kernel.org/ubuntu/pool/main/s/syslinux/syslinux_4.01+dfsg-3ubuntu1_amd64.deb">syslinux</a> y
+<a href="http://mirrors.kernel.org/ubuntu/pool/main/s/syslinux/syslinux-common_4.01+dfsg-3ubuntu1_all.deb">syslinux-common</a></p>
+
+<p>Y por último volví a instalar usb-creator-gtk</p>
+
+<p><code>sudo apt-get install usb-creator-gtk</code></p>
+
+<p>Y ahora si, ya funcionó el arranque convenientemente.</p>
+
+<p>Todo esto me trajo un buen rato de cabeza, pues antes comprobé el
+hash de la imagen para saber que no estaba corrupta, cambié de usb,
+lo formateé, miré la bios de mi portátil y además cada vez que se
+genera un usb autoarrancable a partir de una iso el proceso tarda
+media vida. Si a ello le unimos una conexión a internet muy
+deficiente, el proceso completo me cabreó lo que no hay escrito y
+me llevó 4 horas.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/09/04/backups-en-imagenes-simuladas-mediante-el-uso-de-enlaces-duros/">Backups en Imágenes Simuladas Mediante El Uso De Enlaces Duros</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-04T19:26:00+02:00" pubdate data-updated="true">Sep 4<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div style="float: left; margin: 5px;"> 
+
+![Disco Duro][]  
+
+</div>
+
+
+<p>Enfrentado una vez a la situación de tener que hacer backups de una aplicación
+con muchos gigas en datos importantes, acabé adoptando una manera interesante
+pero no excesivamente conocida de backup.  Antes de meterme a ello, para
+comprender mejor el problema que resuelve y las ventajas que aporta, haré un
+repaso a las formas más comunes de hacer backup en entornos unix y las
+herramientas que usaremos en los ejemplos: tar y rsync. Que son viejos
+conocidos de este entorno y sencillos de utilizar o de automatizar desde
+scripts para poner en el cron.</p>
+
+<h3>Herramientas</h3>
+
+<h4>Tar:</h4>
+
+<p><em>(De <strong>T</strong>ape <strong>Ar</strong>chiver)</em>: Programa antediluviano
+originalmente pensado para realizar copias de seguridad en cinta
+magnética. Crea un solo archivo a partir de una jerarquia de
+directorios, adicionalmente usando compresión.</p>
+
+<h4>Rsync:</h4>
+
+<p>Simplemente transmite ficheros. Es como un cp muy mejorado. Se basa
+en un algoritmo que le permite calcular las diferencias entre dos
+ficheros y mandar <strong>solo eso</strong> lo cual lo hace ideal para
+transmitir backups por red.</p>
+
+<p>A continuación haremos un breve repaso de los tipos de backup más
+empleados.</p>
+
+<h3>1. Imagen o Snapshot</h3>
+
+<p>El sistema más sencillo probablemente fuese hacer un paquete
+(comprimido o no) con cp,  zip o tar del directorio del que
+deseamos hacer backup.<br/>
+Por ejemplo:</p>
+
+<pre><code>$ tar -cvf dir-fecha.tar dir  
+$ cp -r dir dir-fecha  
+$ zip dir-fecha.zip dir
+</code></pre>
+
+<p>Así se obtiene una imagen del directorio&hellip; que ocupa lo mismo que
+el contenido directorio (según compresión). Muchas veces no es una
+opción. Por ejemplo, si el directorio dir ocupa 1 Terabyte y son
+datos críticos que necesitan copias varias veces al día, no es
+abordable guardar tantos Terabytes de información <em>CADA DÍA</em>, y
+quizá durante <em>MUCHO TIEMPO</em>. Alguno dirá: &ldquo;Podemos simplemente
+borrar las imágenes más antiguas&rdquo;. Pero&hellip; ¿Y si necesitamos esas
+imágenes, y si necesitamos garantizar datos durante tanto tiempo
+que nos quedemos sin espacio?. Tenemos un problema. El método no
+nos sirve.</p>
+
+<h3>2. Diferenciales</h3>
+
+<p>Lo normal es que cuando se tienen grandes volúmenes de datos, solo
+cambien unos pocos ficheros de un día a otro. Si se piensa, resulta
+ridículo copiarlo <strong>todo</strong> cada vez, replicando un montón de
+ficheros iguales. Tiene mucho más sentido copiar solo <em>ESA</em> pequeña
+parte que cambia, porque lo demás permanece inalterado, ya lo
+tenemos.<br/>
+Estamos hablando de un backup diferencial, en el que cada día se
+calcula la diferencia (△) con respecto al backup anterior y se
+copia solo eso.<br/>
+Por ejemplo:</p>
+
+<blockquote><p>Día1: dir &mdash;> dir.copia  # Primer día se copia todo.<br/>
+Día2: dir &mdash;> △dir-dia2  # Siguientes días, se copia solo lo que
+ha cambiado.<br/>
+Día3: dir &mdash;> △dir2-dia3</p></blockquote>
+
+<p>Después, para recuperar tal y como estaba dir en un día
+determinado, deberíamos empezar con la copia completa del día 1, e
+ir añadiendo diferencias siguiendo la cadena hasta el día deseado.
+Descompriendo dir.copia y aplicándole encima las △ de cada día una
+tras otra hasta el 3.</p>
+
+<p>Esto podríamos hacerlo empleando tar o aún mejor, rsync</p>
+
+<h4>Usando tar</h4>
+
+<p>Por ejemplo con tar podríamos usar un listado list.txt que nos
+sirva para saber que ficheros cambian de una vez a otra. La primera
+vez lo copiará todo:</p>
+
+<pre><code># A realizar cada día.  
+$ tar --listed-incremental list.txt -cvf dir-$DIA dir
+</code></pre>
+
+<p>Con esto conseguiríamos ficheros diferenciales con lo que cambia de
+cada día:</p>
+
+<blockquote><p>dir-1.tar<br/>
+dir-2.tar<br/>
+dir-3.tar</p></blockquote>
+
+<p>Siendo el primero el que sirve de base y contiene una imagen
+completa. Para rescatarlas, tendríamos que descomprimir primero la
+base y luego el resto encima por orden:</p>
+
+<pre><code># Descomprime dir-1, luego dir-2, luego dir-3 uno encima de otro.  
+for i in dir-*; do  
+  tar -xvf $i  
+done
+</code></pre>
+
+<h4>Usando rsync</h4>
+
+<p>Con rsync podríamos tener un directorio destino con una copia de lo
+que hay en dir y emplear las opciones combinadas &mdash;backup y
+&mdash;backup-dir=dir-$DIA para crear los △ diferenciales. De esta forma
+tendríamos la última versión de dir en el directorio destino, y un
+directorio △ dir-$DIA con los ficheros que cambiaron en cada
+copia.</p>
+
+<pre><code># Copia dir en dest, poniendo las diferencias en dir-$DIA  
+$ rsync --backup --backup-dir dir-$DIA dir dest 
+</code></pre>
+
+<p>Para recuperarla, deberíamos ir copiando y sobreescribiendo los
+ficheros por orden en un directorio aparte recup.</p>
+
+<pre><code># Copia machacando en recup el contenido de los dir dia-1, dia-2 ...
+for i in dia-*; do  
+    cp -R $i recup  
+done
+</code></pre>
+
+<p>Tras hacer esto, en recup tendremos el estado del directorio dir en
+el último día del que hayamos descomprimido.</p>
+
+<p>Aunque parezca bonito, este sistema conlleva dos problemas
+fundamentales:</p>
+
+<ol>
+<li>Es costoso acceder a los datos tal y como estaban un día
+determinado.<br/>
+Los datos no están disponibles para que el administrador entre y
+los vea directamente, sino que hay que procesarlos aparte y puede
+llevar mucho tiempo.</li>
+<li>Es un sistema extremadamente peligroso&hellip; ¿Que ocurre si se
+corrompe la △ de un solo día intermedio? Pues que TODOS los datos
+posteriores son irrecuperables.<br/>
+Repito, si se corrompe dia-2, desde dia-3 a dia-10000 serán
+irrecuperables. Por lo general, se hace una imagen completa cada
+cierto tiempo, de manera que la cadena de diferencias no sea
+demasiado larga (y se multipliquen las probabilidades de hecatombe)
+pero de nuevo estamos hablando de grandes imágenes que ocupan
+mucho, que es de lo que veníamos huyendo.
+Demasiado peligroso.</li>
+</ol>
+
+
+<h3>3. Imágenes &ldquo;diferenciales&rdquo;</h3>
+
+<p>Y por fin, mi solución favorita.</p>
+
+<p>Viendo que los diferenciales son más peligrosos que un sudo rm -rf,
+volvamos a la idea de las imágenes. Era una idea bonita. Un día, un
+paquetito completo con todo. Sencillo, directo. ¿El problema? El
+horrible consumo de espacio debido a la replicación de ficheros.</p>
+
+<p>En ese punto, enfrentado a mis backups de 40Gigas diarios con
+discos por alrededor de 150G, un día pensé&hellip; ¿No podrían compartir
+los ficheros que no cambian los mismos datos, es decir, ser enlaces
+duros unos de otros? Y comencé a buscar <a href="http://www.mikerubel.org/computers/rsync_snapshots">documentación</a> animado
+por esa idea.</p>
+
+<p>¿Enlace duro? Se hace necesario presentar algún concepto de los
+sistemas de ficheros.</p>
+
+<h4>Ficheros y Enlaces Duros</h4>
+
+<p><img src="./img/file1-300x100.png" title="file1" alt="Es solo un fichero normal..." /></p>
+
+<p>Tiene sus distintas partes:</p>
+
+<p>Descriptor: Mantiene el nombre del fichero, los permisos, fecha de
+creación&hellip; y guarda la dirección donde se encuentran los inodes y
+datos.
+datos: Los datos se encuentran divididos en bloques de cierto
+tamaño en el disco duro, enlazados en cadena osea cada uno cogido
+de la mano del siguiente y del anterior.
+inode: El inode es bloque cabecera que hace de índice de estos
+bloques de datos y permite acceder a ellos así como guardar
+información de más bajo nivel sobre el fichero.
+Quedamos entonces en que un fichero tiene un descriptor con
+información sobre el y por otra parte sus bloques de datos,
+indizados por el inode. El descriptor es lo que &ldquo;vemos&rdquo; del
+fichero, lo que se lista en los directorios etc&hellip;<br/>
+Entonces, espera. ¿Un fichero tiene un descriptor de fichero o&hellip;
+&hellip;o uno o más?. En efecto, puede darse que un solo fichero tenga
+varios descriptores apuntando por debajo a los mismos datos, a la
+manera de un animal con muchas cabezas y un solo cuerpo.</p>
+
+<p><img src="./img/file2-300x112.png" title="file2" alt="image" /></p>
+
+<p>A esto lo llamamos un <em>enlace duro</em>, desde &ldquo;fuera&rdquo; vemos lo que
+parecen dos ficheros, pero que por debajo es uno solo; En &ldquo;la
+superficie&rdquo; no nos enteramos de mucho y a nivel conceptual
+manejaremos ficheros que están ligados entre si:</p>
+
+<p>Si accedemos y modificamos los datos empleando cualquiera de los
+descriptores, los modificamos para todos los demás.
+Si movemos uno de sitio, el resto no es afectado (dentro de la
+misma partición).
+Si se borra uno, los datos no se borran hasta que no desaparezca el
+último enlace duro.
+Es muy fácil cargarse datos sin querer sobreescribiendo a traves de
+un enlace duro, hay aplicaciones (como rsync) que lo que hacen por
+defecto al sobreescribir un archivo que es un enlace duro es
+&ldquo;romper&rdquo; el enlace, esto es eliminar el enlace duro y crear un
+archivo nuevo para no sobreescribir el anterior que es referenciado
+desde otra parte y que probablemente nos sea problemático si
+cambia.<br/>
+Este comportamiento de rsync y otros programas es importante y será
+utilizado en el backup.</p>
+
+<p>Bien, volvamos a la copia de seguridad.</p>
+
+<p>La idea era hacer backups que pareciesen completos, pero en los que
+los ficheros que no cambian se comparten, de manera que evitásemos
+el horrible consumo de espacio de las imágenes y a la vez la
+dispersión de tener archivos diferenciales y tener que tratar con
+ellos.</p>
+
+<p>El procedimiento es:</p>
+
+<ol>
+<li>Copiar los ficheros que cambian a un directorio llamado Actual</li>
+<li>Crear un directorio para ese dia en concreto llamado dir.$DIA
+De esta manera, tenemos una carpeta para cada día con la imagen
+exacta del estado del directorio dir en ese momento. La copia en el
+directorio Actual la haremos mediante rsync de manera que cuando
+vaya a sobreescribir un fichero, rompa el enlace y no modifique la
+información de los antiguos, que la queríamos tal y como está.</li>
+</ol>
+
+
+<p>Un ejemplo práctico para mejor comprensión:</p>
+
+<ol>
+<li>Sincronizamos todos los datos del directorio dir al directorio
+Actual.</li>
+</ol>
+
+
+<p><img src="./img/copy1-300x189.png" title="copy1" alt="Sincronizar ficheros a un directorio" /></p>
+
+<pre><code>    $ rsync --delete dir Actual
+</code></pre>
+
+<ol>
+<li>Creamos una carpeta específica para el día y enlazamos todos
+los contenidos.</li>
+</ol>
+
+
+<p><img src="./img/copy2-300x136.png" title="copy2" alt="Aprovechando espacio..." /></p>
+
+<pre><code>    $ cp -rl Actual dir-$DIA
+</code></pre>
+
+<p>¡Lo hemos conseguido! Tenemos lo que parece son imágenes completas
+de dir, cuando en realidad no ocupamos más espacio que con una sola
+imagen.</p>
+
+<p>Ha sido un poco simple, de manera que veamos que ocurre cuando
+lanzamos el backup al día siguiente, tras realizarse cambios en los
+ficheros a guardar.</p>
+
+<ol>
+<li>Sincronizamos de nuevo con los cambios del día siguiente.</li>
+</ol>
+
+
+<p>Esta vez, rsync trae un fichero nuevo llamado File3 y modifica
+File2 que ha sufrido cambios. Fijaos en cómo rsync rompe los
+enlaces duros que había entre los ficheros a sobreescribir mediante
+la creación de uno nuevo con un inode diferente.</p>
+
+<p><img src="./img/copy3-300x109.png" title="copy3" alt="image" /></p>
+
+<pre><code>    $ rysnc --delete dir Actual
+</code></pre>
+
+<ol>
+<li>Creamos otra carpeta específica para el día y enlazamos los
+contenidos cambiados.</li>
+</ol>
+
+
+<p>Ahora volvemos a crear otra carpeta que hará la ilusión de ser una
+imagen completa de dir.</p>
+
+<p><img src="./img/copy4-300x99.png" title="copy4" alt="Aprovechando espacio... siguiente día" /></p>
+
+<pre><code>    $ cp -rl Actual dir-$DIA
+</code></pre>
+
+<p>¡Así funciona! Cada vez que se sincroniza Actual, creamos una
+carpeta nueva y enlazamos los contenidos. Al final, el espacio
+ocupado es el tamaño de la imagen inicial más los incrementos
+(exactamente igual que en el backup diferencial) pero manteniendo
+un fácil acceso a los datos y la apariencia de imágenes completas
+(como en el backup mediante imágenes).</p>
+
+<p>A aquella aplicación que pesaba tanto, al menos para los medios de
+los que disponía, se le hacían dos copias externamente desde dos
+sitios distintos mediante este sistema, empleando rsync a través
+ssh, resultando en una imagen de unos \~50Gb en cada sitio, por un
+total de <code>\~100Gb</code>. Respiré tranquilo :D</p>
+
+<p>Existe información en este post, referida sobre todo a la
+estructura del sistema de ficheros y a las órdenes de consola
+puestas como ejemplo que no son del todo exactas o bien están
+incompletas (las órdenes acaban siendo más complejas a medida que
+se les añade flags y datos). Si alguien detecta errores de
+concepto, que no dude en hablar y señalarlo.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/">Cosas Que Nadie Te Cuenta Del Nexus One</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-03T19:15:00+02:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="./img/eng_nexus_60012.jpg" title="HTC Nexus One" alt="Nexus One" /></p>
+
+<h2>HTC Nexus One</h2>
+
+<p>Hace un par de meses, decidí darme un regalazo y obtuve a buen
+precio un <a href="http://www.google.com/support/android/bin/answer.py?hl=en&amp;answer=166593">HTC Nexus One</a> en una portabilidad a Vodafone. Es un
+teléfono muy potente (Procesador 1ghz) corriendo el sistema
+operativo <a href="http://www.google.es/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCIQFjAA&amp;url=http://www.android.com/&amp;ei=sySBTKXeB8PQ4waoqPXTCw&amp;usg=AFQjCNHfzbq0x_Q2qIGrN49w6Y9Om_Yeag">Android</a> en su última versión Froyo 2.2.</p>
+
+<p>Cuando lo elegí no pensaba en cambiar de teléfono sino en empezar a
+tener un pequeño ordenador en el bolsillo y lo cierto es que lo uso
+tanto que no me separo de el.</p>
+
+<p>Este post no es una queja o crítica, solo que existen algunas cosas
+de las que he tenido que darme cuenta por mi mismo y que no he
+leido antes junto a la información relativa al teléfono, y eso que
+ha dado muchísimo que hablar.</p>
+
+<p>Allá vamos con las pequeñas reservas del Nexus, todo junto, bueno y
+malo.</p>
+
+<p><img src="./img/google_nexus_one.jpg" title="Nexus One Horizontal" alt="Nexus One Horizontal" /></p>
+
+<p><sub>&ldquo;Hay que
+procurar no tapar la antena, situada en la parte
+superior.&rdquo;</sub></p>
+
+<h3>La carne de burro no es transparente</h3>
+
+<p>Si cubres con la mano la parte superior del teléfono, lo cual es
+habitual al sostenerlo en horizontal, la cobertura se reduce
+drásticamente tanto wifi como 3G.</p>
+
+<p>Resulta evidente donde está situada la antena, y lo cierto es que
+se hace algo pesado tener que sujetarlo con dos dedos por esa parte
+so pena de
+<strong>bajar hasta dos o tres rayitas (unidad estandar de medida de cobertura) la recepción</strong>.</p>
+
+<p>Así es, al menos mi terminal, comprado en Junio de 2010,
+<strong>es libre de emplear tarjetas SIM de cualquier otra compañía</strong>.</p>
+
+<p>De esto me di cuenta al&hellip; tratar desesperadamente de liberarlo.
+Existen multitud de páginas web, a cual más patética y con peores
+intenciones, que ofertan servicios de liberación para el Nexus, y
+los resultados de Google se encuentran completamente copados por
+ellos, de manera que no es fácil dar con que&hellip; no tienes que
+hacerlo.</p>
+
+<h3>El Market oficial de Android&hellip;</h3>
+
+<div style="float:left"> 
+  
+![Android Market][]
+
+<sub>&#8220;No tendrían que trabajar mucho para mejorar el Market de
+Android&#8230;&#8221;</sub>
+
+</div>
+
+
+<p>&hellip; es bastante malo. No por motivos técnicos complejos, seguridad
+o falta de variedad, sino por una carencia tan necesaria y
+sorprendente (viniendo de Google) como es la categorización y la
+búsqueda.</p>
+
+<p>Podríamos perdonar una categorización demasiado general y en
+ocasiones errónea debido a que es un Market donde uno sube su
+aplicación donde le parece y las revisiones se hacen a posteriori.</p>
+
+<p>Pero lo de la búsqueda si que es un fallo determinante.
+<strong>No se pueden filtrar aplicaciones por valoración, tiempo, popularidad, nº de comentarios&hellip; nada</strong>;
+los resultados además, son imprecisos y responden muy mal a las
+variaciones en las peticiones de búsqueda.</p>
+
+<p>Mal, mal&hellip; a pesar de ello en el market hay muchas cosas y se
+encuentra lo que se quiere, pero no es precisamente un sitio fácil
+para buscar aplicaciones o encontrar otras nuevas.</p>
+
+<p>Por último, y quizás para evitar dejar mal sabor de boca al
+terminar:</p>
+
+<h3>Tethering&hellip; ¡Wifi! Comparte internet sin cables</h3>
+
+<div style="float:left"> 
+
+![Tethering][] 
+
+</div>
+
+
+<p>La nueva versión de Android, Froyo 2.2 trae <strong>de serie</strong> el
+<strong>Tethering via Wifi</strong>. Lo que hace el sistema es crear un Punto de
+Acceso Ad-Hoc sorprendentemente configurable (Wep, WPA, filtros&hellip;)
+al cual se puede uno conectar como si fuese el router de su casa&hellip;
+pero en medio de la sierra.</p>
+
+<p>El Tethering ya lo probé por cable empleando la aplicación
+EasyTether y lo cierto es que me salvó de un aburrido y largo viaje
+en coche, donde tuve acceso al correo, svn, ssh desde el portátil y
+pude estar como en mi casa.</p>
+
+<p>Como nota de aviso, se supone que al menos <strong>Vodafone</strong> se reserva
+el derecho a detectar que haces Tethering y
+<strong>subir automáticamente la cuota</strong> de tu tarifa si lo haces, aunque
+en mi caso no me han pillado.</p>
+
+<h3>Conclusión</h3>
+
+<p>Cuando hago pequeños comentarios sobre estas cosas, mucha gente se
+sorprende para bien y mal. A mi me hubiese gustado ser consciente
+de estos detalles desde el principio. Espero que a alguien le sirva
+de ayuda.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/08/30/i-want-my-vim-back/">I Want My Vim Back.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-30T22:03:00+02:00" pubdate data-updated="true">Aug 30<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Desde hace unos dias en el trabajo debo editar ficheros situados en
+un servidor antiguo, en concreto la máquina corre una RedHat de
+2002 con un Kernel viejuno atrasado unas cuantas versiones&hellip; y sin
+vim instalado.</p>
+
+<p>Ya está, la hemos liado. ¿Como voy a trabajar bien con ficheros
+remotos sin vim? <br/>
+Si, lo sé,  está vi, pero una vez acostumbrado a la buena vida (que
+si macros, el modo visual, indentación, plugin aquí, autocompletado
+allá&hellip;) aquello es, digamos, poco atractivo, sobre todo al
+trabajar con html antiguo y susio generado con  Frontpage, que si
+no lo coloreas e indentas, no hay Dios que lea ná. <br/>
+Tablas y bloques sin cerrar, atributos de estilo ad infinitum,
+identación nula, elementos repetidos, frases cortadas a mitad de
+párrafo del tipo</p>
+
+<pre><code>code-block::html
+&lt;p&gt;Esto es un párrafo&lt;/p&gt;&lt;p&gt;cortado por la mitad&lt;/p&gt;
+&lt;p&gt;por un editor automático de html&lt;/p&gt;
+&lt;strong&gt;Yo te maldigo&lt;/strong&gt;
+</code></pre>
+
+<p>Entonces que hago ¿Me bajo todos esos html y los subo continuamente
+via scp a cada edición? Que coñazo.</p>
+
+<p>Una opción mucho mejor sería instalar vim&hellip; aunque sin privilegios
+de administrador, tendría que poner el runtime en el home. Y a ello
+fuí.</p>
+
+<p>Se va uno a <a href="http://www.vim.org">vim.org</a>, se descarga el código de <em>vim72</em> y hala a
+compilarlo:</p>
+
+<pre><code>code-block::bash
+$ tar -zvjf vim72.tar.bz2 
+$ cd vim72
+$ ./configure &amp;&amp; make
+</code></pre>
+
+<p>Nah, ni para atrás, el <code>configure</code> me echaba por tierra la
+compilación quejándose de una versión antigua del gcc. Bueno, pues
+lo intentamos con la 6.4, que para eso están todas las versiones
+disponibles en la página.</p>
+
+<pre><code>code-block::bash
+$ tar -xjvf vim64.tar.bz2 
+$ cd vim64 
+$ ./configure &amp;&amp; make
+</code></pre>
+
+<p>Y <em>vualá</em>, aunque el configure decia que no a muchas cosas, supongo
+que ninguna sería vital, pues compiló y acabé con un ejecutable en
+<code>vim64/src/vim</code>.</p>
+
+<p>Añadimos el ejecutable al PATH en nuestro <code>~/.bashrc</code>:</p>
+
+<pre><code>code-block::bash
+PATH:=${PATH}:/home/arl/vim64/src/vim 
+</code></pre>
+
+<p>Recargamos el ficero <em>.bashrc</em> con:</p>
+
+<pre><code>code-block::bash
+$ bash
+</code></pre>
+
+<p>Listo. Está todo de medio ganchete y no tiene ni la mitad de
+funcionalidades, pero oye&hellip; lo básico funciona.</p>
+
+<p>Aún así no estaba contento. No me hayaba en plenitud. Quería editar
+ese código con <strong>MI</strong> <code>vim</code>, con <strong>MI</strong> <code>.vimrc</code>, mis alias, mis
+plugins y manías.</p>
+
+<p>Y me dije, <em>estaría bien</em> poder montar el sistema de ficheros del
+servidor en el mio propio, y así editar los archivos como si
+estuviesen en local, con mis propias herramientas.</p>
+
+<p>Dicho y Googleado, la maravilla se llama <code>sshfs</code> y sirve para&hellip;
+(¡TACHAN!) montar un sistema de ficheros remoto sobre ssh.</p>
+
+<p>La sintaxis
+es:</p>
+
+<pre><code>code-block::bash
+sshfs user@servidor:/ruta-a-montar   carpeta
+</code></pre>
+
+<p>De manera que en mi sistema creo la <em>carpeta</em> servidor, y monto
+allí la ruta remota en la que tengo que trabajar. Así la tengo
+directamente en mi sistema y hago con los ficheros lo que me da la
+gana, que transparentemente por debajo se transmiten via ssh.</p>
+
+<p>Ojo que hay que tener en mente que las operaciones con ficheros y
+directorios implican comunicación por red, y por ejemplo un grep
+recursivo puede tardar cierto tiempo ya que tiene que transmitir el
+contenido de TODO por la red. Para ese tipo de tareas sigo
+accediendo por el prompt ssh. También me resulta un poco confuso el
+modo en que se manejan los permisos, ya que el servidor web está
+basado en grupos, y esos grupos como no existen en mi sistema se
+simulan de una manera extraña.</p>
+
+<p>Para desmontar podemos usar:</p>
+
+<pre><code>code-block::bash
+fusermount -u carpeta
+</code></pre>
+
+<p>Y, como es un coñazo montar y desmontar todo el rato, nos marcamos
+unas funciones para nuestro <em>.bashrc</em>:</p>
+
+<pre><code>code-block::bash
+function mservidor ()  {  mkdir -p carpeta &amp;&amp; sshfs user@servidor:/ruta-servidor  carpeta  }
+</code></pre>
+
+<p>y para desmontar:</p>
+
+<pre><code>code-block::bash
+function uservidor () {  fusermount -u carpeta &amp;&amp; rmdir carpeta  }
+</code></pre>
+
+<p>Totalmente recomendado, oigan, edito ficheros antiguos en un
+servidor antiguo más a gusto que un arbusto.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/01/git-slice-repo/">Export Part of a Git Repo to a New One Keeping History</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/14/sd-emergency-backup-en/">SD-Card Emergency Encrypted Backup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jvrsantacruz">@jvrsantacruz</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jvrsantacruz',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Javier Santacruz -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
