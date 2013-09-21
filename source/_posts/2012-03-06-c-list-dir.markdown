@@ -1,0 +1,109 @@
+---
+title: List directories within a dir in C
+date: 2012-03-06 03:00
+category: linux
+tags: linux, c
+lang: en
+---
+
+When you just only want to list directories within a given directory in C, things
+can be not *so* obvious. 
+
+Using the non-standard function `scandir` its quite easy to get all files in a directory. 
+The prototype looks like this:
+
+
+	code-block::c
+	int scandir(const char *dirp, struct dirent ***namelist,
+		int (*filter)(const struct dirent *),
+		int (*compar)(const struct dirent **, const struct dirent **));
+
+
+Scary? Don't worry, it just takes:
+
+- `dirp`: Path to the directory to list.
+- `namelist`: List of `struct dirent *` by reference. Uninitialized, `scandir` will alloc space for it. Should be freed afterwards.
+- `filter`: Filter function. Will be called per each dir entry which will be excluded from the list in case of `filter` returns 0. Takes a `struct dirent *` to decide.
+- `compar`: Comparison function. Used to sort entries. Takes two entries and returns < 0 , 0 or > 0. Lexicographical ordering its already implemented in `alphasort`, also included in `<dirent.h>`.
+
+
+		code-block::c
+		#define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+		#include <dirent.h>
+
+		int main(int argc, char * argv[]) {
+			int i = 0;
+			struct dirent ** filelist = NULL;
+			int ndirs = scandir(argv[1], &filelist, NULL alphasort);
+
+			if( ndirs < 0 )  /* Check errors */
+				return 1;
+
+			for(; i < ndirs; ++i)
+				printf("Full path to file in %s: %s/%s", 
+					argv[1], argv[1], filelist[i]->d_name);
+
+			if( filelist != NULL ) {
+				for(i = 0; i < ndirs; ++i)
+					free(filelist[i]);
+				free(filelist);
+			}
+
+			return 0;
+		}
+
+We're ignoring the filter function and using the standar `alphasort` so it's really easy to list all files within a dir (which includes special entries like `.` and `..`). 
+
+The problem is that I just wanted to get the directories within the `dir_path`. To do this, I thought: "*Ok, I'll just implement a filter which calls `stat` and checks the file with the S_ISDIR(st_struct) macro*". But you just can't. The filter function only takes a `struct dirent *`, which has an incomplete `d_name` with just the filename, not the complete path, needed for `stat`. 
+
+Not all is lost, thought. The `struct dirent` also has a `d_type` member which can be checked to be `DT_DIR`. The drawback for this is that it isn't supported by all filesystems, so some of them may return a `DT_UNKNOWN` which would make me cry bitterly. The (incomplete) solution then, is to write a filter that checks `d_type` and then re-check the opening of these directories. 
+
+Will work like charm for most filesystems, won't crash on the sloppy ones.
+I've been looking for the *right* way to do this in C, or even better POSIX C, but all I can find its the advice to write my own `scandir`, based on standard functions, which would be easy enough indeed, but not really the *right* way I'm always pursuing.
+
+	code-block::c
+	#define _BSD_SOURCE 1;   /* Allows dirent.h scandir() */
+	#include <dirent.h>
+
+	int filter(const struct dirent * dire){
+
+		/* Discard . and .. */
+		if( strncmp(dire->d_name, ".", 2) == 0
+			|| strncmp(dire->d_name, "..", 3) == 0 )
+			return 0;
+
+		/* Check whether it is a DIR or not.
+		* Some FS doesn't handle d_type, so we check UNKNOWN as well */
+		if( dire->d_type != DT_UNKNOWN
+				&& dire->d_type != DT_DIR )
+			return 0;
+
+		/* We've nothing against it. Accept */
+		return 1;
+	}
+
+	int main(int argc, char * argv[]) {
+		int i = 0;
+		struct dirent ** filelist = NULL;
+		int ndirs = scandir(argv[1], &filelist, filter, alphasort);
+
+		if( ndirs < 0 )  /* Check errors */
+			return 1;
+
+		printf("Only directories\n");
+		for(; i < ndirs; ++i) {
+			printf("Full path to dir in %s: %s/%s\n", 
+					argv[1], argv[1], filelist[i]->d_name);
+		}
+
+		/* Check dir again using stat, opendir or... */
+		if( filelist != NULL ) {
+			for(i = 0; i < ndirs; ++i)
+				free(filelist[i]);
+			free(filelist);
+		}
+
+		return 0;
+	}
+
+If someone has any ideas/suggestions/complains please, *tell me*. Please.
