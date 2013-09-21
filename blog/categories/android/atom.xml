@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: android | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/android/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Install Jelly Bean MIUI 2.9.29 in Nexus One using blackrose]]></title>
-    <link href="http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/06/01/nexus-one-miui-2.9/"/>
     <updated>2012-06-01T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/06/01/nexus-one-miui-2.9</id>
     <content type="html"><![CDATA[<p>I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
 from the early version I had (MIUI 2.5), I felt I couldn&rsquo;t go back to Android 2.3 after getting
 used to it for a while.</p>
@@ -200,9 +200,9 @@ rebooting into bootloader&hellip; OKAY</li>
   
   <entry>
     <title type="html"><![CDATA[Android Screencast]]></title>
-    <link href="http://ragingbit.com/blog/2011/02/03/android-screencast/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/02/03/android-screencast/"/>
     <updated>2011-02-03T23:12:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2011/02/03/android-screencast</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/02/03/android-screencast</id>
     <content type="html"><![CDATA[<div class="img-center">
 
 ![image][]   

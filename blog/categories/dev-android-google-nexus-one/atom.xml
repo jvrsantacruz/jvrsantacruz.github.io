@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: dev, android, google, nexus one | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/dev-android-google-nexus-one/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/dev-android-google-nexus-one/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cosas que nadie te cuenta del Nexus One]]></title>
-    <link href="http://ragingbit.com/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/"/>
     <updated>2010-09-03T19:15:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one</id>
+    <id>http://jvrsantacruz.github.io/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one</id>
     <content type="html"><![CDATA[<p><img src="./img/eng_nexus_60012.jpg" title="HTC Nexus One" alt="Nexus One" /></p>
 
 <h2>HTC Nexus One</h2>

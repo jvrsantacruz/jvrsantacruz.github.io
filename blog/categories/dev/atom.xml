@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: dev | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/dev/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/dev/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/19/migrar-gmail/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/19/migrar-gmail/"/>
     <updated>2012-02-19T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/19/migrar-gmail</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/19/migrar-gmail</id>
     <content type="html"><![CDATA[<p><img src="./img/migrar-gmail-header.svg" width="580px"/></p>
 
 <p>Intento migrar mi cuenta de gmail, de una antigua a otra más seria, llevándome
@@ -263,9 +263,9 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
   
   <entry>
     <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/19/bjarne-stroustrup-c11/"/>
     <updated>2012-02-19T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/19/bjarne-stroustrup-c11</id>
     <content type="html"><![CDATA[<ul>
 <li>Diferentes estilos de C++ no se suponia que se usasen por separado</li>
 <li>Huir de las funciones antiguas que piden especificar tamaños y punteros y solo funcionan con datos básicos.</li>
@@ -286,9 +286,9 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
   
   <entry>
     <title type="html"><![CDATA[Renombrar etiqueta usb linux]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/08/cambiar-label-usb-linux/"/>
     <updated>2012-02-08T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/08/cambiar-label-usb-linux</id>
     <content type="html"><![CDATA[<p>En este caso es una tarjeta <em>SD</em> en FAT32 que no tiene label y al montarla
 Ubuntu la llama <code>9016-4EF8</code>, lo cual no me dice mucho y me gustaría cambiarlo.
 La herramienta para cambiar labels de FAT32 se llama <code>mlabel</code> y viene en el
@@ -344,9 +344,9 @@ MI_TARJETA
   
   <entry>
     <title type="html"><![CDATA[Generar CSS con Pygmentize]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/07/crear-estilo-pygmentize/"/>
     <updated>2012-02-07T20:40:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/07/crear-estilo-pygmentize</id>
     <content type="html"><![CDATA[<p>Para el coloreado de código de este blog empleo la herramienta <a href="http://pygments.org">pygmentize</a>, la
 cual es capaz de generar un fichero css con el estilo con el que quiero que
 salga el texto de los programas.</p>
@@ -365,9 +365,9 @@ localizar el código en la página posteriormente.
   
   <entry>
     <title type="html"><![CDATA[Calcular la nota media ponderada Universidades Españolas.]]></title>
-    <link href="http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/"/>
     <updated>2011-02-09T15:13:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas</id>
     <content type="html"><![CDATA[<div class="img-center">
 
 ![image][]

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://ragingbit.com/sitemap.xml 
+Sitemap: http://jvrsantacruz.github.io/sitemap.xml 

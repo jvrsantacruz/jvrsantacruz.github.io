@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linux | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Export part of a git repo to a new one keeping history]]></title>
-    <link href="http://ragingbit.com/blog/2012/06/01/git-slice-repo/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/06/01/git-slice-repo/"/>
     <updated>2012-06-01T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/06/01/git-slice-repo</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/06/01/git-slice-repo</id>
     <content type="html"><![CDATA[<p>I maintain my personal scripts (only a few by now) on a
 <a href="github.com/jvrsantacruz/scripts">public repository</a> on GitHub, so it forces myself to take them more
 seriously and keep it clean. It looked like a good idea back then, because all I&rsquo;ve got were just
@@ -68,9 +68,9 @@ therefore are now useless.</p>
   
   <entry>
     <title type="html"><![CDATA[SD-Card emergency encrypted backup]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/14/sd-emergency-backup-en/"/>
     <updated>2012-05-14T14:49:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/14/sd-emergency-backup-en</id>
     <content type="html"><![CDATA[<p><img src="./img/backup-logo.jpeg" alt="" /></p>
 
 <p>I must confess I am a little bit obsessive about data loss. I am not just obsessed, but <em>paranoid</em>.
@@ -345,9 +345,9 @@ fi
   
   <entry>
     <title type="html"><![CDATA[Recuperar un stash borrado en git.]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail-es/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail-es/"/>
     <updated>2012-03-21T19:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail-es</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail-es</id>
     <content type="html"><![CDATA[<p>Si os pasa como a mi que confundís <code>git stash pop</code> (aplica y borrar un stash) con <code>git stash drop</code>
 (que borra directamente), no lloreis aún. <code>git stash drop</code> imprime el hash del commit que estaba en
 stash y que hemos borrado, y con el puede recuperarse.</p>
@@ -369,9 +369,9 @@ Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
   
   <entry>
     <title type="html"><![CDATA[Recover a lost stashed commit in git]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail/"/>
     <updated>2012-03-21T18:44:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail</id>
     <content type="html"><![CDATA[<p>If it happens that you confuse <code>git stash pop</code> (apply and remove an stashed commit) with <code>git stash
 drop</code> (simply remove it), do not cry yet. <code>git stash drop</code> yells the hash of the dropped commit, so
 you still have a chance to recover it.</p>
@@ -393,9 +393,9 @@ Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
   
   <entry>
     <title type="html"><![CDATA[List directories within a dir in C]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/06/c-list-dir/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/06/c-list-dir/"/>
     <updated>2012-03-06T03:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/06/c-list-dir</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/06/c-list-dir</id>
     <content type="html"><![CDATA[<p>When you just only want to list directories within a given directory in C, things
 can be not <em>so</em> obvious.</p>
 

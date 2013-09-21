@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linus, git | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/linus-git/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/linus-git/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Change email in multiple git commits]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email/"/>
     <updated>2012-05-07T18:12:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/07/git-change-email</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email</id>
     <content type="html"><![CDATA[<p>I wanted to <em>replicate</em> an old git repo, in which I used as author my old university-work email,
 but using my current gmail account as email. Changing it for both <em>commiter</em> and <em>author</em> for all
 commits involves rewriting the whole repo. It&rsquo;s not difficult at all, but better work on a copy of

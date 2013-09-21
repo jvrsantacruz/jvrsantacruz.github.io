@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Raging Bits]]></title>
-  <link href="http://ragingbit.com/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Install Jelly Bean MIUI 2.9.29 in Nexus One using blackrose]]></title>
-    <link href="http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/06/01/nexus-one-miui-2.9/"/>
     <updated>2012-06-01T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/06/01/nexus-one-miui-2.9</id>
     <content type="html"><![CDATA[<p>I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
 from the early version I had (MIUI 2.5), I felt I couldn&rsquo;t go back to Android 2.3 after getting
 used to it for a while.</p>
@@ -200,9 +200,9 @@ rebooting into bootloader&hellip; OKAY</li>
   
   <entry>
     <title type="html"><![CDATA[Export part of a git repo to a new one keeping history]]></title>
-    <link href="http://ragingbit.com/blog/2012/06/01/git-slice-repo/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/06/01/git-slice-repo/"/>
     <updated>2012-06-01T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/06/01/git-slice-repo</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/06/01/git-slice-repo</id>
     <content type="html"><![CDATA[<p>I maintain my personal scripts (only a few by now) on a
 <a href="github.com/jvrsantacruz/scripts">public repository</a> on GitHub, so it forces myself to take them more
 seriously and keep it clean. It looked like a good idea back then, because all I&rsquo;ve got were just
@@ -253,9 +253,9 @@ therefore are now useless.</p>
   
   <entry>
     <title type="html"><![CDATA[SD-Card emergency encrypted backup]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/14/sd-emergency-backup-en/"/>
     <updated>2012-05-14T14:49:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/14/sd-emergency-backup-en</id>
     <content type="html"><![CDATA[<p><img src="./img/backup-logo.jpeg" alt="" /></p>
 
 <p>I must confess I am a little bit obsessive about data loss. I am not just obsessed, but <em>paranoid</em>.
@@ -530,9 +530,9 @@ fi
   
   <entry>
     <title type="html"><![CDATA[Cambiar email en muchos commits de git]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email-es/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email-es/"/>
     <updated>2012-05-07T18:12:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/07/git-change-email-es</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email-es</id>
     <content type="html"><![CDATA[<p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
 curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
 bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
@@ -555,9 +555,9 @@ el filtro para evitar sobreescribir lo que no quieres.</p>
   
   <entry>
     <title type="html"><![CDATA[Change email in multiple git commits]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email/"/>
     <updated>2012-05-07T18:12:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/07/git-change-email</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email</id>
     <content type="html"><![CDATA[<p>I wanted to <em>replicate</em> an old git repo, in which I used as author my old university-work email,
 but using my current gmail account as email. Changing it for both <em>commiter</em> and <em>author</em> for all
 commits involves rewriting the whole repo. It&rsquo;s not difficult at all, but better work on a copy of
@@ -579,9 +579,9 @@ have code from collaborators, then you&rsquo;d lose their emails after the uncon
   
   <entry>
     <title type="html"><![CDATA[Activate color in git]]></title>
-    <link href="http://ragingbit.com/blog/2012/04/11/git-color-activate/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/04/11/git-color-activate/"/>
     <updated>2012-04-11T02:30:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/04/11/git-color-activate</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/04/11/git-color-activate</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
 config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
 the <code>git config VAR VALUE</code> command, so initially I ran:</p>
@@ -611,9 +611,9 @@ specially when reviewing diffs in the midst of a <code>git add -p</code> messy j
   
   <entry>
     <title type="html"><![CDATA[Recuperar un stash borrado en git.]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail-es/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail-es/"/>
     <updated>2012-03-21T19:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail-es</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail-es</id>
     <content type="html"><![CDATA[<p>Si os pasa como a mi que confundís <code>git stash pop</code> (aplica y borrar un stash) con <code>git stash drop</code>
 (que borra directamente), no lloreis aún. <code>git stash drop</code> imprime el hash del commit que estaba en
 stash y que hemos borrado, y con el puede recuperarse.</p>
@@ -635,9 +635,9 @@ Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
   
   <entry>
     <title type="html"><![CDATA[Recover a lost stashed commit in git]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/21/git-stash-fail/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail/"/>
     <updated>2012-03-21T18:44:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/21/git-stash-fail</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail</id>
     <content type="html"><![CDATA[<p>If it happens that you confuse <code>git stash pop</code> (apply and remove an stashed commit) with <code>git stash
 drop</code> (simply remove it), do not cry yet. <code>git stash drop</code> yells the hash of the dropped commit, so
 you still have a chance to recover it.</p>
@@ -659,9 +659,9 @@ Dropped refs/stash@{0} (e692be2bc305348380c7c71a80867539babad3d7)
   
   <entry>
     <title type="html"><![CDATA[List directories within a dir in C]]></title>
-    <link href="http://ragingbit.com/blog/2012/03/06/c-list-dir/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/03/06/c-list-dir/"/>
     <updated>2012-03-06T03:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/03/06/c-list-dir</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/03/06/c-list-dir</id>
     <content type="html"><![CDATA[<p>When you just only want to list directories within a given directory in C, things
 can be not <em>so</em> obvious.</p>
 
@@ -771,9 +771,9 @@ int main(int argc, char * argv[]) {
   
   <entry>
     <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/19/migrar-gmail/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/19/migrar-gmail/"/>
     <updated>2012-02-19T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/19/migrar-gmail</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/19/migrar-gmail</id>
     <content type="html"><![CDATA[<p><img src="./img/migrar-gmail-header.svg" width="580px"/></p>
 
 <p>Intento migrar mi cuenta de gmail, de una antigua a otra más seria, llevándome
@@ -1019,9 +1019,9 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
   
   <entry>
     <title type="html"><![CDATA[Migrar de gmail a gmail]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/19/bjarne-stroustrup-c11/"/>
     <updated>2012-02-19T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/19/bjarne-stroustrup-c11</id>
     <content type="html"><![CDATA[<ul>
 <li>Diferentes estilos de C++ no se suponia que se usasen por separado</li>
 <li>Huir de las funciones antiguas que piden especificar tamaños y punteros y solo funcionan con datos básicos.</li>
@@ -1042,9 +1042,9 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
   
   <entry>
     <title type="html"><![CDATA[Generar Ecuaciones LaTeX]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/19/latex-equation-generator-es/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/19/latex-equation-generator-es/"/>
     <updated>2012-02-19T10:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/19/latex-equation-generator-es</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/19/latex-equation-generator-es</id>
     <content type="html"><![CDATA[<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
 
 <p>Mientras reconstruia este blog en <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> a partir de una exportación del
@@ -1096,9 +1096,9 @@ que es la imagen que finalmente coloco.</p>
   
   <entry>
     <title type="html"><![CDATA[Generate LaTeX Equations]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/18/latex-equation-generator/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/18/latex-equation-generator/"/>
     <updated>2012-02-18T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/18/latex-equation-generator</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/18/latex-equation-generator</id>
     <content type="html"><![CDATA[<p><img src="./img/LaTeX_logo.png" alt="latex-logo" /></p>
 
 <p>While rebuilding this blog with <a href="http://pelican.readthedocs.org/en/2.7.2/index.html">pelican</a> from a xml export of the previous Wordpress
@@ -1150,9 +1150,9 @@ it to the final svg image with <code>pdf2svg</code>.</p>
   
   <entry>
     <title type="html"><![CDATA[Renombrar etiqueta usb linux]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/08/cambiar-label-usb-linux/"/>
     <updated>2012-02-08T22:00:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/08/cambiar-label-usb-linux</id>
     <content type="html"><![CDATA[<p>En este caso es una tarjeta <em>SD</em> en FAT32 que no tiene label y al montarla
 Ubuntu la llama <code>9016-4EF8</code>, lo cual no me dice mucho y me gustaría cambiarlo.
 La herramienta para cambiar labels de FAT32 se llama <code>mlabel</code> y viene en el
@@ -1208,9 +1208,9 @@ MI_TARJETA
   
   <entry>
     <title type="html"><![CDATA[Generar CSS con Pygmentize]]></title>
-    <link href="http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/02/07/crear-estilo-pygmentize/"/>
     <updated>2012-02-07T20:40:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/02/07/crear-estilo-pygmentize</id>
     <content type="html"><![CDATA[<p>Para el coloreado de código de este blog empleo la herramienta <a href="http://pygments.org">pygmentize</a>, la
 cual es capaz de generar un fichero css con el estilo con el que quiero que
 salga el texto de los programas.</p>
@@ -1229,9 +1229,9 @@ localizar el código en la página posteriormente.
   
   <entry>
     <title type="html"><![CDATA[Exportacion De M3u En Python Y Bash]]></title>
-    <link href="http://ragingbit.com/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/"/>
     <updated>2011-06-05T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash</id>
     <content type="html"><![CDATA[<p>Title: Exportación de m3u en Python y Bash
 Date: 2011-06-05 06:20
 Category: Dev
@@ -1365,9 +1365,9 @@ método <em>__iter__()</em> y <em>next()</em>.</p>
   
   <entry>
     <title type="html"><![CDATA[Rootear E Instalar Cyanogenmod En Htc Nexus One]]></title>
-    <link href="http://ragingbit.com/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/"/>
     <updated>2011-05-27T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one</id>
     <content type="html"><![CDATA[<p>Title: Rootear e instalar CyanogenMod en HTC Nexus One
 Date: 2011-05-27 19:54
 Category: Dev
@@ -1705,18 +1705,18 @@ antigua.</p>
   
   <entry>
     <title type="html"><![CDATA[Markdown Article]]></title>
-    <link href="http://ragingbit.com/blog/2011/04/20/markdown-article/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/04/20/markdown-article/"/>
     <updated>2011-04-20T00:00:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2011/04/20/markdown-article</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/04/20/markdown-article</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Calcular la nota media ponderada Universidades Españolas.]]></title>
-    <link href="http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/"/>
     <updated>2011-02-09T15:13:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas</id>
     <content type="html"><![CDATA[<div class="img-center">
 
 ![image][]
@@ -2012,9 +2012,9 @@ main()
   
   <entry>
     <title type="html"><![CDATA[Edición de PDF]]></title>
-    <link href="http://ragingbit.com/blog/2011/02/08/edicion-de-pdf/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2011/02/08/edicion-de-pdf/"/>
     <updated>2011-02-08T22:52:00+01:00</updated>
-    <id>http://ragingbit.com/blog/2011/02/08/edicion-de-pdf</id>
+    <id>http://jvrsantacruz.github.io/blog/2011/02/08/edicion-de-pdf</id>
     <content type="html"><![CDATA[<p>A la hora de lidiar con burocracia y rellenar formularios, lo ideal
 es escribir directamente sobre el fichero, de manera que al
 imprimirlo sea perfecto y no tengamos siquiera un machón de

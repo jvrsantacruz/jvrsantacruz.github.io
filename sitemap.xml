@@ -1,151 +1,159 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://ragingbit.com/blog/2010/08/29/hello-world/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2010/08/29/hello-world/</loc>
         <lastmod>2013-09-21T19:27:18+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2010/08/30/i-want-my-vim-back/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2010/08/30/i-want-my-vim-back/</loc>
         <lastmod>2013-09-21T14:59:18+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/</loc>
+        <loc>
+            http://jvrsantacruz.github.io/blog/2010/09/03/cosas-que-nadie-te-cuenta-del-nexus-one/
+        </loc>
         <lastmod>2013-09-21T15:00:16+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2010/09/04/backups-en-imagenes-simuladas-mediante-el-uso-de-enlaces-duros/
+            http://jvrsantacruz.github.io/blog/2010/09/04/backups-en-imagenes-simuladas-mediante-el-uso-de-enlaces-duros/
         </loc>
         <lastmod>2013-09-21T15:00:41+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2010/10/06/problemas-con-syslinux-y-usb-creator-gtk/</loc>
+        <loc>
+            http://jvrsantacruz.github.io/blog/2010/10/06/problemas-con-syslinux-y-usb-creator-gtk/
+        </loc>
         <lastmod>2013-09-21T15:00:55+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2010/10/07/problema-con-guake-en-ubuntu-maverick-10-10/
+            http://jvrsantacruz.github.io/blog/2010/10/07/problema-con-guake-en-ubuntu-maverick-10-10/
         </loc>
         <lastmod>2013-09-21T15:01:08+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2010/10/11/mover-el-ultimo-archivo/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2010/10/11/mover-el-ultimo-archivo/</loc>
         <lastmod>2013-09-21T19:37:33+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2010/10/16/establecer-entorno-de-desarrollo-java-me-en-linux/
+            http://jvrsantacruz.github.io/blog/2010/10/16/establecer-entorno-de-desarrollo-java-me-en-linux/
         </loc>
         <lastmod>2013-09-21T15:01:56+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2010/11/18/impresiones-sobre-la-charla-de-judi-spiers-the-business-of-making-games-the-deal-and-publishing-operations/
+            http://jvrsantacruz.github.io/blog/2010/11/18/impresiones-sobre-la-charla-de-judi-spiers-the-business-of-making-games-the-deal-and-publishing-operations/
         </loc>
         <lastmod>2013-09-21T15:02:08+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2011/02/02/screencast-de-aplicacion-3d-en-linux/</loc>
+        <loc>
+            http://jvrsantacruz.github.io/blog/2011/02/02/screencast-de-aplicacion-3d-en-linux/
+        </loc>
         <lastmod>2013-09-21T15:02:26+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2011/02/03/android-screencast/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2011/02/03/android-screencast/</loc>
         <lastmod>2013-09-21T15:02:40+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2011/02/08/edicion-de-pdf/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2011/02/08/edicion-de-pdf/</loc>
         <lastmod>2013-09-21T15:02:49+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/
+            http://jvrsantacruz.github.io/blog/2011/02/09/calcular-la-nota-media-ponderada-universidades-espanolas/
         </loc>
         <lastmod>2013-09-21T15:02:59+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2011/04/20/markdown-article/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2011/04/20/markdown-article/</loc>
         <lastmod>2013-09-21T15:03:14+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ragingbit.com/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/
+            http://jvrsantacruz.github.io/blog/2011/05/27/rootear-e-instalar-cyanogenmod-en-htc-nexus-one/
         </loc>
         <lastmod>2013-09-21T14:41:38+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/</loc>
+        <loc>
+            http://jvrsantacruz.github.io/blog/2011/06/05/exportacion-de-m3u-en-python-y-bash/
+        </loc>
         <lastmod>2013-09-21T14:41:38+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/07/crear-estilo-pygmentize/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/07/crear-estilo-pygmentize/</loc>
         <lastmod>2013-09-21T15:06:01+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/08/cambiar-label-usb-linux/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/08/cambiar-label-usb-linux/</loc>
         <lastmod>2013-09-21T15:06:15+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/18/latex-equation-generator/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/18/latex-equation-generator/</loc>
         <lastmod>2013-09-21T15:06:35+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/19/latex-equation-generator-es/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/19/latex-equation-generator-es/</loc>
         <lastmod>2013-09-21T15:07:42+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/19/bjarne-stroustrup-c11/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/19/bjarne-stroustrup-c11/</loc>
         <lastmod>2013-09-21T15:06:46+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/02/19/migrar-gmail/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/02/19/migrar-gmail/</loc>
         <lastmod>2013-09-21T15:07:51+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/03/06/c-list-dir/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/03/06/c-list-dir/</loc>
         <lastmod>2013-09-21T15:08:01+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/03/21/git-stash-fail/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail/</loc>
         <lastmod>2013-09-21T15:08:22+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/03/21/git-stash-fail-es/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/03/21/git-stash-fail-es/</loc>
         <lastmod>2013-09-21T15:08:10+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/04/11/git-color-activate/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/04/11/git-color-activate/</loc>
         <lastmod>2013-09-21T15:08:36+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/05/07/git-change-email/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email/</loc>
         <lastmod>2013-09-21T15:09:07+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/05/07/git-change-email-es/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email-es/</loc>
         <lastmod>2013-09-21T15:08:53+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/05/14/sd-emergency-backup-en/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/05/14/sd-emergency-backup-en/</loc>
         <lastmod>2013-09-21T19:48:09+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/06/01/git-slice-repo/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/06/01/git-slice-repo/</loc>
         <lastmod>2013-09-21T15:09:31+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/2012/06/01/nexus-one-miui-2.9/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/2012/06/01/nexus-one-miui-2.9/</loc>
         <lastmod>2013-09-21T15:09:44+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/robots.txt</loc>
+        <loc>http://jvrsantacruz.github.io/robots.txt</loc>
         <lastmod>2013-09-21T19:27:18+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/</loc>
+        <loc>http://jvrsantacruz.github.io/</loc>
         <lastmod>2013-09-21T19:48:09+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ragingbit.com/blog/archives/</loc>
+        <loc>http://jvrsantacruz.github.io/blog/archives/</loc>
         <lastmod>2013-09-21T19:48:09+02:00</lastmod>
     </url>
 </urlset>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linux, git | Raging Bits]]></title>
-  <link href="http://ragingbit.com/blog/categories/linux-git/atom.xml" rel="self"/>
-  <link href="http://ragingbit.com/"/>
-  <updated>2013-09-21T19:48:38+02:00</updated>
-  <id>http://ragingbit.com/</id>
+  <link href="http://jvrsantacruz.github.io/blog/categories/linux-git/atom.xml" rel="self"/>
+  <link href="http://jvrsantacruz.github.io/"/>
+  <updated>2013-09-21T20:06:59+02:00</updated>
+  <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cambiar email en muchos commits de git]]></title>
-    <link href="http://ragingbit.com/blog/2012/05/07/git-change-email-es/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email-es/"/>
     <updated>2012-05-07T18:12:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/05/07/git-change-email-es</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/05/07/git-change-email-es</id>
     <content type="html"><![CDATA[<p>Quería <em>replicar</em> un antiguo repositorio git en el cual había usado mi anterior email de cuando
 curraba en la universidad. Para ello debía reescribir todos los commits y cambiarles el email. Es
 bastante fácil, pero es mejor hacerlo sobre una copia del repositorio, y si metes la pata siempre
@@ -40,9 +40,9 @@ el filtro para evitar sobreescribir lo que no quieres.</p>
   
   <entry>
     <title type="html"><![CDATA[Activate color in git]]></title>
-    <link href="http://ragingbit.com/blog/2012/04/11/git-color-activate/"/>
+    <link href="http://jvrsantacruz.github.io/blog/2012/04/11/git-color-activate/"/>
     <updated>2012-04-11T02:30:00+02:00</updated>
-    <id>http://ragingbit.com/blog/2012/04/11/git-color-activate</id>
+    <id>http://jvrsantacruz.github.io/blog/2012/04/11/git-color-activate</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve got sick of adding the <code>--color</code> flag to each <code>git</code> command I type so I went through the <code>git
 config</code> documentation and found several <code>color.*</code> options. Those options can be changed by using
 the <code>git config VAR VALUE</code> command, so initially I ran:</p>
