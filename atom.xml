@@ -4,7 +4,7 @@
   <title><![CDATA[Raging Bits]]></title>
   <link href="http://jvrsantacruz.github.io/atom.xml" rel="self"/>
   <link href="http://jvrsantacruz.github.io/"/>
-  <updated>2013-09-22T12:15:45+02:00</updated>
+  <updated>2013-09-28T21:12:48+02:00</updated>
   <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate from Pelican to Jekyll]]></title>
+    <link href="http://jvrsantacruz.github.io/blog/2013/09/22/migrate-from-pelican-to-jekyll/"/>
+    <updated>2013-09-22T12:29:00+02:00</updated>
+    <id>http://jvrsantacruz.github.io/blog/2013/09/22/migrate-from-pelican-to-jekyll</id>
+    <content type="html"><![CDATA[<p>After more than a year using <a href="http://docs.getpelican.com/en/3.3.0/">Pelican</a> I&rsquo;ve just decided to move this blog into <a href="http://jekyllrb.com/">Jekyll</a>.
+I&rsquo;ll be using the convienient <a href="http://octopress.org/">Octopress</a> setup which nicely integrates with <a href="http://pages.github.com/">Github Pages</a>.</p>
+
+<p>Once everything in my server has been backup and had this running along for a bit with nothing
+going amiss, then I think I&rsquo;d shutdown my paying server, and hopefully save some money (<em>~100€ yearly</em>).</p>
+
+<p>Yeah, I know that I could have just started deploying my previous <em>Pelican</em> blog into Github.
+The main reason for a change is that <em>Pelican</em> required me a bit of fiddling and hacking around; which, ironically, is actually the reason I chose it in first instance.
+But this time, I want a little more features, for a little less effort. And if I end up forcing myself to dig into another system, I don&rsquo;t want it to be in Python this time.
+Do not be mislead, I love Python; I just want to pop out of my comfort zone and see what happens.</p>
+
+<h2>The migration part</h2>
+
+<p>I had to convert about 3 years of writing (34 posts) stored as many text files, scattered within a 3 level hierarchy partitioned by year and month:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>blog/pelican/src/2010
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 11
+</span><span class='line'>    └── i-want-my-vim-back.md
+</span><span class='line'>blog/pelican/src/2011
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 06
+</span><span class='line'>    └── exportacion-de-m3u-en-python-y-bash.md
+</span><span class='line'>blog/pelican/src/2012
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 10
+</span><span class='line'>    ├── bjarne-stroustrup-c11.md
+</span><span class='line'>    └── nexus-one-miui-2.9.md</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each file having a header:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>title: List directories within a dir in C
+</span><span class='line'>date: 2012-03-06 03:00
+</span><span class='line'>category: linux
+</span><span class='line'>tags: linux, c
+</span><span class='line'>lang: en</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This setup is pretty close to the one that <em>Jekyll</em> uses, in which:</p>
+
+<ol>
+<li>Post file names must start with the date.</li>
+<li>The header have the same fields, but must be valid <em>yaml</em> at the start of the file, using <code>---</code> lines as separator.</li>
+</ol>
+
+
+<p>So it was just a matter of finding, copying and properly renaming all the posts from the <em>Pelican</em> source directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">for </span>post in <span class="k">$(</span>find -name *.md<span class="k">)</span>
+</span><span class='line'><span class="k">do </span>
+</span><span class='line'><span class="k">  </span><span class="nv">date</span><span class="o">=</span><span class="k">$(</span>grep -i <span class="s2">&quot;date: &quot;</span> <span class="nv">$post</span> | sed -e <span class="s2">&quot;s/[dD]ate: \([0-9-]\+\).*/\1/g&quot;</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> ! -z <span class="nv">$date</span> <span class="o">]]</span>
+</span><span class='line'>  <span class="k">then </span>
+</span><span class='line'><span class="k">      </span>mv <span class="nv">$post</span> octopress/source/_posts/<span class="nv">$date</span>-<span class="k">$(</span>basename <span class="nv">$post</span><span class="k">)</span>
+</span><span class='line'>  <span class="k">fi </span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>The previous listing was prettyfied for displaying, the actual command was more like:</em>
+<code>for post in $(find -name *.md); do date=$(grep -i "date: " $post | sed -e "s/[dD]ate: \([0-9-]\+\).*/\1/g"); if [[ ! -z $date ]]; then mv $post $date-$(basename $post); fi done</code></p>
+
+<p>And then</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rename .md .markdown *.md
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that I had to manually add the <code>---</code> separator to each post header.
+I couldn&rsquo;t find a simple way of running a multiline <code>sed</code> replacement for all of them, so I opened all files in with <code>vim *.markdown</code>, recorded a macro, and runned
+it for all the 30 buffers. It took me about a minute or two.</p>
+
+<p>Then copy the <code>img</code> directory, which contained the assets, maintaining the same relative path for
+all post images, and there  you go: <code>rake generate</code>.</p>
+
+<p>So, here we are, new hosting, new blog.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Install Jelly Bean MIUI 2.9.29 in Nexus One using blackrose]]></title>
@@ -2007,106 +2127,6 @@ def main():
 
 main()
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Edición de PDF]]></title>
-    <link href="http://jvrsantacruz.github.io/blog/2011/02/08/edicion-de-pdf/"/>
-    <updated>2011-02-08T22:52:00+01:00</updated>
-    <id>http://jvrsantacruz.github.io/blog/2011/02/08/edicion-de-pdf</id>
-    <content type="html"><![CDATA[<p>A la hora de lidiar con burocracia y rellenar formularios, lo ideal
-es escribir directamente sobre el fichero, de manera que al
-imprimirlo sea perfecto y no tengamos siquiera un machón de
-bolígrafo. Es mucho más cómodo, ya que de esta manera pueden
-editarse en caso de error y volver a imprimir tranquilamente,
-evitando correcciones y tachones poco estéticos.</p>
-
-<p>Cuando el formulario está en un formato editable (.doc, .odt) no
-hay problema alguno, pero si está en PDF la cosa se complica. Lo
-que hacía antes era tomar capturas del PDF como imágenes, editarlas
-con GIMP y después imprimirlas. Sin embargo el procedimiento es
-primitivo, lento, dificultoso y debes guardar ficheros aparte de
-GIMP si necesitas corregir cualquier error. Lo ideal es escribir
-directamente en el PDF y generar uno nuevo que puedes editar otra
-vez y transportar cómodamente.</p>
-
-<p>Todo el software que comento aquí está cómodamente disponible en
-los repositorios de Debian. De manera que con un sudo apt-get
-install lo tendremos funcionando rápidamente.</p>
-
-<h3>Herramientas de edición PDF</h3>
-
-<h4>pdfedit</h4>
-
-<p><strong>pdfedit</strong> es una herramienta grande y compleja que permite editar
-muchos aspectos de un PDF, incluyendo el añadir texto nuevo que es
-lo que buscamos. <br/>
-Sin embargo su interfaz es un desastre, es complicado y sobre todo
-tan lento que es inusable. Cada operación podía tardar cerca de 10
-segundos, y cuanto más lo usaba, iba a peor. El formulario de mi
-Erasmus lo rellené con este programa y tardé cerca de una hora. No
-lo dejaba porque ya iba por la mitad y había invertido demasiado
-tiempo como para tirarlo a la basura. Muy frustrante.</p>
-
-<div class="img-center">
-
-![Usando pdfedit][]
-
-<sub>Usando pdfedit con mi formulario. La interfaz es
-demasiado&#8230; &#8216;ingenieril&#8217;.</sub>
-
-</div>
-
-
-<h4>Scribus</h4>
-
-<p><strong>Realmente no he probado <em>Scribus</em> * ya que </strong>no llegó a abrir los PDF que
-quería<strong> editar. Se supone que el programa acepta como entrada el formato pdf y
-permite editarlos y exportarlos de nuevo, sin embargo no le gustó los que tenía
-y el muy señorito se negó a abrirlos aduciendo que se encontraban en un formato
-inaceptable. Aún así,</strong>su interfaz tenía muy buena pinta**, de manera que
-quizás sea una opción para más adelante con otros ficheros.</p>
-
-<div class="img-center">
-  
-![Error al iniciar scribus][]
-
-<sub>Error al iniciar Scribus con el pdf que quería editar</sub>
-
-</div>
-
-
-<h4>flpsed</h4>
-
-<p>Con <strong>flpsed</strong> tenemos un ganador. Es exactamente lo que buscaba,
-un editor de PDF/PostScript <strong>muy ligero, ágil y sencillo</strong>. Solo
-permite abrir PS/PDF y añadir/editar texto, pero es que es
-precisamente lo que buscaba. Solo permite cambiar el tamaño y el
-color de la letra, de manera que para muchos puede quedarse corto
-si pretenden realizar algo complejo o visual, pero para el uso para
-el que busco un editor de PDFs es sencillamente perfecto. En menos
-de 5 minutos tenía todos mis datos puestos sobre las casillas que
-se dejan para escribir en el formulario. Después, permite exportar
-tanto a PS o a PDF.</p>
-
-<div class="img-center">
-
-![flpsed en acción][]
-
-<sub>&#8220;Editando un formulario PDF con flpsed&#8221;</sub>
-
-</div>
-
-
-<p>Otra opción interesante de <strong>flpsed</strong> es que también exporta a PS,
-de manera que podemos exportar nuestro PDF a PS, abrirlo con GIMP,
-editar algún campo si necesita tachaduras o algún tipo de grafismo
-más complejo (¿Estampar una firma?), guardarlo en PS y volverlo a
-abrir con <strong>flpsed</strong> para terminar la edición y volverlo a pasar a
-PDF. <br/>
-Este <a href="http://www.cyberciti.biz/tips/open-source-linux-pdf-writer.html">post</a> me ayudó mucho a la hora de orientarme y probar estos
-programas.</p>
 ]]></content>
   </entry>
   

@@ -9,8 +9,9 @@
   <meta name="author" content="Javier Santacruz">
 
   
-  <meta name="description" content="Mierda, debería tener un blog y poder publicar esto. La frase anterior ha llegado a ser casi un mantra para mi durante
-estos últimos meses. Cada &hellip;">
+  <meta name="description" content="Desde hace unos dias en el trabajo debo editar ficheros situados en
+un servidor antiguo, en concreto la máquina corre una RedHat de
+2002 con un &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +72,164 @@ estos últimos meses. Cada &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/08/30/i-want-my-vim-back/">I Want My Vim Back.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-30T22:03:00+02:00" pubdate data-updated="true">Aug 30<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/08/30/i-want-my-vim-back/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Desde hace unos dias en el trabajo debo editar ficheros situados en
+un servidor antiguo, en concreto la máquina corre una RedHat de
+2002 con un Kernel viejuno atrasado unas cuantas versiones&hellip; y sin
+vim instalado.</p>
+
+<p>Ya está, la hemos liado. ¿Como voy a trabajar bien con ficheros
+remotos sin vim? <br/>
+Si, lo sé,  está vi, pero una vez acostumbrado a la buena vida (que
+si macros, el modo visual, indentación, plugin aquí, autocompletado
+allá&hellip;) aquello es, digamos, poco atractivo, sobre todo al
+trabajar con html antiguo y susio generado con  Frontpage, que si
+no lo coloreas e indentas, no hay Dios que lea ná. <br/>
+Tablas y bloques sin cerrar, atributos de estilo ad infinitum,
+identación nula, elementos repetidos, frases cortadas a mitad de
+párrafo del tipo</p>
+
+<pre><code>code-block::html
+&lt;p&gt;Esto es un párrafo&lt;/p&gt;&lt;p&gt;cortado por la mitad&lt;/p&gt;
+&lt;p&gt;por un editor automático de html&lt;/p&gt;
+&lt;strong&gt;Yo te maldigo&lt;/strong&gt;
+</code></pre>
+
+<p>Entonces que hago ¿Me bajo todos esos html y los subo continuamente
+via scp a cada edición? Que coñazo.</p>
+
+<p>Una opción mucho mejor sería instalar vim&hellip; aunque sin privilegios
+de administrador, tendría que poner el runtime en el home. Y a ello
+fuí.</p>
+
+<p>Se va uno a <a href="http://www.vim.org">vim.org</a>, se descarga el código de <em>vim72</em> y hala a
+compilarlo:</p>
+
+<pre><code>code-block::bash
+$ tar -zvjf vim72.tar.bz2 
+$ cd vim72
+$ ./configure &amp;&amp; make
+</code></pre>
+
+<p>Nah, ni para atrás, el <code>configure</code> me echaba por tierra la
+compilación quejándose de una versión antigua del gcc. Bueno, pues
+lo intentamos con la 6.4, que para eso están todas las versiones
+disponibles en la página.</p>
+
+<pre><code>code-block::bash
+$ tar -xjvf vim64.tar.bz2 
+$ cd vim64 
+$ ./configure &amp;&amp; make
+</code></pre>
+
+<p>Y <em>vualá</em>, aunque el configure decia que no a muchas cosas, supongo
+que ninguna sería vital, pues compiló y acabé con un ejecutable en
+<code>vim64/src/vim</code>.</p>
+
+<p>Añadimos el ejecutable al PATH en nuestro <code>~/.bashrc</code>:</p>
+
+<pre><code>code-block::bash
+PATH:=${PATH}:/home/arl/vim64/src/vim 
+</code></pre>
+
+<p>Recargamos el ficero <em>.bashrc</em> con:</p>
+
+<pre><code>code-block::bash
+$ bash
+</code></pre>
+
+<p>Listo. Está todo de medio ganchete y no tiene ni la mitad de
+funcionalidades, pero oye&hellip; lo básico funciona.</p>
+
+<p>Aún así no estaba contento. No me hayaba en plenitud. Quería editar
+ese código con <strong>MI</strong> <code>vim</code>, con <strong>MI</strong> <code>.vimrc</code>, mis alias, mis
+plugins y manías.</p>
+
+<p>Y me dije, <em>estaría bien</em> poder montar el sistema de ficheros del
+servidor en el mio propio, y así editar los archivos como si
+estuviesen en local, con mis propias herramientas.</p>
+
+<p>Dicho y Googleado, la maravilla se llama <code>sshfs</code> y sirve para&hellip;
+(¡TACHAN!) montar un sistema de ficheros remoto sobre ssh.</p>
+
+<p>La sintaxis
+es:</p>
+
+<pre><code>code-block::bash
+sshfs user@servidor:/ruta-a-montar   carpeta
+</code></pre>
+
+<p>De manera que en mi sistema creo la <em>carpeta</em> servidor, y monto
+allí la ruta remota en la que tengo que trabajar. Así la tengo
+directamente en mi sistema y hago con los ficheros lo que me da la
+gana, que transparentemente por debajo se transmiten via ssh.</p>
+
+<p>Ojo que hay que tener en mente que las operaciones con ficheros y
+directorios implican comunicación por red, y por ejemplo un grep
+recursivo puede tardar cierto tiempo ya que tiene que transmitir el
+contenido de TODO por la red. Para ese tipo de tareas sigo
+accediendo por el prompt ssh. También me resulta un poco confuso el
+modo en que se manejan los permisos, ya que el servidor web está
+basado en grupos, y esos grupos como no existen en mi sistema se
+simulan de una manera extraña.</p>
+
+<p>Para desmontar podemos usar:</p>
+
+<pre><code>code-block::bash
+fusermount -u carpeta
+</code></pre>
+
+<p>Y, como es un coñazo montar y desmontar todo el rato, nos marcamos
+unas funciones para nuestro <em>.bashrc</em>:</p>
+
+<pre><code>code-block::bash
+function mservidor ()  {  mkdir -p carpeta &amp;&amp; sshfs user@servidor:/ruta-servidor  carpeta  }
+</code></pre>
+
+<p>y para desmontar:</p>
+
+<pre><code>code-block::bash
+function uservidor () {  fusermount -u carpeta &amp;&amp; rmdir carpeta  }
+</code></pre>
+
+<p>Totalmente recomendado, oigan, edito ficheros antiguos en un
+servidor antiguo más a gusto que un arbusto.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -148,6 +307,10 @@ nombre del sitio, está inspirado en título de un libro de
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/22/migrate-from-pelican-to-jekyll/">Migrate From Pelican to Jekyll</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a>
       </li>
     
@@ -161,10 +324,6 @@ nombre del sitio, está inspirado en título de un libro de
     
       <li class="post">
         <a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a>
       </li>
     
   </ul>

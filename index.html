@@ -9,8 +9,8 @@
   <meta name="author" content="Javier Santacruz">
 
   
-  <meta name="description" content="I tried Ice Cream Sandwich on my Nexus One before summer, and despite its quirks and unstable behaviour
-from the early version I had (MIUI 2.5), I &hellip;">
+  <meta name="description" content="After more than a year using Pelican I&rsquo;ve just decided to move this blog into Jekyll.
+I&rsquo;ll be using the convienient Octopress setup which &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,155 @@ from the early version I had (MIUI 2.5), I &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/22/migrate-from-pelican-to-jekyll/">Migrate From Pelican to Jekyll</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-22T12:29:00+02:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/22/migrate-from-pelican-to-jekyll/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After more than a year using <a href="http://docs.getpelican.com/en/3.3.0/">Pelican</a> I&rsquo;ve just decided to move this blog into <a href="http://jekyllrb.com/">Jekyll</a>.
+I&rsquo;ll be using the convienient <a href="http://octopress.org/">Octopress</a> setup which nicely integrates with <a href="http://pages.github.com/">Github Pages</a>.</p>
+
+<p>Once everything in my server has been backup and had this running along for a bit with nothing
+going amiss, then I think I&rsquo;d shutdown my paying server, and hopefully save some money (<em>~100€ yearly</em>).</p>
+
+<p>Yeah, I know that I could have just started deploying my previous <em>Pelican</em> blog into Github.
+The main reason for a change is that <em>Pelican</em> required me a bit of fiddling and hacking around; which, ironically, is actually the reason I chose it in first instance.
+But this time, I want a little more features, for a little less effort. And if I end up forcing myself to dig into another system, I don&rsquo;t want it to be in Python this time.
+Do not be mislead, I love Python; I just want to pop out of my comfort zone and see what happens.</p>
+
+<h2>The migration part</h2>
+
+<p>I had to convert about 3 years of writing (34 posts) stored as many text files, scattered within a 3 level hierarchy partitioned by year and month:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>blog/pelican/src/2010
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 11
+</span><span class='line'>    └── i-want-my-vim-back.md
+</span><span class='line'>blog/pelican/src/2011
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 06
+</span><span class='line'>    └── exportacion-de-m3u-en-python-y-bash.md
+</span><span class='line'>blog/pelican/src/2012
+</span><span class='line'>·
+</span><span class='line'>·
+</span><span class='line'>└── 10
+</span><span class='line'>    ├── bjarne-stroustrup-c11.md
+</span><span class='line'>    └── nexus-one-miui-2.9.md</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each file having a header:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>title: List directories within a dir in C
+</span><span class='line'>date: 2012-03-06 03:00
+</span><span class='line'>category: linux
+</span><span class='line'>tags: linux, c
+</span><span class='line'>lang: en</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This setup is pretty close to the one that <em>Jekyll</em> uses, in which:</p>
+
+<ol>
+<li>Post file names must start with the date.</li>
+<li>The header have the same fields, but must be valid <em>yaml</em> at the start of the file, using <code>---</code> lines as separator.</li>
+</ol>
+
+
+<p>So it was just a matter of finding, copying and properly renaming all the posts from the <em>Pelican</em> source directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">for </span>post in <span class="k">$(</span>find -name *.md<span class="k">)</span>
+</span><span class='line'><span class="k">do </span>
+</span><span class='line'><span class="k">  </span><span class="nv">date</span><span class="o">=</span><span class="k">$(</span>grep -i <span class="s2">&quot;date: &quot;</span> <span class="nv">$post</span> | sed -e <span class="s2">&quot;s/[dD]ate: \([0-9-]\+\).*/\1/g&quot;</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> ! -z <span class="nv">$date</span> <span class="o">]]</span>
+</span><span class='line'>  <span class="k">then </span>
+</span><span class='line'><span class="k">      </span>mv <span class="nv">$post</span> octopress/source/_posts/<span class="nv">$date</span>-<span class="k">$(</span>basename <span class="nv">$post</span><span class="k">)</span>
+</span><span class='line'>  <span class="k">fi </span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>The previous listing was prettyfied for displaying, the actual command was more like:</em>
+<code>for post in $(find -name *.md); do date=$(grep -i "date: " $post | sed -e "s/[dD]ate: \([0-9-]\+\).*/\1/g"); if [[ ! -z $date ]]; then mv $post $date-$(basename $post); fi done</code></p>
+
+<p>And then</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rename .md .markdown *.md
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that I had to manually add the <code>---</code> separator to each post header.
+I couldn&rsquo;t find a simple way of running a multiline <code>sed</code> replacement for all of them, so I opened all files in with <code>vim *.markdown</code>, recorded a macro, and runned
+it for all the 30 buffers. It took me about a minute or two.</p>
+
+<p>Then copy the <code>img</code> directory, which contained the assets, maintaining the same relative path for
+all post images, and there  you go: <code>rake generate</code>.</p>
+
+<p>So, here we are, new hosting, new blog.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1089,283 +1238,6 @@ int main(int argc, char * argv[]) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/19/migrar-gmail/">Migrar De Gmail a Gmail</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-19T22:00:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/02/19/migrar-gmail/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="./img/migrar-gmail-header.svg" width="580px"/></p>
-
-<p>Intento migrar mi cuenta de gmail, de una antigua a otra más seria, llevándome
-todos los contactos, feeds, filtros, calendarios, chats y, por supuesto, los
-correos.
-Los correos deben mantener:</p>
-
-<ul>
-<li>Leidos</li>
-<li>Preferidos</li>
-<li>fechas</li>
-<li>Origen y destino (no ser un reenvio)</li>
-<li>Etiquetas (múltiples)</li>
-</ul>
-
-
-<h2>Migrar correo</h2>
-
-<p>Probé 4 opciones, <a href="http://code.google.com/p/got-your-back/">gyb</a>, <a href="http://imapsync.lamiral.info/README">imapsync</a>, <a href="http://gmail-backup.com">gmail-backup</a> y <a href="http://getthunderbird.com">thunderbird</a>, decantándome finalmente por <a href="http://code.google.com/p/got-your-back/">gyb</a>.
-Todas ellas sincronizan el correo mediante <em>IMAP</em> entre las dos cuentas de google, por el procedimiendo de descargar primero el correo de la cuenta antigua al disco duro, y enviarlo posteriormente a la nueva.</p>
-
-<h3>Activar <em>imap</em></h3>
-
-<p>Debe irse a las opciones de ambas cuentas, a <code>Forwarding and POP/IMAP</code> y activar IMAP en ambas cuentas.</p>
-
-<p><img src="./img/activate-imap.png" alt="activate-imap" /></p>
-
-<h2>Con <a href="http://code.google.com/p/got-your-back/">Got-your-back</a></h2>
-
-<p>Es el más rápido con diferencia, hace backup y restaura todo (etiquetas multiples, marca de importante, leidos&hellip;) y solo envía cada correo una vez.
-Emplea autenticación mediante token como app Google. Al ejecutarlo escribirá una url a la que tendrás que acceder y logearte con la cuenta de gmail para permitirle acceso.</p>
-
-<ol>
-<li>Descargar el <a href="http://code.google.com/p/got-your-back/downloads/list">script</a></li>
-<li><p>Realizar el backup de la cuenta antigua:</p>
-
-<pre><code> python gyb.py --email antigua@gmail.com --backup --compress
-</code></pre>
-
-<p> Creará el directorio <code>GYB-Gmail-Backup-antigua@gmail.com</code> con el correo guardado.</p></li>
-<li><p>Restaurar el correo en la nueva</p>
-
-<pre><code> python gyb.py --email nueva@gmail.com --restore 
-     --compress --folder GYB-Gmail-Backup-antigua@gmail.com
-</code></pre></li>
-</ol>
-
-
-<p>El proceso de restore lleva mucho más tiempo.
-Es la mejor forma con diferencia para hacer backup a una cuenta gmail.
-De hecho me estoy pensando en mantener un backup offline de mi cuenta metiendo la orden de backup en el cron.</p>
-
-<hr />
-
-<h2>Con <a href="http://gmail-backup.com">gmail-backup</a></h2>
-
-<p><a href="http://gmail-backup.com">gmail-backup</a> se ve que esté mantenido desde el 2009,
-y solo está disponible en formato binario, no tiene licencia libre y está
-compilado con una versión antigua de python. Aún así, es bastante más rápido
-que <a href="http://imapsync.lamiral.info/README">imapsync</a> y es más sencillo de usar.</p>
-
-<h3>Instalar <a href="http://gmail-backup.com">gmail-backup</a></h3>
-
-<ol>
-<li>Descargar el binario <a href="http://www.gmail-backup.com/gmail-backup-0-104">de su página oficial</a> y descomprimir.</li>
-<li><p>Descargar e instalar <a href="http://www.python.org/download/releases/2.5.6/">python2.5</a> si no se encuentra en el sistema (intenta ejecutar <code>python2.5</code> en consola).</p>
-
-<pre><code> code-block::bash
- tar -xvzf Python-2.5.6.tgz
- cd Python-2.5.6
- ./configure
- make
- sudo make altinstall
-</code></pre></li>
-</ol>
-
-
-<p>  <strong>¡Ojo!</strong>: Usad <code>altinstall</code> y no simplemente <code>install</code>, o sobreescribirá la
-  versión actual por defecto de Python en el sistema.</p>
-
-<h3>backup &amp; restore</h3>
-
-<p>Primero haremos un backup completo de nuestra cuenta <em>antigua</em> para a continuación restaurarla en la cuenta <em>nueva</em>.
-Haciendo de esto, tendremos de paso una copia de seguridad de todo nuestro correo. Eso sí, tardará, aunque menos que <a href="http://imapsync.lamiral.info/README">imapsync</a>.</p>
-
-<pre><code>code-block::bash
-./gmail-backup.sh backup ~/gbackup antigua@gmail.com p4sw0rd \
-&amp;&amp; ./gmail-backup.sh restore ~/gbackup nueva@gmail.com p4sw0rd
-</code></pre>
-
-<hr />
-
-<h2>Con imapsync</h2>
-
-<p><a href="http://imapsync.lamiral.info/README">imapsync</a> es una herramienta escrita en <em>Perl</em>, que sincroniza dos servidores
-<em>IMAP</em>. Se le indica la cuenta de origen y de destino, y manda todos los
-correos de orige a destino, sincronizándolos.</p>
-
-<h3>Instalar imapsync</h3>
-
-<pre><code>sudo apt-get install imapsync
-</code></pre>
-
-<h3>Sincronizar</h3>
-
-<p>Para ello se llama a imapsync <em>dos veces</em>. Una para sincronizar los labels (folders) y otra para enviar el correo.</p>
-
-<pre><code>imapsync\
-    –user1 antigua@gmail.com\
-    –user2 nueva@domain.com\
-    -passfile1 ./antigua-pass\
-    -passfile2 ./nueva-pass\
-    –host1 imap.gmail.com\
-    –host2 imap.gmail.com\
-    -authmech1 LOGIN -authmech2 LOGIN\
-    -port1 993 -port2 993\
-    -split1 100 -split2 100\
-    -ssl1 -ssl2\
-    –syncinternaldates\
-    –justfolders\
-
-
-imapsync \
-    –user1 antigua@gmail.com\
-    –user2 nueva@domain.com\
-    -passfile1 ./antigua-pass\
-    -passfile2 ./nueva-pass\
-    –host1 imap.gmail.com\
-    –host2 imap.gmail.com\
-    -authmech1 LOGIN -authmech2 LOGIN\
-    -port1 993 -port2 993\
-    -split1 500 -split2 100\
-    -ssl1 -ssl2\
-    --fastio1 --fastio2
-    -syncinternaldates\
-    -allowsizemismatch\
-    --nofoldersizes\
-    --skipsize\
-    --fast\
-    --useheader 'Message-Id' \
-    --useheader 'X-Gmail-Received'
-    --exclude "(Trash|Spam|Publicidad)"
-    --timeout 100
-</code></pre>
-
-<p>Explicación de las opciones:</p>
-
-<ul>
-<li><strong>passfile</strong>: es un fichero de texto plano que contiene solo la clave, para
-no ponerla directamente en la consola.</li>
-<li><strong>syncinternaldates</strong>: Evita que se cargue la fecha de los emails.</li>
-<li><strong>justfolders</strong>: Crea solo los directorios/labels.</li>
-<li><strong>allowsizemismatch</strong>: Se quejaba de error por diferente tamaño en los correos
-bajados, esto hace que los ignore.</li>
-<li><strong>exclude</strong>: Carpetas/Labels a excluir de la sincronización.</li>
-<li><strong>useheader</strong>: El imap de gmail omite esas cabeceras, forzarlas.</li>
-<li><strong>split</strong>: Tamaño de petición a cada servidor. Al de subida pedimos menos.</li>
-<li><strong>fastio</strong> <strong>fast</strong>: Realiza las operaciones más rápido</li>
-<li><strong>nofoldersizes</strong> <strong>skipsize</strong>: No calcula estadísticas ni tamaños, que es lento.</li>
-<li><strong>timeout</strong>: Abortar tras <em>x</em> segundos de inactividad.</li>
-</ul>
-
-
-<p>Aviso que tarda muchísimo, ya que debe descargar todo el correo y volverlo a
-enviar, incluyendo attachments, <strong>para cada etiqueta</strong>, lo que hace que envie
-<code>L</code> veces cada correo, donde <code>L</code> es el número de etiquetas que tiene. <strong>No se
-duplica</strong> ya que gmail los detecta como el mismo y simplemente les añade la
-etiqueta correspondiente en lugar de copiarlo de nuevo.</p>
-
-<p>Cuando el proceso se para, es conveniente volverlo a ejecutar añadiendo el
-parámetro: <code>--maxage int</code> donde <code>int</code> indica la fecha del el último correo que
-enviamos, y así descarta evaluar los más antiguos.</p>
-
-<p>Para reiniciar la conexión cuando se pilla usé un bucle infinito y la opción <code>--timeout 100</code>, para no tener que estar cuidando yo del proceso.</p>
-
-<pre><code>code-block::bash
-while [ 1 -eq 1 ] 
- do
-    imapsync\
-    -host1 imap.gmail.com -port1 993 -user1 antigua@gmail.com -passfile1\
-    ./antiguapass -ssl1 -host2 imap.gmail.com -port2 993 -user2\
-    nueva@gmail.com -passfile2 ./nuevapass -ssl2 -syncinternaldates -split1\
-     500 -split2 500 --fastio1 --fastio2 -authmech1 LOGIN -authmech2 LOGIN\
-     -useheader 'Message-Id' -useheader 'X-Gmail-Received'\
-    --exclude "(Junk|Spam|Trash|Publicidad|All Mail|dspace-list|wp-admin|spam)"\
-     --allowsizemismatch --nofoldersizes --skipsize --fast --timeout 100
-
-    sleep 5
-  done
-</code></pre>
-
-<hr />
-
-<h2>Migrar Contactos</h2>
-
-<p>En la página de gmail, en la cuenta <em>antigua</em>, vamos a <em>Contactos</em>, en <em>Más
-Opciones</em> seleccionamos <em>Exportar</em> y lo descargamos en formato Google CSV.</p>
-
-<p><img src="./img/export-import-contacts.png" alt="export-import-contacts" /></p>
-
-<p>En la cuenta nueva, realizamos el proceso inverso, <em>Más opciones</em>&ndash;><em>Importar</em> y seleccionamos el CSV.</p>
-
-<h2>Migrar feeds Google Reader</h2>
-
-<p>Los feeds suscritos en Google Reader pueden exportarse también en un fichero.
-Dentro del Reader, logeado con la cuenta <em>antigua</em>, vamos a <em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em> y descarga el fichero tipo <strong>OPML</strong>.</p>
-
-<p><img src="./img/export-reader.png" alt="export-reader" /></p>
-
-<p>Una vez conseguido ese fichero, vamos al reader de la cuenta <em>nueva</em>, también a
-<em>Opciones de Reader</em>&ndash;><em>Importar/Exportar</em>  y subimos el fichero <strong>OPML</strong> que antes
-descargamos.</p>
-
-<h2>Migrar calendarios</h2>
-
-<p>Los calendarios realmente no están <em>dentro</em> de tu cuenta, sino que pueden ser
-compartidos por varias personas con privilegios similares a los del usuario que
-los creó, de forma que lo único que hay que hacer realmente es compartirlo con
-la cuenta de correo nueva con privilegios de administrador.</p>
-
-<p><img src="./img/share-calendar.png" alt="share-calendar" /></p>
-
-<h2>Migrar filtros</h2>
-
-<p>Debe activarse la importación/exportación de filtros en el labs para ambas cuentas:</p>
-
-<p><img src="./img/export-filter.png" alt="export-filter" /></p>
-
-<p>Después de activarla solo tenemos que exportar en la página de la cuenta
-antigua e importar en la de la nueva.</p>
-
-<p><img src="./img/import-filter.png" alt="import-filter" /></p>
-
-<h2>Intentos fallidos</h2>
-
-<p>Lo intenté antes con <a href="http://getthunderbird.com">thunderbird</a>, como hacen <a href="http://www.twistermc.com/27915/move-gmail-to-gmail/">aquí</a>,
-sincronizando ambos correos y arrastrando los directorios de una a otra cuenta,
-y lo hace bien, pero no mantiene más de una etiqueta/carpeta por correo. Y
-luego con <a href="http://gmail-backup.com">gmail-backup</a>, que no me conservó las etiquetas (y aparte es
-propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1381,6 +1253,10 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/22/migrate-from-pelican-to-jekyll/">Migrate From Pelican to Jekyll</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/06/01/nexus-one-miui-2.9/">Install Jelly Bean MIUI 2.9.29 in Nexus One Using Blackrose</a>
       </li>
     
@@ -1394,10 +1270,6 @@ propietario, te dan solo el binario y necesita Python 2.5, un peñazo).</p>
     
       <li class="post">
         <a href="/blog/2012/05/07/git-change-email-es/">Cambiar Email en Muchos Commits De Git</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/07/git-change-email/">Change Email in Multiple Git Commits</a>
       </li>
     
   </ul>
