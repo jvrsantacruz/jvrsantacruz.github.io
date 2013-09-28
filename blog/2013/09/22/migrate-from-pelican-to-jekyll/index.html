@@ -229,6 +229,10 @@ part of installing ruby, the gem and all that, I&rsquo;m not repeating it here.<
 own and put your domain within a <code>CNAME</code> file under <code>source</code>: <code>echo "blog.ragingbit.com" &gt;&gt;
 source/CNAME</code> if you&rsquo;re using your own domain.</p>
 
+<p>The html output will be commited to the <code>master</code> branch, the actual blog markdown code, will go to
+the <code>source</code> branch. So you <code>rake deploy</code> for publishing, and <code>git push origin source</code> for actually versioning your
+writings.</p>
+
 <p>So, here we are, new hosting, new blog.</p>
 </div>
 

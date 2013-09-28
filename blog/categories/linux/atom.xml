@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Raging Bits]]></title>
   <link href="http://jvrsantacruz.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jvrsantacruz.github.io/"/>
-  <updated>2013-09-28T21:42:01+02:00</updated>
+  <updated>2013-09-28T21:45:43+02:00</updated>
   <id>http://jvrsantacruz.github.io/</id>
   <author>
     <name><![CDATA[Javier Santacruz]]></name>
@@ -127,6 +127,10 @@ part of installing ruby, the gem and all that, I&rsquo;m not repeating it here.<
 <p>¿My github repository? Yeah, create a <code>username.github.io</code> named public repository along with your
 own and put your domain within a <code>CNAME</code> file under <code>source</code>: <code>echo "blog.ragingbit.com" &gt;&gt;
 source/CNAME</code> if you&rsquo;re using your own domain.</p>
+
+<p>The html output will be commited to the <code>master</code> branch, the actual blog markdown code, will go to
+the <code>source</code> branch. So you <code>rake deploy</code> for publishing, and <code>git push origin source</code> for actually versioning your
+writings.</p>
 
 <p>So, here we are, new hosting, new blog.</p>
 ]]></content>
