@@ -211,7 +211,26 @@ I couldn&rsquo;t find a simple way of running a multiline <code>sed</code> repla
 it for all the 30 buffers. It took me about a minute or two.</p>
 
 <p>Then copy the <code>img</code> directory, which contained the assets, maintaining the same relative path for
-all post images, and there  you go: <code>rake generate</code>.</p>
+all post images.</p>
+
+<h2>Using Jekyll/Octopress</h2>
+
+<p><a href="http://octopress.org/">Octopress</a> is nothing but very convenient for slackers. You clone/fork their repo in github,
+and you already have a nice <em>Jekyll</em> setup. They have very detailed tutorials on their site, so the
+part of installing ruby, the gem and all that, I&rsquo;m not repeating it here.</p>
+
+<p>Once you&rsquo;ve filled the <code>._config.yml</code> file with your own data and have all posts within <code>source/_posts</code>, run:</p>
+
+<ul>
+<li><code>rake generate</code> will create static html with your blog.</li>
+<li><code>rake preview</code> will serve it on <code>localhost:4000</code> for you to revise.</li>
+<li><code>rake deploy</code> will commit the generated html to the github repository you specified in the config.</li>
+</ul>
+
+
+<p>¿My github repository? Yeah, create a <code>username.github.io</code> named public repository along with your
+own and put your domain within a <code>CNAME</code> file under <code>source</code>: <code>echo "blog.ragingbit.com" &gt;&gt;
+source/CNAME</code> if you&rsquo;re using your own domain.</p>
 
 <p>So, here we are, new hosting, new blog.</p>
 </div>
